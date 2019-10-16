@@ -1,0 +1,97 @@
+
+body,p,ul,li,a,p{
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  text-decoration: none;
+  color: inherit;
+}
+
+button:focus {
+  outline: none;
+}
+
+th {
+  font-size: inherit;
+}
+
+button {
+  border: none;
+  outline: none;
+}
+
+
+.bg-lighter {
+  background-color: #f3f3f3;
+}
+
+.min-height {
+  min-height: 100vh;
+}
+
+.xubox {
+  border-radius: 5px;
+  border: 1px solid #eaedf1;
+  position: relative;
+  background-color: #ffffff;
+}
+
+.xubox-title {
+  font-size: 18px;
+  color: #4d5875;
+  padding: 10px 15px 5px 15px;
+  border-bottom: 1px solid #eaedf1;
+}
+
+.xubox-content {
+  padding: 10px 15px 5px 15px;
+}
+
+.xubox-foot {
+  padding: 10px 15px 15px 15px;
+  border-top: 1px solid #eaedf1;
+}
+
+.x-float-right {
+  float: right;
+}
+
+.x-float-left {
+  float: left;
+}
+
+.mb-integer {
+  margin-bottom: 15px;
+}
+.mt-integer {
+  margin-top: 15px;
+}
+
+.chart-explain {
+  height: 20px;
+  line-height: 20px;
+  margin: 10px 0;
+}
+
+.page-wrapper {
+  padding-top: 60px;
+}
+
+.thead-font-style th{
+  font-size: 15px;
+  color: #676a6c;
+  font-weight: bold;
+}
+
+.tbody-font-style th {
+  font-size: 14px;
+  color: #676a6c;
+  font-weight: normal;
+}
+
+.input-invalid {
+  color: #ff2229;
+  font-size: 12px;
+  position: absolute;
+  line-height: 1.3;
+}

@@ -1,0 +1,97 @@
+<template>
+    <div class="page-wrapper container-fluid">
+      <div class="info-input-wrapper">
+        <div class="form-wrapper">
+          <add-new-project-form :project="project"></add-new-project-form>
+        </div>
+
+        <div class="map-wrapper">
+          <add-new-project-map :project="project"></add-new-project-map>
+        </div>
+
+        <div class="project-result-wrapper xubox">
+          <div class="xubox-title">
+            <span>项目概况</span>
+          </div>
+          <div class="xubox-content" style="height: 435px">
+            <projects-detail-table :project-infos="projectInfos"></projects-detail-table>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class="row">
+        <div class="col-12 text-center">
+          <small class="text-muted">重庆大学微系统研究中心©2019</small>
+        </div>
+      </div>
+    </div>
+</template>
+
+<script>
+  import XuModal from "@/pages/share_components/XuModal";
+  import AddNewProjectForm from "@/pages/home/components/InfoInputPage/components/AddNewProjectForm";
+  import AddNewProjectMap from "@/pages/home/components/InfoInputPage/components/AddNewProjectMap";
+  import ProjectsDetailTable from "@/pages/home/components/InfoInputPage/components/ProjectsDetailTable";
+  export default {
+    name: "InfoInputPage",
+    components:{
+      XuModal,
+      AddNewProjectForm,
+      AddNewProjectMap,
+      ProjectsDetailTable
+    },
+    data:function () {
+      return {
+        project:{
+          name:'',
+          province:'重庆',
+          location:'',
+          longitude:'',
+          latitude:'',
+        },
+        projectInfos:[
+          {projectId:12,location:'上海市公交集团',deviceNumber:480,longitude:123.2345,latitude:23.3467},
+          {projectId:22,location:'上海市公交集团',deviceNumber:0,longitude:123.2345,latitude:23.3467},
+          {projectId:31,location:'上海市公交集团',deviceNumber:480,longitude:123.2345,latitude:23.3467},
+          {projectId:42,location:'上海市公交集团',deviceNumber:480,longitude:123.2345,latitude:23.3467},
+          {projectId:52,location:'上海市公交集团',deviceNumber:480,longitude:123.2345,latitude:23.3467},
+          {projectId:63,location:'上海市公交集团',deviceNumber:480,longitude:123.2345,latitude:23.3467},
+          {projectId:72,location:'上海市公交集团',deviceNumber:480,longitude:123.2345,latitude:23.3467},
+          {projectId:83,location:'上海市公交集团',deviceNumber:480,longitude:123.2345,latitude:23.3467},
+          {projectId:92,location:'上海市公交集团',deviceNumber:480,longitude:123.2345,latitude:23.3467},
+        ],
+      }
+    },
+    methods: {
+
+    }
+
+  }
+</script>
+
+<style scoped>
+  .info-input-wrapper {
+    outline: 1px solid black;
+    height: 1050px;
+    width: 1400px;
+    margin: 0 auto;
+  }
+  .form-wrapper {
+    height: 550px;
+    width: 400px;
+    outline: 1px solid black;
+    margin-right: 20px;
+    display: inline-block;
+  }
+  .map-wrapper {
+    width: 980px;
+    height: 550px;
+    outline: 1px solid black;
+    float: right;
+    z-index: 2;
+  }
+  .project-result-wrapper {
+    margin-top: 15px;
+    width: 1400px;
+  }
+</style>
