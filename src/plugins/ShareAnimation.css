@@ -11,7 +11,7 @@
 }
 
 .fadeIn {
-  animation: 200ms fadeIn alternate;
+  animation: 200ms fadeIn;
 }
 
 @keyframes fadeOut {

@@ -11,7 +11,6 @@
         <li><span>|</span></li>
         <li><router-link to="/main/info-input" tag="a" class="x-nav-item" active-class="link-active" exact><span class='fa fa-edit'></span>&nbsp;信息录入</router-link></li>
         <li><span>|</span></li>
-        <li><router-link to="#" tag="a" class="x-nav-item" exact><span class='fa fa-th-list'></span>&nbsp;情景模拟</router-link></li>
       </ul>
     </div>
     <div class="navbar-wrapper x-float-right">

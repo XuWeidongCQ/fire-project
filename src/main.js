@@ -6,6 +6,7 @@ import router from './router'
 import Vuelidate from "vuelidate";
 import common from '../static/commonJS'
 import BaiduMap from 'vue-baidu-map'
+import VueToastr from "vue-toastr";
 import axios  from 'axios'
 import swal from "sweetalert";
 import './plugins/ShareCSS.css'
@@ -18,7 +19,7 @@ Vue.prototype.$axios = axios;
 Vue.prototype.api = api;
 
 Vue.use(Vuelidate);
-
+Vue.use(VueToastr,{});
 Vue.use(BaiduMap,{
   ak:'HMsRLrPGidU6hIisM4HYgx0APRKhpm6p'
 });

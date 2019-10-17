@@ -183,7 +183,9 @@
 
 <script>
   import XuModal from "@/pages/share_components/XuModal";
-  import { alphaNum,required } from 'vuelidate/lib/validators'
+  import { alphaNum,required } from 'vuelidate/lib/validators';
+  import { deleteSuccessToastr } from "@/plugins/toastrInfos";
+
   export default {
     name: "ProjectsDetailTable",
     components: {
@@ -253,7 +255,8 @@
       //删除一个项目
       deleteProject:function (projectId,projectIndex) {
         this.projectInfos.splice(projectIndex,1);
-        console.log(`选择删除项目id为${projectId}`)
+        console.log(`选择删除项目id为${projectId}`);
+        this.$toastr.Add(deleteSuccessToastr)
         // this.$axios.delete()
       },
       //提交一台设备的信息
@@ -342,7 +345,7 @@
     width: 900px;
   }
   .project-details-wrapper {
-    height: 100%;
-    overflow-y: scroll;
+    max-height: 100%;
+    overflow-y: auto;
   }
 </style>

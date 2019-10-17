@@ -1,24 +1,23 @@
 <template>
     <div class="xu-modal-backdrop" v-if="shown" @click.self="close">
-      <div class="xu-modal">
-        <div class="xu-modal-header" v-if="headerShown">
-          <div class="modal-title-wrapper">
-            <slot name="header"><div>这是模态框标题</div></slot>
+        <div class="xu-modal" :class="{fadeIn:shown}">
+          <div class="xu-modal-header" v-if="headerShown">
+            <div class="modal-title-wrapper">
+              <slot name="header"><div>这是模态框标题</div></slot>
+            </div>
+            <div class="close-icon" @click="close">×</div>
           </div>
-          <div class="close-icon" @click="close">×</div>
+          <div class="xu-modal-content">
+            <slot name="content" >
+              <div>这是模态框内容</div>
+            </slot>
+          </div>
+          <div  class="xu-modal-footer" v-if="footerShown">
+            <slot name="footer">
+              <div>这是模态框尾部</div>
+            </slot>
+          </div>
         </div>
-        <div class="xu-modal-content">
-          <slot name="content" >
-            <div>这是模态框内容</div>
-          </slot>
-        </div>
-        <div  class="xu-modal-footer" v-if="footerShown">
-          <slot name="footer">
-            <div>这是模态框尾部</div>
-          </slot>
-        </div>
-
-      </div>
     </div>
 </template>
 

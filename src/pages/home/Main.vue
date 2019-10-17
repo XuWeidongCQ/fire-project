@@ -1,7 +1,6 @@
 <template>
   <div class="bg-lighter min-height">
     <navbar></navbar>
-
     <router-view></router-view>
   </div>
 

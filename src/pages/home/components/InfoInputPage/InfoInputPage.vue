@@ -14,7 +14,10 @@
             <span>项目概况</span>
           </div>
           <div class="xubox-content" style="height: 435px">
-            <projects-detail-table :project-infos="projectInfos"></projects-detail-table>
+            <div class="no-projects" v-if="projectInfos.length === 0">
+              <span class="no-projects-info">数据库中暂无项目或请求项目数据失败</span>
+            </div>
+            <projects-detail-table :project-infos="projectInfos" v-if="projectInfos.length !== 0"></projects-detail-table>
           </div>
         </div>
       </div>
@@ -55,10 +58,12 @@
           {projectId:31,location:'上海市公交集团',deviceNumber:480,longitude:123.2345,latitude:23.3467},
           {projectId:42,location:'上海市公交集团',deviceNumber:480,longitude:123.2345,latitude:23.3467},
           {projectId:52,location:'上海市公交集团',deviceNumber:480,longitude:123.2345,latitude:23.3467},
-          {projectId:63,location:'上海市公交集团',deviceNumber:480,longitude:123.2345,latitude:23.3467},
-          {projectId:72,location:'上海市公交集团',deviceNumber:480,longitude:123.2345,latitude:23.3467},
-          {projectId:83,location:'上海市公交集团',deviceNumber:480,longitude:123.2345,latitude:23.3467},
-          {projectId:92,location:'上海市公交集团',deviceNumber:480,longitude:123.2345,latitude:23.3467},
+          {projectId:52,location:'上海市公交集团',deviceNumber:480,longitude:123.2345,latitude:23.3467},
+          {projectId:52,location:'上海市公交集团',deviceNumber:480,longitude:123.2345,latitude:23.3467},
+          {projectId:52,location:'上海市公交集团',deviceNumber:480,longitude:123.2345,latitude:23.3467},
+          {projectId:52,location:'上海市公交集团',deviceNumber:480,longitude:123.2345,latitude:23.3467},
+          {projectId:52,location:'上海市公交集团',deviceNumber:480,longitude:123.2345,latitude:23.3467},
+          {projectId:52,location:'上海市公交集团',deviceNumber:480,longitude:123.2345,latitude:23.3467},
         ],
       }
     },
@@ -93,5 +98,16 @@
   .project-result-wrapper {
     margin-top: 15px;
     width: 1400px;
+  }
+  .no-projects {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 420px;
+  }
+  .no-projects-info {
+    font-size: 50px;
+    color: #cccccc;
+    line-height: 1;
   }
 </style>
