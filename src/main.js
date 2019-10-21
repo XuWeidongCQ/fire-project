@@ -7,16 +7,19 @@ import Vuelidate from "vuelidate";
 import common from '../static/commonJS'
 import BaiduMap from 'vue-baidu-map'
 import VueToastr from "vue-toastr";
-import axios  from 'axios'
+import axios  from 'axios';
+import qs from 'qs'
 import swal from "sweetalert";
 import './plugins/ShareCSS.css'
 import './plugins/ShareAnimation.css'
 import api from "@/plugins/api";
+import '@/plugins/axiosConfig'
 
 Vue.config.productionTip = false;
 Vue.prototype.common = common;
 Vue.prototype.$axios = axios;
 Vue.prototype.api = api;
+Vue.prototype.$qs = qs;
 
 Vue.use(Vuelidate);
 Vue.use(VueToastr,{});

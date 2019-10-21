@@ -18,7 +18,7 @@
           <button
             :class="{'btn-delete':project.deviceNumber === 0,'btn-disable':project.deviceNumber !== 0}"
             :disabled="project.deviceNumber !== 0"
-            @click="deleteProject(project.projectId,index)">
+            @click="deleteOneProject(project.projectId,index)">
             删除
           </button>
           <button class="btn-add-dev" @click="showAddDevModal(project)">添加设备</button>
@@ -61,12 +61,16 @@
             </div>
             <div class="input-wrapper">
               <label>
-                <input type="radio" v-model="formData.type" value="储压">
+                <input type="radio" v-model="formData.type" value=1>
                 <span>储压</span>
               </label>
               <label>
-                <input type="radio" v-model="formData.type" value="非储压">
+                <input type="radio" v-model="formData.type" value=2>
                 <span>非储压</span>
+              </label>
+              <label>
+                <input type="radio" v-model="formData.type" value=0>
+                <span>未知</span>
               </label>
             </div>
           </div>
@@ -76,12 +80,16 @@
             </div>
             <div class="input-wrapper">
               <label>
-                <input type="radio" v-model="formData.communication" value="NB-IoT">
+                <input type="radio" v-model="formData.communication" value=2>
                 <span>NB-IoT</span>
               </label>
               <label>
-                <input type="radio" v-model="formData.communication" value="Zig-bee">
+                <input type="radio" v-model="formData.communication" value=1>
                 <span>Zig-bee</span>
+              </label>
+              <label>
+                <input type="radio" v-model="formData.communication" value=0>
+                <span>未知</span>
               </label>
             </div>
           </div>
@@ -138,7 +146,7 @@
       <div slot="footer">
         <button type="button" class="btn btn-warning" @click="reset">重置</button>
         <button type="button" class="btn btn-success x-float-right"
-                @click="submitDevInfo()"
+                @click="postOneDev()"
                 :disabled="$v.$invalid">提交</button>
       </div>
     </xu-modal>
@@ -184,7 +192,7 @@
 <script>
   import XuModal from "@/pages/share_components/XuModal";
   import { alphaNum,required } from 'vuelidate/lib/validators';
-  import { deleteSuccessToastr } from "@/plugins/toastrInfos";
+  import { deleteSuccessToastr,deleteFailureToastr,addSuccessToastr,addFailureToastr } from "@/plugins/toastrInfos";
 
   export default {
     name: "ProjectsDetailTable",
@@ -199,8 +207,8 @@
         deleteOneDevProject:'',//删除一台设备，其所在的项目
         formData:{
           uuid:'',
-          type:'储压',
-          communication:'NB-IoT',
+          type:1,
+          communication:2,
           location:'',
           cycle:10,
           productionDate:'',
@@ -244,8 +252,8 @@
       },
       reset: function () {
         this.formData.uuid = '';
-        this.formData.type = '储压';
-        this.formData.communication = 'NB-IoT';
+        this.formData.type = 1;
+        this.formData.communication = 2;
         this.formData.cycle = 10;
         this.formData.productionDate = '';
         this.formData.salesDate = '';
@@ -253,20 +261,48 @@
         this.formData.remark = '';
       },
       //删除一个项目
-      deleteProject:function (projectId,projectIndex) {
+      deleteOneProject:function (projectId,projectIndex) {
         this.projectInfos.splice(projectIndex,1);
         console.log(`选择删除项目id为${projectId}`);
-        this.$toastr.Add(deleteSuccessToastr)
-        // this.$axios.delete()
+        this.$axios.post(
+          this.api.deleteOneProject,
+          this.$qs.stringify({object:JSON.stringify({'projectId':projectId})})
+        )
+          .then(res => {
+            const { code,msg} = res.data;
+            if (code === 200){
+              this.$toastr.Add(deleteSuccessToastr);
+            } else {
+              this.$toastr.Add(deleteFailureToastr);
+            }
+          })
+          .catch(error => {
+            this.$toastr.Add(deleteFailureToastr);
+          })
       },
       //提交一台设备的信息
-      submitDevInfo:function () {
+      postOneDev:function () {
         const dataForSubmit = this.formData;
         dataForSubmit['projectId'] = this.submitOneDevProject.projectId;
         dataForSubmit['longitude'] = this.submitOneDevProject.longitude;
         dataForSubmit['latitude'] = this.submitOneDevProject.latitude;
         console.log('提交的数据为:',dataForSubmit);
-        // this.$axios.post()
+        this.$axios.post(
+          this.api.postOneDev,
+          this.$qs.stringify({object:JSON.stringify(dataForSubmit)})
+        )
+          .then(res => {
+            console.log(res);
+            const { code,msg} = res.data;
+            if (code === 200){
+              this.$toastr.Add(addSuccessToastr);
+            } else {
+              this.$toastr.Add(addFailureToastr);
+            }
+          })
+          .catch(error => {
+            this.$toastr.Add(addFailureToastr);
+          })
       },
       //删除一台设备的信息
       deleteOneDev:function (uuid) {

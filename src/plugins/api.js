@@ -1,8 +1,15 @@
 
 const getLocation = 'http://api.map.baidu.com/geocoder';
 const ak = 'HMsRLrPGidU6hIisM4HYgx0APRKhpm6p';
-const BaseURL = 'www.zhxf.yuhualab.com:8080';
+const BaseURL = 'http://zhxf.yuhualab.com:8080';
+const testURL = 'http://172.20.29.63:8080';
 
 export default {
-  submitOneProject:BaseURL + '',
+  postOneProject:BaseURL + '/caracara/info/project',
+  deleteOneProject:BaseURL + '/caracara/info/project/delete',
+  getAllProjects:BaseURL + '/caracara/info/project',
+  postOneDev:BaseURL + '/caracara/info/device',
+  deleteOneDev:BaseURL + '/caracara/info/device',
+  getAllDevInOneProject:BaseURL + '/caracara/info/device/project/id',
+  testPostOneProject:testURL + '/caracara/info/project'
 }

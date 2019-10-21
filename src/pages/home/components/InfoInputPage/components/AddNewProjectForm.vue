@@ -38,9 +38,13 @@
           <p class="input-invalid" v-if="$v.project.latitude.$invalid">项目纬度不能为空</p>
         </div>
         <div class="form-group">
+          <label for="project-remark">项目备注信息:</label>
+          <textarea id='project-remark' class="form-control" v-model="project.remark"></textarea>
+        </div>
+        <div class="form-group">
           <button type="button" class="btn btn-warning" @click="reset">重置</button>
           <button type="button" class="btn btn-success x-float-right"
-                  @click="submitProjectInfo"
+                  @click="postOneProject"
                   :disabled="$v.$invalid">提交</button>
         </div>
       </form>
@@ -51,7 +55,9 @@
 </template>
 
 <script>
-  import { required } from 'vuelidate/lib/validators'
+  import { required } from 'vuelidate/lib/validators';
+  import { addFailureToastr,addSuccessToastr} from "@/plugins/toastrInfos";
+
   export default {
     name: "AddNewProjectForm",
     props:{
@@ -65,7 +71,7 @@
         province: {required},
         location: {required},
         longitude: {required},
-        latitude: {required}
+        latitude: {required},
       }
     },
     methods:{
@@ -74,15 +80,27 @@
           this.project[key] = ''
         }
       },
-      submitProjectInfo:function () {
+      //新建一个项目
+      postOneProject:function () {
         const dataForSubmit = {
           location:this.project.name,
           longitude:this.project.longitude,
-          latitude:this.project.latitude
+          latitude:this.project.latitude,
+          remark:this.project.remark
         };
         console.log('提交的数据为:',dataForSubmit);
-        // this.$axios.post(this.api.submitOneProject,this.dataForSubmit())
-        //   .then()
+        this.$axios.post(this.api.postOneProject,this.$qs.stringify({object:JSON.stringify(dataForSubmit)}))
+          .then(res => {
+            const { code,msg} = res.data;
+            if (code === 200){
+              this.$toastr.Add(addSuccessToastr);
+            } else {
+              this.$toastr.Add(addFailureToastr);
+            }
+          })
+          .catch(error => {
+            this.$toastr.Add(addFailureToastr);
+          })
 
       }
     }

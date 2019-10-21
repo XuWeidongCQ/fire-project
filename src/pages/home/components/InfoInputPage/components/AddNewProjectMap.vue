@@ -34,7 +34,7 @@
 <style scoped>
   .map-wrapper {
     width: 980px;
-    height: 550px;
+    height: 650px;
     outline: 1px solid black;
     float: right;
     z-index: 2;
