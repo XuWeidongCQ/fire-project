@@ -35,7 +35,7 @@
   .map-wrapper {
     width: 980px;
     height: 650px;
-    outline: 1px solid black;
+    border: 3px solid #ffffff;
     float: right;
     z-index: 2;
   }

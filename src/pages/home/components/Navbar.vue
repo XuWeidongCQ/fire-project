@@ -1,20 +1,24 @@
 <template>
   <div class="xu-navbar">
-    <div class="logo-wrapper">
-      <router-link to="/main">
-        <img src="../../../assets/company_logo.jpg" alt="">
-      </router-link>
-    </div>
-    <div class="navbar-wrapper x-float-left">
+<!--    <div class="logo-wrapper">-->
+<!--      <router-link to="/main">-->
+<!--        <img src="../../../assets/company_logo.jpg" alt="">-->
+<!--      </router-link>-->
+<!--    </div>-->
+    <div class="navbar-wrapper-left x-float-left">
       <ul class="nav-items-wrapper">
-        <li><router-link to="/main" tag="a" class="x-nav-item" active-class="link-active" exact><span class='fa fa-home'></span>&nbsp;首页</router-link></li>
-        <li><span>|</span></li>
-        <li><router-link to="/main/info-input" tag="a" class="x-nav-item" active-class="link-active" exact><span class='fa fa-edit'></span>&nbsp;信息录入</router-link></li>
-        <li><span>|</span></li>
+        <li><router-link to="/main" tag="li" class="x-nav-item" active-class="link-active" exact><span class='fa fa-home'></span>&nbsp;首页</router-link></li>
+        <li><router-link to="/main/info-input" tag="li" class="x-nav-item" active-class="link-active" exact><span class='fa fa-edit'></span>&nbsp;信息录入</router-link></li>
       </ul>
     </div>
-    <div class="navbar-wrapper x-float-right">
-      <router-link to="/" tag="a" class="x-nav-item"><span class='fa fa-arrow-left'></span>&nbsp;退出</router-link>
+    <div class="navbar-wrapper-right x-float-right">
+      <ul class="nav-items-wrapper">
+        <li><router-link to="/" tag="li" class="x-nav-item"><span class='fa fa-arrow-left'></span>&nbsp;退出</router-link></li>
+      </ul>
+    </div>
+    <div class="logo-wrapper">
+      <div class="logo"><img src="../../../assets/company_logo.jpg" alt=""></div>
+      <div class="logo-character"><span>智慧消防管理系统</span></div>
     </div>
   </div>
 </template>
@@ -28,50 +32,69 @@
 <style scoped>
   .xu-navbar{
     background-color: #019b4c;
-    color: #d3d3d3;
+    color: #ffffff;
     position: fixed;
     top: 0;
     right: 0;
     left: 0;
-    padding: 5px 20px;
+    padding: 0 20px;
     z-index: 10;
+    /*outline: 1px solid black;*/
+    border-bottom: 3px solid #019b4c;
   }
   .xu-navbar::before {
     display: inline-block;
     clear: both;
   }
   .logo-wrapper {
-    height: 46px;
-    width: 112px;
-    outline: 1px solid black;
-    float: left;
+    height: 39px;
+    width: 440px;
+    /*outline: 1px solid black;*/
+    background-color: #019b4c;
+    margin-left: 35%;
+    padding: 4px 15px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
   }
   .logo-wrapper  img {
-    height: 46px;
-    width: 112px;
+    height: 36px;
+    width: 90px;
+    vertical-align: -6px;
   }
-  .navbar-wrapper {
+  .logo {
+    display: inline-block;
+  }
+  .logo-character {
+    display: inline-block;
+    font-size: 36px;
+    line-height: 1;
+    margin-left: 14px;
+  }
+  .navbar-wrapper-left,
+  .navbar-wrapper-right{
+    margin-top: 15px;
     font-size: 20px;
-    outline: 1px solid black;
-    height: 46px;
-    padding: 6px 10px;
-    line-height: 34px;
-    margin-left: 20px;
+    line-height: 1;
+    /*outline: 1px solid black;*/
+    color: #e9e9e9;
   }
   .nav-items-wrapper > li {
     display: inline-block;
+    cursor: pointer;
   }
-  .nav-items-wrapper > li > a:hover {
-
-  }
-  .nav-items-wrapper > li:not(:first-child) {
-    margin-left: 10px;
+  .x-nav-item {
+    display: inline-block;
+    margin: 0 15px;
+    padding: 2px 8px;
+    background-color: #019b4c;
   }
   .x-nav-item:hover {
     color: #ffffff;
     text-decoration: none;
+    border-bottom: 2px solid #ffffff;
   }
   .link-active {
     color: #ffffff;
+    border-bottom: 2px solid #ffffff;
   }
 </style>

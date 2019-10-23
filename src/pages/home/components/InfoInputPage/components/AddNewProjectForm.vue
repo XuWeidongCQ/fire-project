@@ -63,7 +63,10 @@
     props:{
       project:{
         type:Object
-      }
+      },
+      refreshProjectsDetailTable:{
+        type: Number
+      },
     },
     validations:{
       project:{
@@ -94,6 +97,7 @@
             const { code,msg} = res.data;
             if (code === 200){
               this.$toastr.Add(addSuccessToastr);
+              this.$emit('addProjectSuccess')
             } else {
               this.$toastr.Add(addFailureToastr);
             }

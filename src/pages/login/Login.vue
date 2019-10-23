@@ -12,13 +12,13 @@
             <form role="form">
               <div class="form-group">
                 <label for="username">请输入用户名：</label>
-                <input id="username" type="text" class="form-control" placeholder="用户名" required>
+                <input id="username" type="text" class="form-control" placeholder="用户名" v-model="username">
               </div>
               <div class="form-group">
                 <label for="password">请输入密码：</label>
-                <input id="password" type="password" class="form-control" placeholder="密码" required>
+                <input id="password" type="password" class="form-control" placeholder="密码" v-model="password">
               </div>
-              <router-link tag="button" to="/main" type="submit" class="btn btn-success btn-block">登录</router-link>
+              <button type="button" class="btn btn-success btn-block" @click="login">登录</button>
               <a href="#"><small>忘记密码？</small></a>
               <p class="text-muted text-center"><small>还没有账号？</small></p>
               <a class="btn btn-block btn-link" href="#">创建一个账户</a>
@@ -37,8 +37,25 @@
 </template>
 
 <script>
-    export default {
-        name: "Login"
+  import { loginFailureToastr } from "@/plugins/toastrInfos";
+
+  export default {
+      name: "Login",
+      data:function () {
+        return {
+          username:'',
+          password:'',
+        }
+      },
+      methods:{
+          login:function () {
+            if (this.username === 'es' && this.password === '206206'){
+              this.$router.push('/main')
+            } else {
+              this.$toastr.Add(loginFailureToastr)
+            }
+          }
+      }
     }
 </script>
 

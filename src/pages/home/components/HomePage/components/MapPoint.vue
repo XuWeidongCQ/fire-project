@@ -1,11 +1,8 @@
 <template>
   <div>
-    <div class="xubox plt-name">
-      <h1>智慧消防管理系统</h1>
-    </div>
-
     <baidu-map
       class="xubox mb-integer map-wrapper"
+      :scroll-wheel-zoom="true"
       :center="mapCenter">
       <bm-scale anchor="BMAP_ANCHOR_TOP_RIGHT"></bm-scale>
       <bm-marker v-for="(projectLocation,index) in projectLocations"
@@ -109,13 +106,9 @@
 </script>
 
 <style scoped>
-  .plt-name {
-    text-align: center;
-    background-color: #f1e429;
-    color: #4d5875;
-  }
   .map-wrapper {
-    height: 417px;
+    height: 585px;
+    border: 2px solid #ffffff;
   }
   .dev-list-table {
     width: 800px;

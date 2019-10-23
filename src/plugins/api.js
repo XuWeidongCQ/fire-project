@@ -11,5 +11,9 @@ export default {
   postOneDev:BaseURL + '/caracara/info/device',
   deleteOneDev:BaseURL + '/caracara/info/device',
   getAllDevInOneProject:BaseURL + '/caracara/info/device/project/id',
-  testPostOneProject:testURL + '/caracara/info/project'
+  testPostOneProject:testURL + '/caracara/info/project',
+  testDeleteOneDev:testURL + '/caracara/info/device',
+
+  getOnlineOfflineDevNum:BaseURL + '/caracara/info/device/count/line',
+  getUsedUsingDevNum:BaseURL + '/caracara/info/device/count/state',
 }

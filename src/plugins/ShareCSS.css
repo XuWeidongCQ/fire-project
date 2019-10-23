@@ -22,7 +22,7 @@ button {
 
 
 .bg-lighter {
-  background-color: #f3f3f3;
+  background-color: #ececec;
 }
 
 .min-height {
@@ -95,3 +95,37 @@ button {
   position: absolute;
   line-height: 1.3;
 }
+
+.btn-delete {
+  background-color: #e62229;
+}
+.btn-delete:hover {
+  background-color: #ff2229;
+}
+
+.btn-delete,
+.btn-search-dev,
+.btn-add-dev {
+  color: #f7f7f7;
+  border-radius: 3px;
+}
+
+.btn-add-dev {
+  background-color: #019b4c;
+}
+.btn-add-dev:hover {
+  background-color: #01b54f;
+}
+.btn-search-dev {
+  background-color: #3c8beb;
+}
+.btn-search-dev:hover {
+  background-color: #3c9eff;
+}
+.btn-disable {
+  background-color: #dfdfdf;
+  color: #f7f7f7;
+  border-radius: 3px;
+  cursor: not-allowed;
+}
+
