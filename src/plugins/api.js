@@ -11,6 +11,7 @@ export default {
   postOneDev:BaseURL + '/caracara/info/device',
   deleteOneDev:BaseURL + '/caracara/info/device',
   getAllDevInOneProject:BaseURL + '/caracara/info/device/project/id',
+  editOneProject:BaseURL + '/caracara/info/project',
   testPostOneProject:testURL + '/caracara/info/project',
   testDeleteOneDev:testURL + '/caracara/info/device',
 

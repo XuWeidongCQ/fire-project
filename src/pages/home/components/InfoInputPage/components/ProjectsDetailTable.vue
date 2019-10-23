@@ -5,11 +5,13 @@
       <span class="no-projects-info">数据库中暂无项目或请求项目数据失败</span>
     </div>
 
-    <table class="table table-striped text-center" v-if="projectInfos.length !== 0">
+    <table class="table table-striped text-center border-bottom" v-if="projectInfos.length !== 0">
       <thead class="thead-light thead-font-style">
       <tr>
         <th>项目ID</th>
+        <th>项目名称</th>
         <th>项目地址</th>
+        <th>项目经纬度</th>
         <th>产品数量</th>
         <th>操作</th>
       </tr>
@@ -17,7 +19,9 @@
       <tbody class="tbody-font-style">
       <tr v-for="(project,index) in projectInfos" :key="index">
         <th>{{project.projectId}}</th>
+        <th>{{project.projectName}}</th>
         <th>{{project.location}}</th>
+        <th>({{project.longitude}}，{{project.latitude}})</th>
         <th>{{project.deviceNumber}}</th>
         <th>
           <button
@@ -26,8 +30,9 @@
             @click="deleteOneProject(project,index)">
             删除
           </button>
-          <button class="btn-add-dev"
-                  @click="showAddDevModal(project)">
+          <button
+            class="btn-add-dev"
+            @click="showAddDevModal(project)">
             添加设备
           </button>
           <button
@@ -35,6 +40,11 @@
             :disabled="project.deviceNumber === 0"
             @click="showDevDetailsModal(project)">
             查看设备
+          </button>
+          <button
+            class="btn-edit"
+            @click="showEditProjectModal(project)">
+            修改
           </button>
         </th>
       </tr>
@@ -44,52 +54,60 @@
     <add-one-dev-pop-up
       :modal-shown="isAddDevModalShown"
       :project="project"
-      @addOneDevSuccess="addOneDevSuccess"
+      @addOneDevSuccess="refreshProjectsDetailTable++"
       @close="isAddDevModalShown = false">
     </add-one-dev-pop-up>
 
-<!--查看一个项目中所有设备弹窗-->
+    <!--查看一个项目中所有设备弹窗-->
     <look-devs-pop-up
       :project="project"
       v-if="isDevDetailsModalShown"
-      @deleteOneDevSuccess = 'deleteOneDevSuccess'
+      @deleteOneDevSuccess = 'refreshProjectsDetailTable++'
       @close="isDevDetailsModalShown = false">
     </look-devs-pop-up>
+
+    <!--修改一个项目弹窗-->
+    <edit-one-project-pop-up
+      :project="project"
+      v-if="isEditProjectModalShown"
+      @editOneProjectSuccess = "refreshProjectsDetailTable++"
+      @close="isEditProjectModalShown = false">
+    </edit-one-project-pop-up>
   </div>
 </template>
 
 <script>
-  import AddOneDevPopUp from "@/popup/AddOneDevPopUp";
-  import LookDevsPopUp from "@/popup/LookDevsPopUp";
-  import { deleteSuccessToastr,deleteFailureToastr,addSuccessToastr,addFailureToastr } from "@/plugins/toastrInfos";
+  import AddOneDevPopUp from "@/popup/InfoInputPage/AddOneDevPopUp";
+  import LookDevsPopUp from "@/popup/InfoInputPage/LookDevsPopUp";
+  import EditOneProjectPopUp from "@/popup/InfoInputPage/EditOneProjectPopUp";
+  import { deleteSuccessToastr,deleteFailureToastr,configToastr } from "@/plugins/toastrInfos";
 
   export default {
     name: "ProjectsDetailTable",
     components: {
       AddOneDevPopUp,
-      LookDevsPopUp
+      LookDevsPopUp,
+      EditOneProjectPopUp
     },
     data:function(){
       return {
         isAddDevModalShown:false,
         isDevDetailsModalShown:false,
+        isEditProjectModalShown:false,
+        refreshProjectsDetailTable:0,
         project:null,//被选中的项目实例
         projectInfos:[
           // {projectId:12,location:'上海市公交集团',deviceNumber:480,longitude:123.2345,latitude:23.3467},
         ],
       }
     },
+    provide:function(){
+      return {
+        project:this.project
+      }
+    },
     created() {
-      this.$axios.get(this.api.getAllProjects)
-        .then(res => {
-          const { code,msg} = res.data;
-          if(code === 200) {
-            msg.forEach(project => {
-              const { projectId,location,longitude,latitude,deviceNumber } = project;
-              this.projectInfos.push({projectId,location,longitude,latitude,deviceNumber})
-            })
-          }
-        })
+      this.getAllProjects()
     },
 
     methods:{
@@ -99,12 +117,27 @@
         this.project = project;
         console.log(`选择在项目id为${this.project.projectId}中添加设备`)
       },
-      addOneDevSuccess:function(){
-        this.$emit('addOneDevSuccess')
+      //编辑设备对话框
+      showEditProjectModal:function(project){
+        this.isEditProjectModalShown = true;
+        this.project = project;
+        console.log(`编辑的项目id为${this.project.projectId}`)
+      },
+      //获取所有项目
+      getAllProjects:function(){
+        this.$axios.get(this.api.getAllProjects)
+          .then(res => {
+            const { code,msg} = res.data;
+            if(code === 200) {
+              msg.forEach(project => {
+                const { projectId,location,longitude,latitude,deviceNumber,projectName } = project;
+                this.projectInfos.push({projectId,location,longitude,latitude,deviceNumber,projectName})
+              })
+            }
+          })
       },
       //删除一个项目
       deleteOneProject:function (project,projectIndex) {
-        this.projectInfos.splice(projectIndex,1);
         console.log(`选择删除项目id为${project.projectId}`);
         this.$axios.post(
           this.api.deleteOneProject,
@@ -113,9 +146,10 @@
           .then(res => {
             const { code,msg} = res.data;
             if (code === 200){
-              this.$toastr.Add(deleteSuccessToastr);
+              this.$toastr.Add(configToastr('删除',msg,'error'));
+              this.projectInfos.splice(projectIndex,1);
             } else {
-              this.$toastr.Add(deleteFailureToastr);
+              this.$toastr.Add(configToastr(msg,'error'));
             }
           })
           .catch(error => {
@@ -127,17 +161,11 @@
         this.isDevDetailsModalShown = true;
         this.project = project;
       },
-      //删除一台设备的信息
-      deleteOneDev:function (uuid) {
-        const dataForSubmit = {
-          projectId:this.project.projectId,
-          uuid:uuid,
-        };
-        console.log(`删除项目${this.project.projectId}的设备uuid为${uuid}`)
-        // this.$axios.delete()
-      },
-      deleteOneDevSuccess:function () {
-        this.$emit('deleteOneDevSuccess')
+    },
+    watch:{
+      refreshProjectsDetailTable:function () {
+        this.projectInfos = [];
+        this.getAllProjects()
       }
     },
     mounted() {

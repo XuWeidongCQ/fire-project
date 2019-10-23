@@ -2,12 +2,14 @@
     <div class="page-wrapper container-fluid">
       <div class="info-input-wrapper">
         <div class="form-wrapper">
+          <!--添加项目表单-->
           <add-new-project-form
             @addProjectSuccess="refreshProjectsDetailTable++"
             :project="project"></add-new-project-form>
         </div>
 
         <div class="map-wrapper">
+          <!--添加项目辅助地图-->
           <add-new-project-map :project="project"></add-new-project-map>
         </div>
 
@@ -16,11 +18,8 @@
             <span>项目概况</span>
           </div>
           <div class="xubox-content" style="height: 435px">
-            <projects-detail-table
-              @addOneDevSuccess="refreshProjectsDetailTable++"
-              @deleteOneDevSuccess = 'refreshProjectsDetailTable++'
-              :key="refreshProjectsDetailTable"
-              >
+            <!--项目详情列表-->
+            <projects-detail-table :key="refreshProjectsDetailTable">
             </projects-detail-table>
           </div>
         </div>
@@ -51,11 +50,11 @@
     data:function () {
       return {
         project:{
-          name:'',
           province:'重庆',
           location:'',
           longitude:'',
           latitude:'',
+          projectFinishDate:this.$common.getDate().YYYYMMDD,
           remark:'',
         },
         refreshProjectsDetailTable:0,

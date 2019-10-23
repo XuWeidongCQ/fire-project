@@ -105,6 +105,7 @@ button {
 
 .btn-delete,
 .btn-search-dev,
+.btn-edit,
 .btn-add-dev {
   color: #f7f7f7;
   border-radius: 3px;
@@ -115,6 +116,12 @@ button {
 }
 .btn-add-dev:hover {
   background-color: #01b54f;
+}
+.btn-edit {
+  background-color: #e0a800;
+}
+.btn-edit:hover {
+  background-color: #cc9600;
 }
 .btn-search-dev {
   background-color: #3c8beb;

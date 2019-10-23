@@ -1,11 +1,22 @@
 
+export const configToastr = function (msgPrefix='',msg,type,timeOut,position) {
+  return {
+    msg:msgPrefix + msg,
+    timeout:timeOut || 3000,
+    position:position || 'toast-bottom-center',
+    type:type || 'success',
+    progressbar:false,
+    closeOnHover:false,
+  }
+};
+
 export const deleteSuccessToastr = {
   msg:'删除成功',
   timeout:3000,
   position:'toast-bottom-center',
   type:'success',
   progressbar:false,
-  closeOnHover:false,
+  closeOnHover:true,
 };
 
 export const deleteFailureToastr = {
@@ -28,6 +39,24 @@ export const addSuccessToastr = {
 
 export const addFailureToastr = {
   msg:'添加失败',
+  timeout:3000,
+  position:'toast-bottom-center',
+  type:'error',
+  progressbar:false,
+  closeOnHover:false,
+};
+
+export const editSuccessToastr = {
+  msg:'修改成功',
+  timeout:3000,
+  position:'toast-bottom-center',
+  type:'success',
+  progressbar:false,
+  closeOnHover:false,
+};
+
+export const editFailureToastr = {
+  msg:'修改失败',
   timeout:3000,
   position:'toast-bottom-center',
   type:'error',

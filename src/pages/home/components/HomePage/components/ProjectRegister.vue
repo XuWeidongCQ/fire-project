@@ -121,7 +121,7 @@
   }
 
   .register-project-table-wrapper {
-    outline: 1px solid black;
+    /*outline: 1px solid black;*/
     height: 400px;
     overflow: auto;
   }

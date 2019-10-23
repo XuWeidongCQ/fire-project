@@ -7,6 +7,7 @@
         <table class="table table-sm text-center  border-bottom dev-details-table">
           <thead class="thead-light thead-font-style">
           <tr>
+            <th>设备uuid</th>
             <th>设备编号</th>
             <th>设备类型</th>
             <th>安装位置</th>
@@ -21,6 +22,7 @@
           <tbody class="tbody-font-style">
           <tr v-for="(dev,index) in devDetails" :key="index">
             <th>{{dev.uuid}}</th>
+            <th>{{dev.simpleNumber}}</th>
             <th>{{dev.type | fixDevType }}</th>
             <th>{{dev.location}}</th>
             <th>{{dev.communication | fixDevCommunication }}</th>
@@ -28,7 +30,10 @@
             <th>{{dev.productionDate}}</th>
             <th>{{dev.salesDate}}</th>
             <th>{{dev.serviceLife}}</th>
-            <th><button class="btn-delete" @click="deleteOneDev(dev.uuid,index)">删除</button></th>
+            <th>
+              <button class="btn-delete" @click.self="deleteOneDev(dev.uuid,index)">删除</button>
+              <button class="btn-edit">修改</button>
+            </th>
           </tr>
           </tbody>
         </table>
@@ -55,6 +60,7 @@
         type:Object
       }
     },
+    // inject:['project'],
     data:function () {
       return {
         devDetails:[//这个数据需要get获取
@@ -68,10 +74,11 @@
       this.$axios.get(this.api.getAllDevInOneProject + '?projectId=' + this.project.projectId)
         .then(res => {
           const {code,msg} = res.data;
+          // console.log(msg);
           if (code === 200){
             msg.forEach(dev => {
-              const { uuid,type,location,communication,cycle,productionDate,salesDate,serviceLife} = dev;
-              this.devDetails.push({ uuid,type,location,communication,cycle,productionDate,salesDate,serviceLife})
+              const { uuid,simpleNumber,type,location,communication,cycle,productionDate,salesDate,serviceLife} = dev;
+              this.devDetails.push({ uuid,simpleNumber,type,location,communication,cycle,productionDate,salesDate,serviceLife})
             })
           }
 
@@ -82,6 +89,7 @@
       closeLookDevsPopUp:function () {
         this.$emit('close')
       },
+      //删除一个设备
       deleteOneDev:function (uuid,index) {
         console.log(`准备删除设备id为${uuid}的设备`);
         this.$axios.delete(
@@ -92,6 +100,7 @@
             }
           })
           .then(res => {
+            // console.log(res);
             const { code,msg } = res.data;
             if (code === 200) {
               this.devDetails.splice(index,1);
@@ -135,6 +144,6 @@
 
 <style scoped>
   .dev-details-table {
-    width: 900px;
+    max-width: 1200px;
   }
 </style>

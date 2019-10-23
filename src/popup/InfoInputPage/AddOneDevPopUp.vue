@@ -6,18 +6,29 @@
       :footer-shown="true"
       :header-shown="true">
       <div slot="header">
-        <span>添加设备</span>
+        <span>在“{{ project.projectName }}”中添加设备</span>
       </div>
       <div slot="content" class="form-wrapper">
         <form>
           <div class="x-form-control">
             <div class="input-explain-wrapper">
-              <label for="dev-id">设备编号：</label>
+              <label for="dev-id">设备uuid：</label>
             </div>
             <div class="input-wrapper">
               <input id='dev-id' type="text" v-model="formData.uuid"
                      @input="$v.formData.uuid.$touch()">
-              <p class="input-invalid" v-if="$v.formData.uuid.$invalid">设备编号不能为空且只能数字或字母</p>
+              <p class="input-invalid" v-if="$v.formData.uuid.$invalid">*不能为空(芯片上编号)</p>
+            </div>
+          </div>
+
+          <div class="x-form-control">
+            <div class="input-explain-wrapper">
+              <label for="dev-simple-number">设备编号：</label>
+            </div>
+            <div class="input-wrapper">
+              <input id='dev-simple-number' type="text" v-model="formData.simpleNumber"
+                     @input="$v.formData.simpleNumber.$touch()">
+              <p class="input-invalid" v-if="$v.formData.simpleNumber.$invalid">*不能为空</p>
             </div>
           </div>
 
@@ -72,7 +83,9 @@
               <label for="dev-location">安装位置：</label>
             </div>
             <div class="input-wrapper">
-              <input id='dev-location' type="text" v-model="formData.location">
+              <input id='dev-location' type="text" v-model="formData.location"
+                     @input="$v.formData.location.$touch()">
+              <p class="input-invalid" v-if="$v.formData.location.$invalid">*不能为空</p>
             </div>
           </div>
           <div class="x-form-control">
@@ -121,7 +134,7 @@
 
 <script>
   import XuModal from "@/pages/share_components/XuModal";
-  import { alphaNum,required } from 'vuelidate/lib/validators';
+  import { required } from 'vuelidate/lib/validators';
   import { addSuccessToastr,addFailureToastr } from "@/plugins/toastrInfos";
 
   export default {
@@ -132,19 +145,21 @@
         default:false
       },
       project:{
-        type:Object
+        type:Object,
       }
     },
+    // inject:['project'],
     data:function () {
       return {
         formData:{
           uuid:'',
+          simpleNumber:'',
           type:1,
           communication:2,
           location:'',
           cycle:10,
-          productionDate:'',
-          salesDate:'',
+          productionDate:this.$common.getDate().YYYYMMDD,
+          salesDate:this.$common.getDate().YYYYMMDD,
           serviceLife:3,
           remark:''
         },
@@ -152,7 +167,8 @@
     },
     validations:{
       formData:{
-        uuid:{ alphaNum,required },
+        uuid:{ required },
+        simpleNumber: { required },
         location: { required },
       }
     },
@@ -178,6 +194,7 @@
             const { code,msg} = res.data;
             if (code === 200){
               this.$toastr.Add(addSuccessToastr);
+              this.reset();
               this.$emit('addOneDevSuccess');
             } else {
               this.$toastr.Add(addFailureToastr);
@@ -189,11 +206,10 @@
       },
       reset: function () {
         this.formData.uuid = '';
+        this.formData.simpleNumber = '';
         this.formData.type = 1;
         this.formData.communication = 2;
         this.formData.cycle = 10;
-        this.formData.productionDate = '';
-        this.formData.salesDate = '';
         this.formData.serviceLife = 3;
         this.formData.remark = '';
       },
@@ -206,7 +222,7 @@
 
 <style scoped>
   .form-wrapper {
-    width: 400px;
+    max-width: 900px;
   }
   .x-form-control {
     margin-bottom: 15px;

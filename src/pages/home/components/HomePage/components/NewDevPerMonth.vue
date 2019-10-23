@@ -1,10 +1,10 @@
 <template>
   <div class="xubox mb-integer">
     <div class="xubox-title">
-      <div class="x-float-left">
+      <div>
         <span>新增设备</span>
       </div>
-      <div class="x-float-right search-wrapper">
+      <div class="search-wrapper">
         <label for="year-for-search">年份:</label>
         <select id="year-for-search">
           <option>2019</option>
@@ -14,7 +14,7 @@
       </div>
     </div>
     <div class="xubox-content">
-      <div id="m-month-chart" style="height: 400px">
+      <div id="m-month-chart" style="height: 380px">
       </div>
     </div>
     <div class="xubox-foot">
@@ -123,7 +123,7 @@
     font-size: 12px;
   }
   .search-btn {
-    height: 26px;
+    height: 20px;
     margin-left: 10px;
     background-color: #019b4c;
     width: 50px;
