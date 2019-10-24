@@ -27,7 +27,7 @@
           <label for="finish-date">完工日期:</label>
           <input id='finish-date' type="date" class="x-form-control" v-model="project.projectFinishDate"
                  @input="$v.project.projectFinishDate.$touch()">
-          <p class="input-invalid" v-if="$v.project.projectFinishDate.$invalid">项目位置不能为空</p>
+          <p class="input-invalid" v-if="$v.project.projectFinishDate.$invalid">完工日期不能为空</p>
         </div>
         <div class="x-form-group">
           <label for="project-lng">经度（请在地图中选择地点）:</label>
@@ -62,7 +62,7 @@
 
 <script>
   import { required } from 'vuelidate/lib/validators';
-  import { addFailureToastr,addSuccessToastr,configToastr } from "@/plugins/toastrInfos";
+  import { configToastr } from "@/plugins/toastrInfos";
 
   export default {
     name: "AddNewProjectForm",
@@ -107,15 +107,15 @@
           .then(res => {
             const { code,msg} = res.data;
             if (code === 200){
-              this.$toastr.Add(configToastr('添加',msg));
+              this.$toastr.Add(configToastr('添加项目-',msg,'success'));
               this.reset();
               this.$emit('addProjectSuccess')
             } else {
-              this.$toastr.Add(addFailureToastr);
+              this.$toastr.Add(configToastr('添加项目-',msg,'warning'));
             }
           })
           .catch(error => {
-            this.$toastr.Add(addFailureToastr);
+            this.$toastr.Add(configToastr('无法连接到服务器','error'));
           })
 
       }

@@ -3,105 +3,100 @@
     <baidu-map
       class="xubox mb-integer map-wrapper"
       :scroll-wheel-zoom="true"
+      :zoom="8"
+      @ready="getLocationMark"
       :center="mapCenter">
       <bm-scale anchor="BMAP_ANCHOR_TOP_RIGHT"></bm-scale>
       <bm-marker v-for="(projectLocation,index) in projectLocations"
                  :position="projectLocation.loc"
-                 @click="showDevListsModal(projectLocation.name)"
+                 @click="showSensorDataModal(projectLocation)"
                  :key="index">
       </bm-marker>
     </baidu-map>
 
-    <xu-modal
-      :shown="isDevListModalShown"
-      :header-shown="true"
-      :footer-shown="false"
-      @close="isDevListModalShown = false"
-      >
-      <div slot="header" class="dev-list-header"><span class="fa fa-calendar"></span>&nbsp;{{devListModalTitle}}的设备详情</div>
-      <div slot="content">
-        <table class="table table-sm text-center dev-list-table">
-          <thead class="thead-light thead-font-style">
-          <tr>
-            <th><span class="fa fa-circle-thin"></span>&nbsp;设备编号</th>
-            <th><span class="fa fa-cloud"></span>&nbsp;温度</th>
-            <th><span class="fa fa-bullseye"></span>&nbsp;压强</th>
-            <th><span class="fa fa-circle"></span>&nbsp;状态</th>
-            <th><span class="fa fa-circle"></span>&nbsp;失效原因</th>
-          </tr>
-          </thead>
-          <tbody class="tbody-font-style">
-          <tr v-for="(info,index) in devListModalInfos" :key="index">
-            <th><span class="dev-id-toggle" @click="showDevLineChartModal(info.devID)">{{ info.devID }}</span></th>
-            <th>{{ info.temperature }}</th>
-            <th>{{ info.pressure }}</th>
-            <th>{{ info.status }}</th>
-            <th>{{ info.failureReason }}</th>
-          </tr>
-          </tbody>
-        </table>
-      </div>
-    </xu-modal>
+    <sensor-data-in-one-project-pop-up
+      v-if="isSensorModalShown"
+      :project="project"
+      @close="isSensorModalShown = false"
+      :modal-shown="isSensorModalShown">
+    </sensor-data-in-one-project-pop-up>
 
-    <xu-modal
-      :shown="isDevLineChartModalShown"
-      @close="isDevLineChartModalShown = false"
-      >
-      <div slot="content" class="dev-list-header">
-        <h1>ddd</h1>
-        <h1>ddd</h1>
-        <h1>ddd</h1>
-        <h1>ddd</h1>
-        <h1>ddd</h1>
-        <h1>ddd</h1>
-        <h1>ddd</h1>
-      </div>
-    </xu-modal>
+<!--    <xu-modal-->
+<!--      :shown="isDevLineChartModalShown"-->
+<!--      @close="isDevLineChartModalShown = false"-->
+<!--      >-->
+<!--      <div slot="content" class="dev-list-header">-->
+<!--        <h1>ddd</h1>-->
+<!--        <h1>ddd</h1>-->
+<!--        <h1>ddd</h1>-->
+<!--        <h1>ddd</h1>-->
+<!--        <h1>ddd</h1>-->
+<!--        <h1>ddd</h1>-->
+<!--        <h1>ddd</h1>-->
+<!--      </div>-->
+<!--    </xu-modal>-->
   </div>
 </template>
 
 <script>
     import XuModal from "@/pages/share_components/XuModal";
+    import SensorDataInOneProjectPopUp from "@/popup/HomePage/SensorDataInOneProjectPopUp";
     export default {
         name: "MapPoint",
+        // props:{
+        //   projectInfos:{
+        //     type:Array
+        //   }
+        // },
         data:function () {
           return {
-            projectLocations:[
-              {name:'project01',loc:{lng:120.15,lat:30.28}},
-              {name:'project02',loc:{lng:120.17,lat:30.29}},
-              {name:'project03',loc:{lng:120.19,lat:30.31}},
-              {name:'project04',loc:{lng:120.21,lat:30.26}}
+            projectLocations:[ //用来存放项目的名称和经纬度
+              // {name:'project01',projectId:'',loc:{lng:105.8,lat:29.4}},
             ],
+            project:null,//被选中的项目实例
             map:null,
-            mapCenter:'杭州',
-            isDevListModalShown:false,
+            mapCenter:'重庆',
+            refreshMap:0,
+            isSensorModalShown:false,
             isDevLineChartModalShown:false,
-            devListModalTitle:'',
-            devListModalInfos:[
-              {devID:'12345',temperature:27,pressure:1.2,status:'占位符',failureReason:'没有粉末了'},
-              {devID:'12345',temperature:27,pressure:1.2,status:'占位符',failureReason:'没有粉末了'},
-              {devID:'12345',temperature:27,pressure:1.2,status:'占位符',failureReason:'没有粉末了'},
-              {devID:'12345',temperature:27,pressure:1.2,status:'占位符',failureReason:'没有粉末了'},
-              {devID:'12345',temperature:27,pressure:1.2,status:'占位符',failureReason:'没有粉末了'},
-              {devID:'12345',temperature:27,pressure:1.2,status:'占位符',failureReason:'没有粉末了'},
-            ]
+            // devListModalInfos:[
+            //   {devID:'12345',temperature:27,pressure:1.2,status:'占位符',failureReason:'没有粉末了'},
+            //   {devID:'12345',temperature:27,pressure:1.2,status:'占位符',failureReason:'没有粉末了'},
+            //   {devID:'12345',temperature:27,pressure:1.2,status:'占位符',failureReason:'没有粉末了'},
+            //   {devID:'12345',temperature:27,pressure:1.2,status:'占位符',failureReason:'没有粉末了'},
+            //   {devID:'12345',temperature:27,pressure:1.2,status:'占位符',failureReason:'没有粉末了'},
+            //   {devID:'12345',temperature:27,pressure:1.2,status:'占位符',failureReason:'没有粉末了'},
+            // ]
           }
         },
         components:{
-          XuModal
+          XuModal,
+          SensorDataInOneProjectPopUp
         },
         methods:{
-          showDevListsModal:function (projectName) {
-            this.isDevListModalShown = true;
-            this.devListModalTitle = projectName
+          //只能将这个函数放到地图的ready事件中才能加载地图
+          getLocationMark:function(){
+            this.$axios.get(this.api.getAllProjects)
+              .then(res => {
+                const { code,msg} = res.data;
+                if(code === 200) {
+                  msg.forEach(project => {
+                    const { projectId,location,longitude,latitude,deviceNumber,projectName } = project;
+                    this.projectLocations.push({projectName,projectId,deviceNumber,loc:{lng:longitude,lat:latitude}})
+                  });
+                }
+              })
+          },
+          showSensorDataModal:function (project) {
+            console.log(`获取项目id为${project.projectId}的监测数据`);
+            this.project = project;
+            this.isSensorModalShown = true;
+            // this.devListModalTitle = projectName
           },
           showDevLineChartModal:function (devID) {
             this.isDevLineChartModalShown  = true
           }
         },
-        mounted(){
-
-        }
     }
 </script>
 

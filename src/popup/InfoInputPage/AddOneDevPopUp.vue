@@ -135,7 +135,7 @@
 <script>
   import XuModal from "@/pages/share_components/XuModal";
   import { required } from 'vuelidate/lib/validators';
-  import { addSuccessToastr,addFailureToastr } from "@/plugins/toastrInfos";
+  import { configToastr } from "@/plugins/toastrInfos";
 
   export default {
     name: "AddOneDevPopUp",
@@ -190,18 +190,16 @@
           this.$qs.stringify({object:JSON.stringify(dataForSubmit)})
         )
           .then(res => {
-            console.log(res);
             const { code,msg} = res.data;
             if (code === 200){
-              this.$toastr.Add(addSuccessToastr);
-              this.reset();
+              this.$toastr.Add(configToastr('添加设备-',msg,'success'));
               this.$emit('addOneDevSuccess');
             } else {
-              this.$toastr.Add(addFailureToastr);
+              this.$toastr.Add(configToastr('添加设备失败-',msg,'warning'));
             }
           })
           .catch(error => {
-            this.$toastr.Add(addFailureToastr);
+            this.$toastr.Add(configToastr('无法连接服务器','error'));
           })
       },
       reset: function () {

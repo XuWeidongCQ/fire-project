@@ -2,11 +2,11 @@
   <div v-if="modalShown">
     <xu-modal
       :shown="modalShown"
-      @close="closeEditOneDevPopUp"
+      @close="closeEditOneProjectPopUp"
       :footer-shown="true"
       :header-shown="true">
       <div slot="header">
-        <span>修改设备</span>
+        <span>修改'{{ project.projectName }}'项目</span>
       </div>
       <div slot="content">
         <form>
@@ -28,6 +28,16 @@
               <input id='location' type="text" v-model="formData.location"
                      @input="$v.formData.location.$touch()">
               <p class="input-invalid" v-if="$v.formData.location.$invalid">*项目地点不能为空</p>
+            </div>
+          </div>
+          <div class="x-form-control">
+            <div class="input-explain-wrapper">
+              <label for="finish-date">完工日期：</label>
+            </div>
+            <div class="input-wrapper">
+              <input id='finish-date' type="date" v-model="formData.projectFinishDate"
+                     @input="$v.formData.projectFinishDate.$touch()">
+              <p class="input-invalid" v-if="$v.formData.projectFinishDate.$invalid">*完工日期不能为空</p>
             </div>
           </div>
           <div class="x-form-control">
@@ -61,7 +71,7 @@
         </form>
       </div>
       <div slot="footer">
-        <button type="button" class="btn btn-warning" @click="reset">重置</button>
+        <button type="button" class="btn btn-warning" @click="reset">还原</button>
         <button type="button" class="btn btn-success x-float-right"
                 @click="editProject"
                 :disabled="$v.$invalid">修改</button>
@@ -73,7 +83,7 @@
 <script>
   import XuModal from "@/pages/share_components/XuModal";
   import { required } from 'vuelidate/lib/validators';
-  import { editSuccessToastr,editFailureToastr } from "@/plugins/toastrInfos";
+  import { configToastr } from "@/plugins/toastrInfos";
 
   export default {
     name: "EditOneProjectPopUp",
@@ -95,6 +105,7 @@
         formData:{
           projectName:'',
           location:'',
+          projectFinishDate:'',
           longitude:'',
           latitude:'',
           remark:''
@@ -105,6 +116,7 @@
       formData:{
         projectName:{ required },
         location: { required },
+        projectFinishDate:{ required },
         longitude: { required },
         latitude : { required }
       }
@@ -112,11 +124,12 @@
     created(){
     },
     methods:{
-      closeEditOneDevPopUp:function () {
+      closeEditOneProjectPopUp:function () {
         this.$emit('close')
       },
       initValue:function(){
         this.formData.projectName = this.project.projectName;
+        this.formData.projectFinishDate = this.project.projectFinishDate;
         this.formData.location = this.project.location;
         this.formData.longitude = this.project.longitude;
         this.formData.latitude = this.project.latitude;
@@ -125,21 +138,25 @@
       editProject:function(){
         const dataForEdit = this.formData;
         dataForEdit['projectId'] = this.project.projectId;
+        dataForEdit['deviceNumber'] = this.project.deviceNumber;
         console.log('提交的修改信息：',dataForEdit);
         this.$axios.put(this.api.editOneProject,dataForEdit)
           .then(res => {
             const { code,msg } = res.data;
             if (code === 200 ){
-              this.$toastr.Add(editSuccessToastr);
-              this.$emit('editOneProjectSuccess')
+              this.$toastr.Add(configToastr('修改',msg,'success'));
+              this.$emit('editOneProjectSuccess',dataForEdit)//修改项目成功后向父级传递这个修改的数据
+            } else {
+              this.$toastr.Add(configToastr(msg,'warning'));
             }
           })
           .catch(error => {
-              this.$toastr.Add(editFailureToastr);
+            this.$toastr.Add(configToastr('无法访问服务器','error'));
           })
       },
       reset:function () {
         this.formData.projectName = this.project.projectName;
+        this.formData.projectFinishDate = this.project.projectFinishDate;
         this.formData.location = this.project.location;
         this.formData.longitude = this.project.longitude;
         this.formData.latitude = this.project.latitude;

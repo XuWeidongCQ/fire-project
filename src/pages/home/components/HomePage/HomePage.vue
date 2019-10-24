@@ -47,6 +47,20 @@
           WarningTable,
           NewDevPerMonth,
           OnlineUsingStatistics
+        },
+        data:function(){
+          return {
+            projectInfos: []//接收获取的项目信息
+          }
+        },
+        created(){
+          // this.getAllProjects();
+        },
+        methods:{
+          //获取所有项目
+          getAllProjects:function(){
+
+          },
         }
     }
 </script>

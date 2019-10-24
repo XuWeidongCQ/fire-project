@@ -13,6 +13,8 @@
         <th>项目地址</th>
         <th>项目经纬度</th>
         <th>产品数量</th>
+        <th>完工日期</th>
+        <th>备注</th>
         <th>操作</th>
       </tr>
       </thead>
@@ -23,6 +25,8 @@
         <th>{{project.location}}</th>
         <th>({{project.longitude}}，{{project.latitude}})</th>
         <th>{{project.deviceNumber}}</th>
+        <th>{{project.projectFinishDate}}</th>
+        <th>{{project.remark }}</th>
         <th>
           <button
             :class="{'btn-delete':project.deviceNumber === 0,'btn-disable':project.deviceNumber !== 0}"
@@ -43,7 +47,7 @@
           </button>
           <button
             class="btn-edit"
-            @click="showEditProjectModal(project)">
+            @click="showEditProjectModal(project,index)">
             修改
           </button>
         </th>
@@ -54,7 +58,7 @@
     <add-one-dev-pop-up
       :modal-shown="isAddDevModalShown"
       :project="project"
-      @addOneDevSuccess="refreshProjectsDetailTable++"
+      @addOneDevSuccess="addOneDevSuccess"
       @close="isAddDevModalShown = false">
     </add-one-dev-pop-up>
 
@@ -62,7 +66,7 @@
     <look-devs-pop-up
       :project="project"
       v-if="isDevDetailsModalShown"
-      @deleteOneDevSuccess = 'refreshProjectsDetailTable++'
+      @deleteOneDevSuccess = 'project.deviceNumber--'
       @close="isDevDetailsModalShown = false">
     </look-devs-pop-up>
 
@@ -70,7 +74,7 @@
     <edit-one-project-pop-up
       :project="project"
       v-if="isEditProjectModalShown"
-      @editOneProjectSuccess = "refreshProjectsDetailTable++"
+      @editOneProjectSuccess = "editOneProjectSuccess"
       @close="isEditProjectModalShown = false">
     </edit-one-project-pop-up>
   </div>
@@ -80,7 +84,7 @@
   import AddOneDevPopUp from "@/popup/InfoInputPage/AddOneDevPopUp";
   import LookDevsPopUp from "@/popup/InfoInputPage/LookDevsPopUp";
   import EditOneProjectPopUp from "@/popup/InfoInputPage/EditOneProjectPopUp";
-  import { deleteSuccessToastr,deleteFailureToastr,configToastr } from "@/plugins/toastrInfos";
+  import { configToastr } from "@/plugins/toastrInfos";
 
   export default {
     name: "ProjectsDetailTable",
@@ -95,6 +99,7 @@
         isDevDetailsModalShown:false,
         isEditProjectModalShown:false,
         refreshProjectsDetailTable:0,
+        projectIndex:0,//被选中的项目实例的数组索引
         project:null,//被选中的项目实例
         projectInfos:[
           // {projectId:12,location:'上海市公交集团',deviceNumber:480,longitude:123.2345,latitude:23.3467},
@@ -117,10 +122,11 @@
         this.project = project;
         console.log(`选择在项目id为${this.project.projectId}中添加设备`)
       },
-      //编辑设备对话框
-      showEditProjectModal:function(project){
+      //编辑项目对话框
+      showEditProjectModal:function(project,index){
         this.isEditProjectModalShown = true;
         this.project = project;
+        this.projectIndex = index;
         console.log(`编辑的项目id为${this.project.projectId}`)
       },
       //获取所有项目
@@ -128,10 +134,11 @@
         this.$axios.get(this.api.getAllProjects)
           .then(res => {
             const { code,msg} = res.data;
+            console.log(msg);
             if(code === 200) {
               msg.forEach(project => {
-                const { projectId,location,longitude,latitude,deviceNumber,projectName } = project;
-                this.projectInfos.push({projectId,location,longitude,latitude,deviceNumber,projectName})
+                const { projectId,location,longitude,latitude,deviceNumber,projectName,remark,projectFinishDate } = project;
+                this.projectInfos.push({projectId,location,longitude,latitude,deviceNumber,projectName,remark,projectFinishDate})
               })
             }
           })
@@ -146,14 +153,14 @@
           .then(res => {
             const { code,msg} = res.data;
             if (code === 200){
-              this.$toastr.Add(configToastr('删除',msg,'error'));
+              this.$toastr.Add(configToastr('删除项目-',msg,'success'));
               this.projectInfos.splice(projectIndex,1);
             } else {
-              this.$toastr.Add(configToastr(msg,'error'));
+              this.$toastr.Add(configToastr('删除项目-',msg,'warning'));
             }
           })
           .catch(error => {
-            this.$toastr.Add(deleteFailureToastr);
+            this.$toastr.Add(configToastr('无法连接服务器','error'));
           })
       },
       //查看设备详情
@@ -161,13 +168,21 @@
         this.isDevDetailsModalShown = true;
         this.project = project;
       },
-    },
-    watch:{
-      refreshProjectsDetailTable:function () {
-        this.projectInfos = [];
-        this.getAllProjects()
+      editOneProjectSuccess:function(project){
+        this.projectInfos.splice(this.projectIndex,1,project);
+        this.isEditProjectModalShown = false;
+      },
+      addOneDevSuccess:function () {
+        this.project.deviceNumber ++;
+        this.isAddDevModalShown = false;
       }
     },
+    // watch:{
+    //   refreshProjectsDetailTable:function () {
+    //     this.projectInfos = [];
+    //     this.getAllProjects()
+    //   }
+    // },
     mounted() {
 
     }

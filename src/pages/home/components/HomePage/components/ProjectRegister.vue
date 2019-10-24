@@ -14,7 +14,6 @@
             <table class="table table-sm text-center border-bottom">
               <thead class="thead-light thead-font-style">
               <tr>
-                <th>项目ID</th>
                 <th>项目名称</th>
                 <th>产品数量</th>
                 <th>项目地址</th>
@@ -23,11 +22,10 @@
               </thead>
               <tbody class="tbody-font-style">
               <tr v-for="(project,index) in registerProjects" :key="index">
-                <th>项目{{project.projectId}}</th>
-                <th>{{ project.name}}</th>
+                <th>{{ project.projectName}}</th>
                 <th>{{ project.deviceNumber}}</th>
                 <th>{{ project.location}}</th>
-                <th>{{ project.finishDate}}</th>
+                <th>{{ project.projectFinishDate}}</th>
               </tr>
               </tbody>
             </table>
@@ -60,18 +58,32 @@
         return {
           projectNameForSearch:'',
           registerProjects:[
-            {projectId:1,name:'重庆大学',deviceNumber: 100,location: '沙坪坝',finishDate:'2019-10-23'},
-            {projectId:2,name:'重庆大学',deviceNumber: 100,location: '沙坪坝',finishDate:'2019-10-23'},
-            {projectId:3,name:'重庆大学',deviceNumber: 560,location: '沙坪坝',finishDate:'2019-10-23'},
-            {projectId:4,name:'重庆大学',deviceNumber: 100,location: '沙坪坝',finishDate:'2019-10-23'},
-            {projectId:5,name:'重庆大学',deviceNumber: 100,location: '沙坪坝',finishDate:'2019-10-23'},
-            {projectId:6,name:'重庆大学',deviceNumber: 100,location: '沙坪坝',finishDate:'2019-10-23'},
-            {projectId:7,name:'重庆大学',deviceNumber: 45,location: '沙坪坝',finishDate:'2019-10-23'},
+            // {projectId:1,name:'重庆大学',deviceNumber: 100,location: '沙坪坝',finishDate:'2019-10-23'},
+            // {projectId:2,name:'重庆大学',deviceNumber: 100,location: '沙坪坝',finishDate:'2019-10-23'},
+            // {projectId:3,name:'重庆大学',deviceNumber: 560,location: '沙坪坝',finishDate:'2019-10-23'},
+            // {projectId:4,name:'重庆大学',deviceNumber: 100,location: '沙坪坝',finishDate:'2019-10-23'},
+            // {projectId:5,name:'重庆大学',deviceNumber: 100,location: '沙坪坝',finishDate:'2019-10-23'},
+            // {projectId:6,name:'重庆大学',deviceNumber: 100,location: '沙坪坝',finishDate:'2019-10-23'},
+            // {projectId:7,name:'重庆大学',deviceNumber: 45,location: '沙坪坝',finishDate:'2019-10-23'},
           ]
         }
       },
+      created(){
+          this.getAllProjects()
+      },
       methods: {
-
+          getAllProjects:function () {
+            this.$axios.get(this.api.getAllProjects)
+              .then(res => {
+                const { code,msg} = res.data;
+                if(code === 200) {
+                  msg.forEach(project => {
+                    const { projectFinishDate,location,deviceNumber,projectName} = project;
+                    this.registerProjects.push({projectName,projectFinishDate,location,deviceNumber})
+                  });
+                }
+              })
+          }
       },
       computed:{
         maxMinSum:function () {

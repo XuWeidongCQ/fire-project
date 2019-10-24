@@ -136,3 +136,27 @@ button {
   cursor: not-allowed;
 }
 
+.online-badge,
+.using-badge,
+.unknown-badge,
+.used-badge,
+.offline-badge{
+  display: inline-block;
+  border-radius: 5px;
+  padding: 2px 4px;
+  color: #ffffff;
+}
+
+.online-badge,
+.using-badge{
+  background-color: #01d558;
+}
+
+.offline-badge,
+.used-badge{
+  background-color: #ff2229;
+}
+
+.unknown-badge{
+  background-color: #cb9500;
+}
