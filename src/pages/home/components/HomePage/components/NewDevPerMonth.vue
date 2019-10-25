@@ -113,10 +113,6 @@
 </script>
 
 <style scoped>
-  .xubox-title {
-    overflow: hidden;
-  }
-
   .search-wrapper {
     height: 20px;
     line-height: 20px;

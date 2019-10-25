@@ -3,100 +3,93 @@
     <baidu-map
       class="xubox mb-integer map-wrapper"
       :scroll-wheel-zoom="true"
-      :zoom="8"
-      @ready="getLocationMark"
-      :center="mapCenter">
+      :zoom="10"
+      :center="mapCenter || '重庆'">
       <bm-scale anchor="BMAP_ANCHOR_TOP_RIGHT"></bm-scale>
-      <bm-marker v-for="(projectLocation,index) in projectLocations"
-                 :position="projectLocation.loc"
-                 @click="showSensorDataModal(projectLocation)"
+      <bm-marker v-for="(project,index) in projects"
+                 @mouseover="showInfoWindow(project)"
+                 @mouseout="closeInfoWindow"
+                 :position="project.loc"
                  :key="index">
       </bm-marker>
+      <bm-info-window
+        :position="chooseProject.loc || {lng: 106.5584, lat: 29.5745}"
+        :show="infoWindowShown"
+        title="项目概览"
+        @open="infoWindowShown = true"
+        @close="infoWindowShown = false">
+        <div class="info-window">
+          <p><span class="info-window-item"></span>项目名称：{{chooseProject.projectName}}</p>
+          <p><span class="info-window-item"></span>项目位置：{{chooseProject.location}}</p>
+          <p><span class="info-window-item"></span>产品数量：{{chooseProject.deviceNumber}}</p>
+          <p><span class="info-window-item"></span>完工日期：{{chooseProject.projectFinishDate}}</p>
+        </div>
+      </bm-info-window>
     </baidu-map>
 
-    <sensor-data-in-one-project-pop-up
-      v-if="isSensorModalShown"
-      :project="project"
-      @close="isSensorModalShown = false"
-      :modal-shown="isSensorModalShown">
-    </sensor-data-in-one-project-pop-up>
 
-<!--    <xu-modal-->
-<!--      :shown="isDevLineChartModalShown"-->
-<!--      @close="isDevLineChartModalShown = false"-->
-<!--      >-->
-<!--      <div slot="content" class="dev-list-header">-->
-<!--        <h1>ddd</h1>-->
-<!--        <h1>ddd</h1>-->
-<!--        <h1>ddd</h1>-->
-<!--        <h1>ddd</h1>-->
-<!--        <h1>ddd</h1>-->
-<!--        <h1>ddd</h1>-->
-<!--        <h1>ddd</h1>-->
-<!--      </div>-->
-<!--    </xu-modal>-->
   </div>
 </template>
 
 <script>
     import XuModal from "@/pages/share_components/XuModal";
-    import SensorDataInOneProjectPopUp from "@/popup/HomePage/SensorDataInOneProjectPopUp";
     export default {
-        name: "MapPoint",
-        // props:{
-        //   projectInfos:{
-        //     type:Array
-        //   }
+      name: "MapPoint",
+      props:{
+        project:{//接收被点击的实例
+          type:Object
+        },
+        clickCount:{
+          type:Number
+        },
+        projects:{//接收被搜索出来的所有设备
+          type:Array
+        }
+      },
+      data:function () {
+        return {
+          // projectLocations:[ //用来存放项目的名称和经纬度
+          //   // {name:'project01',projectId:'',loc:{lng:105.8,lat:29.4}},
+          // ],
+          map:null,
+          mapCenter:null,
+          infoWindowShown:false,
+          chooseProject:{},
+        }
+      },
+      components:{
+        XuModal,
+      },
+      watch:{
+        clickCount:function () {
+          this.infoWindowShown = true;
+          this.mapCenter = this.project.loc;
+          this.chooseProject = this.project;
+        }
+      },
+      methods:{
+        showInfoWindow:function (projectInstance) {
+          this.infoWindowShown = true;
+          this.chooseProject = projectInstance;
+        },
+        closeInfoWindow:function () {
+          this.infoWindowShown = false;
+        }
+        //只能将这个函数放到地图的ready事件中才能加载地图
+        // getLocationMark:function(){
+        //   this.projectLocations = this.projects
+          // this.$axios.get(this.api.getAllProjects)
+          //   .then(res => {
+          //     const { code,msg} = res.data;
+          //     if(code === 200) {
+          //       msg.forEach(project => {
+          //         const { projectId,location,longitude,latitude,deviceNumber,projectName } = project;
+          //         this.projectLocations.push({projectName,projectId,deviceNumber,loc:{lng:longitude,lat:latitude}})
+          //       });
+          //     }
+          //   })
         // },
-        data:function () {
-          return {
-            projectLocations:[ //用来存放项目的名称和经纬度
-              // {name:'project01',projectId:'',loc:{lng:105.8,lat:29.4}},
-            ],
-            project:null,//被选中的项目实例
-            map:null,
-            mapCenter:'重庆',
-            refreshMap:0,
-            isSensorModalShown:false,
-            isDevLineChartModalShown:false,
-            // devListModalInfos:[
-            //   {devID:'12345',temperature:27,pressure:1.2,status:'占位符',failureReason:'没有粉末了'},
-            //   {devID:'12345',temperature:27,pressure:1.2,status:'占位符',failureReason:'没有粉末了'},
-            //   {devID:'12345',temperature:27,pressure:1.2,status:'占位符',failureReason:'没有粉末了'},
-            //   {devID:'12345',temperature:27,pressure:1.2,status:'占位符',failureReason:'没有粉末了'},
-            //   {devID:'12345',temperature:27,pressure:1.2,status:'占位符',failureReason:'没有粉末了'},
-            //   {devID:'12345',temperature:27,pressure:1.2,status:'占位符',failureReason:'没有粉末了'},
-            // ]
-          }
-        },
-        components:{
-          XuModal,
-          SensorDataInOneProjectPopUp
-        },
-        methods:{
-          //只能将这个函数放到地图的ready事件中才能加载地图
-          getLocationMark:function(){
-            this.$axios.get(this.api.getAllProjects)
-              .then(res => {
-                const { code,msg} = res.data;
-                if(code === 200) {
-                  msg.forEach(project => {
-                    const { projectId,location,longitude,latitude,deviceNumber,projectName } = project;
-                    this.projectLocations.push({projectName,projectId,deviceNumber,loc:{lng:longitude,lat:latitude}})
-                  });
-                }
-              })
-          },
-          showSensorDataModal:function (project) {
-            console.log(`获取项目id为${project.projectId}的监测数据`);
-            this.project = project;
-            this.isSensorModalShown = true;
-            // this.devListModalTitle = projectName
-          },
-          showDevLineChartModal:function (devID) {
-            this.isDevLineChartModalShown  = true
-          }
-        },
+      },
     }
 </script>
 
@@ -105,19 +98,21 @@
     height: 585px;
     border: 2px solid #ffffff;
   }
-  .dev-list-table {
-    width: 800px;
+  .info-window {
+    border-radius: 5px;
+    font-size: 14px;
+    color: #3a4460;
+    margin-bottom: 5px;
   }
-  .dev-list-header{
-    font-size: 18px;
-    color: #4d5875;
+  .info-window > p {
+    line-height: 1.5;
   }
-  .dev-id-toggle {
-    cursor: pointer;
-    color: #3f91f1;
-  }
-  .dev-id-toggle:hover {
-    color: #3c9eff;
-    text-decoration: underline;
+  .info-window-item {
+    display: inline-block;
+    margin-right: 5px;
+    height: 12px;
+    width: 12px;
+    border-radius: 5px;
+    background-color: #019b4c;
   }
 </style>

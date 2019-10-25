@@ -18,11 +18,18 @@
         </div>
       </div>
     </div>
+    <!--在线率-有效率统计-->
+    <div class="col-4">
+      <div class="xubox mb-integer" style="padding-top: 10px;padding-bottom: 2px">
+        <div id="m-onlineRate-chart" style="height: 150px"></div>
+        <div id="m-usingRate-chart" style="height: 150px"></div>
+      </div>
+    </div>
     <!--有效-无效统计-->
     <div class="col-4">
       <div class="xubox mb-integer" >
         <div class="xubox-content">
-          <div id="m-isUse-chart" style="height: 200px"></div>
+          <div id="m-isUse-chart" style="height: 170px"></div>
         </div>
         <div class="xubox-foot">
           <div class="footer-wrapper">
@@ -32,15 +39,11 @@
             <div class="chart-explain">
               <span><span class="fa fa-square used-color"></span>&nbsp;无效设备</span><span class="x-float-right">{{ usedDevNum }}个</span>
             </div>
+            <div class="chart-explain">
+              <span><span class="fa fa-square unknown-color"></span>&nbsp;未知设备</span><span class="x-float-right">{{ unknownNum }}个</span>
+            </div>
           </div>
         </div>
-      </div>
-    </div>
-    <!--在线率-有效率统计-->
-    <div class="col-4">
-      <div class="xubox mb-integer" style="padding-top: 10px;padding-bottom: 2px">
-        <div id="m-onlineRate-chart" style="height: 150px"></div>
-        <div id="m-usingRate-chart" style="height: 150px"></div>
       </div>
     </div>
   </div>
@@ -52,7 +55,7 @@
       left:'left',
       orient:'vertical'
     },
-    color:['#019b4c','#e62229'],
+    color:['#019b4c','#e62229',"#e0a800"],
     dataset: {
       source:{
         'category':['在线设备','离线设备'],
@@ -63,7 +66,8 @@
       {
         type: 'pie',
         hoverAnimation:false,
-        center:['50%','60%'],
+        radius: ['0%', '60%'],
+        center:['50%','65%'],
         label:{
           normal:{
             show:true,
@@ -128,6 +132,7 @@
         offlineDevNum:0,//所有离线设备
         usingDevNum:0,//所有有效设备
         usedDevNum:0,//所有失效设备
+        unknownNum:0,//未知设备数量
       }
     },
 
@@ -156,7 +161,8 @@
             if (code === 200 ){
               // console.log(msg);
               this.usingDevNum = msg['valid'];
-              this.usedDevNum = msg['invalid'] + msg['unknown'];
+              this.usedDevNum = msg['invalid'];
+              this.unknownNum = msg['unknown'];
               this.drawUsedUsingPie();
               this.drawUsingRate()
             }
@@ -176,8 +182,8 @@
       },
       drawUsedUsingPie:function () {
         let chartInstance = echarts.init(document.getElementById('m-isUse-chart'));
-        pieOption.dataset.source['category'] = ['有效设备','无效设备'];
-        pieOption.dataset.source['value'] = [this.usingDevNum,this.usedDevNum];
+        pieOption.dataset.source['category'] = ['有效设备','无效设备','未知状态'];
+        pieOption.dataset.source['value'] = [this.usingDevNum,this.usedDevNum,this.unknownNum];
         chartInstance.setOption(pieOption);
         window.addEventListener("resize", function () {
           chartInstance.resize();
@@ -237,6 +243,9 @@
   }
   .used-color {
     color: #e62229;
+  }
+  .unknown-color {
+    color: #e0a800;
   }
   .online-color {
     color: #019b4c;

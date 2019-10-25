@@ -34,6 +34,22 @@
 
           <div class="x-form-control">
             <div class="input-explain-wrapper">
+              <span>是否启用：</span>
+            </div>
+            <div class="input-wrapper">
+              <label>
+                <input type="radio" v-model="formData.isEnable" :value=true>
+                <span>启用</span>
+              </label>
+              <label>
+                <input type="radio" v-model="formData.isEnable" :value=false>
+                <span>不启用</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="x-form-control">
+            <div class="input-explain-wrapper">
               <span>设备类型：</span>
             </div>
             <div class="input-wrapper">
@@ -154,6 +170,7 @@
         formData:{
           uuid:'',
           simpleNumber:'',
+          isEnable:true,
           type:1,
           communication:2,
           location:'',

@@ -17,7 +17,7 @@
             <tr>
               <th>设备uuid</th>
               <!--              <th>设备编号</th>-->
-              <!--              <th>设备位置</th>-->
+              <th>设备位置</th>
               <th>温度/℃</th>
               <th>压强/Mpa</th>
               <th>在线情况</th>
@@ -29,6 +29,7 @@
             <tbody class="tbody-font-style">
             <tr v-for="(devData,index) in deviceSensorData">
               <th>{{devData.uuid}}</th>
+              <th>{{devData.location}}</th>
               <th>{{devData.temperature}}</th>
               <th>{{devData.stress}}</th>
               <th>
@@ -43,7 +44,7 @@
                 {{devData.state | fixState }}
               </span>
               </th>
-              <th>压力失效</th>
+              <th>{{devData.failureReason}}</th>
               <th>
                 <button class="btn-search-dev" @click="showHistoryDataModal(devData)">历史数据</button>
               </th>

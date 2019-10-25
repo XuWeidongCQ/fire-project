@@ -8,7 +8,7 @@
     <table class="table table-striped text-center border-bottom" v-if="projectInfos.length !== 0">
       <thead class="thead-light thead-font-style">
       <tr>
-        <th>项目ID</th>
+        <th>#ID</th>
         <th>项目名称</th>
         <th>项目地址</th>
         <th>项目经纬度</th>

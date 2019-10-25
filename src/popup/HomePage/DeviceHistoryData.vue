@@ -90,12 +90,13 @@
                 this.timeArray.push(this.$common.getDate(longCreate*1000).MMDDHHMMSS);
                 this.stressArray.push(stress);
                 this.temperatureArray.push(temperature);
-                this.drawStressLineChart();
-                this.drawTemperatureChart()
               });
-              // console.log('原顺序:',this.timeArray.reverse());
-              // console.log('逆顺序:',this.timeArray.reverse());
-              // console.log(this.stressArray)
+              //时间反序
+              this.timeArray = this.timeArray.reverse();
+              this.stressArray = this.stressArray.reverse();
+              this.temperatureArray = this.temperatureArray.reverse();
+              this.drawStressLineChart();
+              this.drawTemperatureChart()
             }
           })
       },

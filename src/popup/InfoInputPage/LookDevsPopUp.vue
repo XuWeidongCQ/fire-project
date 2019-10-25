@@ -13,6 +13,7 @@
           <tr>
             <th>设备uuid</th>
             <th>设备编号</th>
+            <th>是否启用</th>
             <th>设备类型</th>
             <th>安装位置</th>
             <th>通信技术</th>
@@ -28,6 +29,11 @@
           <tr v-for="(dev,index) in devDetails" :key="index">
             <th>{{dev.uuid}}</th>
             <th>{{dev.simpleNumber}}</th>
+            <th>
+              <span :class="{'online-badge':dev.isEnable === true,'offline-badge':dev.isEnable === false}">
+                {{dev.isEnable | fixIsEnable }}
+              </span>
+            </th>
             <th>{{dev.type | fixDevType }}</th>
             <th>{{dev.location}}</th>
             <th>{{dev.communication | fixDevCommunication }}</th>
@@ -76,7 +82,6 @@
         type:Object
       }
     },
-    // inject:['project'],
     data:function () {
       return {
         isEditOneDevShown:false,
@@ -113,11 +118,11 @@
         this.$axios.get(this.api.getAllDevInOneProject + '?projectId=' + this.project.projectId)
           .then(res => {
             const {code,msg} = res.data;
-            // console.log(msg);
+            console.log(msg);
             if (code === 200){
               msg.forEach(dev => {
-                const { uuid,simpleNumber,type,location,communication,cycle,productionDate,salesDate,serviceLife,remark } = dev;
-                this.devDetails.push({ uuid,simpleNumber,type,location,communication,cycle,productionDate,salesDate,serviceLife,remark})
+                const { uuid,simpleNumber,type,location,communication,cycle,productionDate,salesDate,serviceLife,remark,isEnable } = dev;
+                this.devDetails.push({ uuid,simpleNumber,type,location,communication,cycle,productionDate,salesDate,serviceLife,remark,isEnable})
               })
             }
 
@@ -173,6 +178,16 @@
             return 'NB-IOT';
           default:
             return '未知'
+        }
+      },
+      fixIsEnable:function (value) {
+        switch (value) {
+          case false:
+            return '未启用';
+          case true:
+            return '已启用';
+          default:
+            return '未知';
         }
       }
     }

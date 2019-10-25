@@ -1,11 +1,14 @@
 <template>
   <div class="login-wrapper">
+    <div class="beta-wrapper">
+      <span>网站正在升级中......</span>
+    </div>
     <div class="xu-login-container animated fadeInDown">
       <div class="row">
         <div class="col-lg-6 col-sm-12 text-center">
           <h2 class="font-weight-bold">欢迎登录智慧消防管理系统</h2>
-          <img src="../../assets/cqu-logo_nobg.jpg" style="height: 150px;width: 210px">
-          <img src="../../assets/company_logo.jpg" style="height: 150px;width: 210px">
+          <img src="../../assets/cqu-logo_nobg.jpg" style="width: 210px">
+          <img src="../../assets/company_logo.jpg" style="width: 210px">
         </div>
         <div class="col-lg-6 col-sm-12">
           <div class="xu-widget bg-light rounded pt-5 pb-5 mt-0">
@@ -102,6 +105,21 @@
   .animated{
     animation-duration: 1s;
     animation-fill-mode: both;
+  }
+  .beta-wrapper {
+    background-color: #ffffff;
+    left: 50px;
+    top: 50px;
+    position: fixed;
+    border-radius: 10px;
+    height: 100px;
+    width: 400px;
+  }
+  .beta-wrapper > span {
+    margin-left: 15px;
+    font-size: 40px;
+    line-height: 100px;
+    color: #3a4460;
   }
 
 </style>

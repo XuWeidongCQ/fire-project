@@ -7,11 +7,11 @@
       </div>
       <div class="col-xl-5 col-lg-9 col-md-12 col-sm-12">
         <!--地图组件-->
-        <map-point></map-point>
+        <map-point :project="project" :click-count="clickCount" :projects="projects"></map-point>
       </div>
       <div class="col-xl-5 col-lg-12 col-md-12 col-sm-12">
         <!--注册项目表格-->
-        <project-register></project-register>
+        <project-register @chooseOneProject="chooseOneProject" @searchDone="searchDone"></project-register>
       </div>
     </div>
     <div class="row">
@@ -50,17 +50,19 @@
         },
         data:function(){
           return {
-            projectInfos: []//接收获取的项目信息
+            project:{},//接收来自project-register组件的项目实例
+            clickCount:0,//接收来自project-register组件的点击计数
+            projects:[],//接收来自project-register组件的搜索项目
           }
         },
-        created(){
-          // this.getAllProjects();
-        },
         methods:{
-          //获取所有项目
-          getAllProjects:function(){
-
+          chooseOneProject:function (project,clickCount) {
+            this.clickCount = clickCount;
+            this.project = project;
           },
+          searchDone:function (projects) {
+            this.projects = projects;
+          }
         }
     }
 </script>
