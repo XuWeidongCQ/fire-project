@@ -14,19 +14,36 @@
       </div>
     </div>
     <div class="xubox-content">
-      <div id="m-month-chart" style="height: 380px">
+      <div class="month-project-wrapper">
+        <table class="table table-sm text-center border-bottom">
+          <thead class="tiny-thead">
+          <tr>
+            <th>月份</th>
+            <th>设备数量</th>
+            <th>项目数量</th>
+          </tr>
+          </thead>
+          <tbody class="tiny-tbody">
+          <tr v-for="(item,index) in monthProjectInfos" :key="index">
+            <th>{{item.monthName}}</th>
+            <th>{{item.devNum}}</th>
+            <th>{{item.projectNum}}</th>
+          </tr>
+          </tbody>
+        </table>
       </div>
     </div>
     <div class="xubox-foot">
       <div class="footer-wrapper">
         <div class="chart-explain">
-          <span><span class="fa fa-square foot-item"></span>&nbsp;新增设备合计</span><span class="x-float-right">{{ sum }}个</span>
+          <span><span class="fa fa-square foot-item"></span>&nbsp;新增项目合计</span>
+          <span class="x-float-right">{{sum.project}}个</span>
         </div>
         <div class="chart-explain">
-          <span><span class="fa fa-square foot-item"></span>&nbsp;最大值</span><span class="x-float-right">{{ max }}个</span>
+          <span><span class="fa fa-square foot-item"></span>&nbsp;新增项目最大值</span><span class="x-float-right">{{ max }}个</span>
         </div>
         <div class="chart-explain">
-          <span><span class="fa fa-square foot-item"></span>&nbsp;最小值</span><span class="x-float-right">{{ min }}个</span>
+          <span><span class="fa fa-square foot-item"></span>&nbsp;新增项目最小值</span><span class="x-float-right">{{ min }}个</span>
         </div>
       </div>
     </div>
@@ -34,85 +51,53 @@
 </template>
 
 <script>
-    const BarOption = {
-      color:['#c12e34'],
-      grid: {
-        top: '0px',
-        left: '0px',
-        right: '10px',
-        bottom: '20px',
-        containLabel: true
-      },
-      yAxis: {
-        type:'category',
-        nameLocation:'center',
-      },
-      xAxis: {
-        type:'value',
-        nameLocation:'center',
-        name:'设备数量',
-        nameGap:20,
-      },
-      dataset: {
-        source:{
-          'category':[],
-          'newDev':[],
-        }
-      },
-      series: [
-        {
-          type: 'bar',
-          barWidth:20,
-          label:{
-            normal:{
-              show:true,
-            },
-          },
-          encode:{
-            x:'newDev',
-            y:'category'
-          }
-        },
-      ]
-    };
     export default {
         name: "NewDevPerMonth",
         data:function () {
           return {
-            category: ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'],
-            newDev:[7,5,8,12,6,8,2,18,9,10,23,6],
+            monthProjectInfos:[
+              {monthName:'一月',devNum:70,projectNum:1},
+              {monthName:'二月',devNum:123,projectNum:5},
+              {monthName:'三月',devNum:78,projectNum:3},
+              {monthName:'四月',devNum:47,projectNum:10},
+              {monthName:'五月',devNum:77,projectNum:9},
+              {monthName:'六月',devNum:19,projectNum:7},
+              {monthName:'七月',devNum:35,projectNum:8},
+              {monthName:'八月',devNum:40,projectNum:6},
+              {monthName:'九月',devNum:48,projectNum:11},
+              {monthName:'十月',devNum:61,projectNum:13},
+              {monthName:'十一月',devNum:69,projectNum:16},
+              {monthName:'十二月',devNum:70,projectNum:6},
+            ],
           }
         },
         methods:{
-          draw: function(){
-            let chartInstance = echarts.init(document.getElementById('m-month-chart'));
-            BarOption.dataset.source['category'] = this.category;
-            BarOption.dataset.source['newDev'] = this.newDev;
-            chartInstance.setOption(BarOption);
-            window.addEventListener("resize", function () {
-              chartInstance.resize();
-            });
-          }
         },
         computed:{
           sum:function () {
-            return this.$common.sum(this.newDev)
+            return {
+              dev:this.$f.sum(this.$f.getArrayInObj(this.monthProjectInfos,'devNum')),
+              project:this.$f.sum(this.$f.getArrayInObj(this.monthProjectInfos,'projectNum')),
+            }
           },
           max:function () {
-            return this.$common.max(this.newDev)
+            return this.$f.max(this.$f.getArrayInObj(this.monthProjectInfos,'projectNum'))
           },
           min:function () {
-            return this.$common.min(this.newDev)
+            return this.$f.min(this.$f.getArrayInObj(this.monthProjectInfos,'projectNum'))
           }
         },
         //组件挂载完成后执行
         mounted:function () {
-          this.draw()
+          // this.draw()
         }
     }
 </script>
 
 <style scoped>
+  .month-project-wrapper {
+    height: 335px;
+  }
   .search-wrapper {
     height: 20px;
     line-height: 20px;
@@ -129,10 +114,6 @@
 
   .search-btn:hover {
     background-color: #01b14c;
-  }
-  .footer-wrapper {
-    font-size: 16px;
-    color: #7b8294;
   }
   .foot-item {
     color: #e62229;

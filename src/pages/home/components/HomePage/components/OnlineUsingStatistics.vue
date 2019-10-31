@@ -4,7 +4,7 @@
     <div class="col-4">
       <div class="xubox mb-integer">
         <div class="xubox-content">
-          <div id="m-isOnline-chart" style="height: 200px"></div>
+          <div id="m-isOnline-chart" style="height: 230px"></div>
         </div>
         <div class="xubox-foot">
           <div class="footer-wrapper">
@@ -29,7 +29,7 @@
     <div class="col-4">
       <div class="xubox mb-integer" >
         <div class="xubox-content">
-          <div id="m-isUse-chart" style="height: 170px"></div>
+          <div id="m-isUse-chart" style="height: 210px"></div>
         </div>
         <div class="xubox-foot">
           <div class="footer-wrapper">
@@ -53,7 +53,10 @@
   const pieOption = {
     legend:{
       left:'left',
-      orient:'vertical'
+      orient:'vertical',
+      textStyle:{
+        color:'#e0e3e9'
+      }
     },
     color:['#019b4c','#e62229',"#e0a800"],
     dataset: {
@@ -87,7 +90,8 @@
       text:'设备情况概览',
       x:'center',
       textStyle:{
-        fontWeight:'lighter'
+        fontWeight:'lighter',
+        color:'#e0e3e9'
       }
     },
     color:['#019b4c','rgba(255,255,255,0.1)'],
@@ -234,10 +238,6 @@
 </script>
 
 <style scoped>
-  .footer-wrapper {
-    font-size: 16px;
-    color: #7b8294;
-  }
   .using-color {
     color: #019b4c;
   }

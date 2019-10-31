@@ -1,7 +1,7 @@
 <template>
   <div class="xubox mb-integer">
-    <div class="xubox-title x-bg-warning">
-      <span style="color: #ffffff">报警信息</span>
+    <div class="xubox-title">
+      <span>报警信息</span>
     </div>
     <div class="xubox-content limit-table-height">
       <div class="no-warnings" v-if="warningInfos.length === 0">
@@ -46,11 +46,6 @@
 <style scoped>
   .limit-table-height {
     height: 267px;
-  }
-  .x-bg-warning {
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    background-color: #e9d2d2;
   }
 
   .no-warnings {

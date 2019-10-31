@@ -16,7 +16,7 @@ import api from "@/plugins/api";
 import '@/plugins/axiosConfig'
 
 Vue.config.productionTip = false;
-Vue.prototype.$common = common;
+Vue.prototype.$f = common;
 Vue.prototype.$axios = axios;
 Vue.prototype.api = api;
 Vue.prototype.$qs = qs;

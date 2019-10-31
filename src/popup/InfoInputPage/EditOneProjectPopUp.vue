@@ -173,7 +173,7 @@
 <style scoped>
   .x-form-control {
     margin-bottom: 15px;
-    color: #3a4460;
+    color: #e0e3e9;
     font-size: 14px;
   }
   .input-explain-wrapper {

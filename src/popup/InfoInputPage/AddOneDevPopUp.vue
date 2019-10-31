@@ -175,8 +175,8 @@
           communication:2,
           location:'',
           cycle:10,
-          productionDate:this.$common.getDate().YYYYMMDD,
-          salesDate:this.$common.getDate().YYYYMMDD,
+          productionDate:this.$f.getDate().YYYYMMDD,
+          salesDate:this.$f.getDate().YYYYMMDD,
           serviceLife:3,
           remark:''
         },
@@ -241,7 +241,7 @@
   }
   .x-form-control {
     margin-bottom: 15px;
-    color: #3a4460;
+    color: #e0e3e9;
     font-size: 14px;
   }
   .input-explain-wrapper {

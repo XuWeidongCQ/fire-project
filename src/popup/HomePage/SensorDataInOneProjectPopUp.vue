@@ -13,7 +13,7 @@
             <span class="no-devices-info">该项目中没有设备</span>
           </div>
           <table class="table table-sm text-center  border-bottom" v-else>
-            <thead class="thead-light thead-font-style">
+            <thead class="tiny-thead">
             <tr>
               <th>设备uuid</th>
               <!--              <th>设备编号</th>-->
@@ -26,8 +26,8 @@
               <th>操作</th>
             </tr>
             </thead>
-            <tbody class="tbody-font-style">
-            <tr v-for="(devData,index) in deviceSensorData">
+            <tbody class="tiny-tbody">
+            <tr v-for="(devData,index) in deviceSensorData" :key="index">
               <th>{{devData.uuid}}</th>
               <th>{{devData.location}}</th>
               <th>{{devData.temperature}}</th>

@@ -1,17 +1,12 @@
 <template>
   <div class="container-fluid page-wrapper" >
     <div class="row">
-      <div class="col-xl-2 col-lg-3 col-md-12 col-sm-12">
+      <div class="col-xl-2 col-lg-12 col-md-12 col-sm-12">
         <!--各个月份的增量组件图-->
         <new-dev-per-month></new-dev-per-month>
       </div>
-      <div class="col-xl-5 col-lg-9 col-md-12 col-sm-12">
-        <!--地图组件-->
-        <map-point :project="project" :click-count="clickCount" :projects="projects"></map-point>
-      </div>
-      <div class="col-xl-5 col-lg-12 col-md-12 col-sm-12">
-        <!--注册项目表格-->
-        <project-register @chooseOneProject="chooseOneProject" @searchDone="searchDone"></project-register>
+      <div class="col-xl-10 col-lg-12">
+        <map-and-project-register></map-and-project-register>
       </div>
     </div>
     <div class="row">
@@ -24,7 +19,6 @@
         <online-using-statistics></online-using-statistics>
       </div>
     </div>
-    <hr>
     <div class="row">
       <div class="col-12 text-center">
         <small class="text-muted">重庆大学微系统研究中心©2019</small>
@@ -34,16 +28,15 @@
 </template>
 
 <script>
-    import ProjectRegister from './components/ProjectRegister'
-    import MapPoint from './components/MapPoint'
     import WarningTable from './components/WarningTable'
     import NewDevPerMonth from './components/NewDevPerMonth'
     import OnlineUsingStatistics from "./components/OnlineUsingStatistics";
+    import MapAndProjectRegister from "@/pages/home/components/HomePage/components/MapAndProjectRegister";
+
     export default {
         name: "HomePage",
         components:{
-          ProjectRegister,
-          MapPoint,
+          MapAndProjectRegister,
           WarningTable,
           NewDevPerMonth,
           OnlineUsingStatistics

@@ -19,10 +19,21 @@ button {
   border: none;
   outline: none;
 }
+input:read-only{
+  background-color: #cccccc;
+}
+input:focus {
+  outline: none;
+  border: 1px solid #34bed8;
+}
+input {
+  border-radius: 3px;
+  border: 1px solid #34bed8;
+}
 
 
 .bg-lighter {
-  background-color: #ececec;
+  background-color: #162557;
 }
 
 .min-height {
@@ -31,16 +42,16 @@ button {
 
 .xubox {
   border-radius: 5px;
-  border: 1px solid #eaedf1;
+  border: 1px solid #1c2d61;
   position: relative;
-  background-color: #ffffff;
+  background-color: #1c3e6b;
 }
 
 .xubox-title {
   font-size: 18px;
-  color: #4d5875;
+  color: #f7f7f7;
   padding: 10px 15px 5px 15px;
-  border-bottom: 1px solid #eaedf1;
+  border-bottom: 1px solid #1c2d61;
 }
 
 .xubox-content {
@@ -48,10 +59,19 @@ button {
 }
 
 .xubox-foot {
-  padding: 10px 15px 15px 15px;
-  border-top: 1px solid #eaedf1;
+  padding: 0 15px;
+  border-top: 1px solid #1c2d61;
 }
 
+.footer-wrapper {
+  font-size: 14px;
+  color: #e0e3e9;
+}
+.chart-explain {
+  height: 16px;
+  line-height: 16px;
+  margin: 10px 0;
+}
 .x-float-right {
   float: right;
 }
@@ -67,25 +87,33 @@ button {
   margin-top: 15px;
 }
 
-.chart-explain {
-  height: 20px;
-  line-height: 20px;
-  margin: 10px 0;
-}
 
 .page-wrapper {
   padding-top: 60px;
 }
 
-.thead-font-style th{
-  font-size: 15px;
-  color: #676a6c;
-  font-weight: bold;
-}
+/*.thead-font-style th{*/
+/*  font-size: 15px;*/
+/*  color: #e0e3e9;*/
+/*  font-weight: bold;*/
+/*}*/
 
+.thead-bg {
+  background-color: #304981;
+}
+.tiny-thead th {
+  font-size: 14px;
+  color: #e0e3e9;
+}
 .tbody-font-style th {
   font-size: 14px;
-  color: #676a6c;
+  color: #b4bccf;
+  font-weight: normal;
+}
+.tiny-tbody th {
+  padding: 1px;
+  font-size: 14px;
+  color: #b4bccf;
   font-weight: normal;
 }
 
@@ -109,6 +137,7 @@ button {
 .btn-add-dev {
   color: #f7f7f7;
   border-radius: 3px;
+  font-size: 13px;
 }
 
 .btn-add-dev {
@@ -130,8 +159,8 @@ button {
   background-color: #3c9eff;
 }
 .btn-disable {
-  background-color: #dfdfdf;
-  color: #f7f7f7;
+  background-color: #cecece;
+  color: #ffffff;
   border-radius: 3px;
   cursor: not-allowed;
 }
@@ -142,19 +171,20 @@ button {
 .used-badge,
 .offline-badge{
   display: inline-block;
-  border-radius: 5px;
-  padding: 2px 4px;
+  border-radius: 3px;
+  padding: 1px 2px;
   color: #ffffff;
+  font-size: 12px;
 }
 
 .online-badge,
 .using-badge{
-  background-color: #01d558;
+  background-color: #1aa6ff;
 }
 
 .offline-badge,
 .used-badge{
-  background-color: #d02228;
+  background-color: #ff9224;
 }
 
 .unknown-badge{

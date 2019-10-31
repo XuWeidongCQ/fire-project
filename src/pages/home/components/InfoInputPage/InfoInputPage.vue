@@ -24,7 +24,6 @@
           </div>
         </div>
       </div>
-      <hr>
       <div class="row">
         <div class="col-12 text-center">
           <small class="text-muted">重庆大学微系统研究中心©2019</small>
@@ -54,7 +53,7 @@
           location:'',
           longitude:'',
           latitude:'',
-          projectFinishDate:this.$common.getDate().YYYYMMDD,
+          projectFinishDate:this.$f.getDate().YYYYMMDD,
           remark:'',
         },
         refreshProjectsDetailTable:0,

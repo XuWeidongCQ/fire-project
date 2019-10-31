@@ -90,7 +90,7 @@
           this.project[key] = ''
         }
         this.project['province'] = '重庆';
-        this.project['projectFinishDate'] = this.$common.getDate().YYYYMMDD
+        this.project['projectFinishDate'] = this.$f.getDate().YYYYMMDD
       },
       //新建一个项目
       postOneProject:function () {
@@ -128,6 +128,7 @@
   .x-form-group {
     margin-bottom: 15px;
     font-size: 14px;
+    color: #e0e3e9;
   }
   .x-form-group label {
     margin-bottom: 7px;
@@ -138,8 +139,5 @@
     font-size: 14px;
     padding: 3px 6px;
     width: 100%;
-  }
-  input[readonly] {
-    background-color: #f8f8f8;
   }
 </style>

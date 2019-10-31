@@ -66,20 +66,20 @@
   }
   .xu-modal {
     border-radius: 5px;
-    border: 1px solid #eaedf1;
+    border: 1px solid #162557;
     position: relative;
-    background-color: #ffffff;
+    background-color: #143659;
     margin-top: 100px;
   }
   .xu-modal-header {
     padding: 10px 15px 5px 15px;
-    border-bottom: 1px solid #eaedf1;
+    border-bottom: 1px solid #162557;
   }
   .modal-title-wrapper {
     height: 20px;
     line-height: 20px;
     font-size: 17px;
-    color: #4d5875;
+    color: #f7f7f7;
     display: inline-block;
   }
   .close-icon {

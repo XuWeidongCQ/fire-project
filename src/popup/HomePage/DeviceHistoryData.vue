@@ -34,12 +34,32 @@
       nameLocation:'center',
       nameGap:20,
       min:0,
+      axisLine:{
+        lineStyle:{
+          color:'#f7f7f7'
+        }
+      },
+      axisLabel:{
+        color:'#e0e3e9'
+      },
+      nameTextStyle:{
+        color:'#e0e3e9'
+      }
     },
     xAxis: {
       type:'category',
       boundaryGap: false,
+      axisLine:{
+        lineStyle:{
+          color:'#f7f7f7'
+        }
+      },
       axisLabel:{
-        interval:1
+        interval:1,
+        color:'#e0e3e9'
+      },
+      nameTextStyle:{
+        color:'#e0e3e9'
       }
     },
     dataset: {
@@ -87,7 +107,7 @@
             if (code === 200){
               msg.forEach(dataInstance => {
                 const { longCreate,stress,temperature } = dataInstance;
-                this.timeArray.push(this.$common.getDate(longCreate*1000).MMDDHHMMSS);
+                this.timeArray.push(this.$f.getDate(longCreate*1000).MMDDHHMMSS);
                 this.stressArray.push(stress);
                 this.temperatureArray.push(temperature);
               });
@@ -95,6 +115,7 @@
               this.timeArray = this.timeArray.reverse();
               this.stressArray = this.stressArray.reverse();
               this.temperatureArray = this.temperatureArray.reverse();
+              console.log(this.timeArray);
               this.drawStressLineChart();
               this.drawTemperatureChart()
             }

@@ -62,6 +62,26 @@ const sum = function (array) {
   }
 };
 
+//对象数组的排序--传入需要排序的键名
+const sortBy = function (property) {
+  return (a,b) => {
+    return (a[property]<b[property]) ? -1 : (a[property]>b[property]) ? 1 : 0;
+  }
+};
+
+//提取对象数组中的指定信息--传入键名--返回该键名值组成的数组
+const getArrayInObj = function (array,property) {
+  let resultArray = [];
+  if (Array.isArray(array)) {
+    array.forEach(el => {
+      resultArray.push(el[property])
+    });
+    return resultArray
+  } else {
+    return []
+  }
+};
+
 const forEachObject = function (obj,fn) {
   //property就是对象中的键
   if (JSON.stringify(obj) !== '{}'){
@@ -78,7 +98,9 @@ export default {
   max,
   sum,
   getDate,
-  forEachObject
+  forEachObject,
+  sortBy,
+  getArrayInObj
 }
 
 
