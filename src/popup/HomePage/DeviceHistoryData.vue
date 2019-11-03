@@ -101,7 +101,7 @@
     },
     methods:{
       getHistoryData:function(){
-        this.$axios.get(this.api.getHistoryData + '?uuid=' + this.device.uuid + '&size=10')
+        this.$Http.getSensorDataInOneDev({params:{uuid:this.device.uuid,size:10}})
           .then(res => {
             const { code,msg } = res.data;
             if (code === 200){
@@ -115,7 +115,7 @@
               this.timeArray = this.timeArray.reverse();
               this.stressArray = this.stressArray.reverse();
               this.temperatureArray = this.temperatureArray.reverse();
-              console.log(this.timeArray);
+              // console.log(this.timeArray);
               this.drawStressLineChart();
               this.drawTemperatureChart()
             }

@@ -68,7 +68,7 @@
     border-radius: 5px;
     border: 1px solid #162557;
     position: relative;
-    background-color: #143659;
+    background-color: #2e3848;
     margin-top: 100px;
   }
   .xu-modal-header {

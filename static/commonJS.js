@@ -29,18 +29,27 @@ const max = function (array) {
 
 const getDate = function () {
   let now;
+
   if (arguments[0]){
     now = new Date(arguments[0]);
   }else {
     now = new Date()
   }
-  let nowYear = now.getFullYear();
-  let nowMonth = now.getMonth()+1;
-  let nowDay = now.getDate();
 
+  let nowYear = now.getFullYear();
+  let nowMonth = now.getMonth() + 1;
+  let nowDay = now.getDate();
   let nowHour = now.getHours();
   let nowMinute = now.getMinutes();
   let nowSecond = now.getSeconds();
+
+
+  nowMonth < 10 ? nowMonth = '0' + nowMonth : nowMonth = '' + nowMonth;
+  nowDay >= 10 ? nowDay = '' + nowDay : nowDay = '0' + nowDay;
+
+  nowHour >= 10 ? nowHour = '' + nowHour : nowHour = '0' + nowHour;
+  nowMinute >= 10 ? nowMinute = '' + nowMinute : nowMinute = '0' + nowMinute;
+  nowSecond >= 10 ? nowSecond = '' + nowSecond : nowSecond = '0' + nowSecond;
 
   return {
     YYYYMMDD:nowYear+'-'+nowMonth+'-'+nowDay,

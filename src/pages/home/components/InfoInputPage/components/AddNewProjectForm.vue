@@ -70,9 +70,6 @@
       project:{
         type:Object
       },
-      // refreshProjectsDetailTable:{
-      //   type: Number
-      // },
     },
     validations:{
       project:{
@@ -105,13 +102,13 @@
         console.log('提交的数据为:',dataForSubmit);
         this.$axios.post(this.api.postOneProject,this.$qs.stringify({object:JSON.stringify(dataForSubmit)}))
           .then(res => {
-            const { code,msg} = res.data;
+            const { code,msg } = res.data;
             if (code === 200){
-              this.$toastr.Add(configToastr('添加项目-',msg,'success'));
+              this.$toastr.Add(configToastr('添加成功-',msg,'success'));
               this.reset();
               this.$emit('addProjectSuccess')
             } else {
-              this.$toastr.Add(configToastr('添加项目-',msg,'warning'));
+              this.$toastr.Add(configToastr('添加失败-',msg,'warning'));
             }
           })
           .catch(error => {

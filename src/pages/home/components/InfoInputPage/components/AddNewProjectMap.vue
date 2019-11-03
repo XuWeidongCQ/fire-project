@@ -21,11 +21,17 @@
         type:Object
       }
     },
+    data:function(){
+      return {
+        location:''
+      }
+    },
     methods:{
       getProjectLngAndLat: function (event) {
         // console.log(event);
         this.project.longitude = event.point.lng.toFixed(4);
         this.project.latitude = event.point.lat.toFixed(4);
+        this.location = ''
       },
     }
   }

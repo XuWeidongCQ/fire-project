@@ -91,7 +91,10 @@
               <label for="dev-communication-cycle">发送周期（分钟）：</label>
             </div>
             <div class="input-wrapper">
-              <input id='dev-communication-cycle' type="number" v-model="formData.cycle" placeholder="以分钟为单位">
+              <input id='dev-communication-cycle' type="number"
+                     v-model="formData.cycle" placeholder="以分钟为单位"
+                     @input="this.$v.formData.cycle.touch()">
+              <p class="input-invalid" v-if="$v.formData.cycle.$invalid">*不能为空</p>
             </div>
           </div>
           <div class="x-form-control">
@@ -109,7 +112,9 @@
               <label for="dev-prod-date">生产日期：</label>
             </div>
             <div class="input-wrapper">
-              <input id='dev-prod-date' type="date" v-model="formData.productionDate">
+              <input id='dev-prod-date' type="date" v-model="formData.productionDate"
+                     @input="this.$v.formData.productionDate.touch()">
+              <p class="input-invalid" v-if="$v.formData.productionDate.$invalid">*不能为空</p>
             </div>
           </div>
           <div class="x-form-control">
@@ -117,7 +122,9 @@
               <label for="dev-sale-date">销售日期：</label>
             </div>
             <div class="input-wrapper">
-              <input id='dev-sale-date' type="date" v-model="formData.salesDate">
+              <input id='dev-sale-date' type="date" v-model="formData.salesDate"
+                     @input="this.$v.formData.salesDate.touch()">
+              <p class="input-invalid" v-if="$v.formData.salesDate.$invalid">*不能为空</p>
             </div>
           </div>
           <div class="x-form-control">
@@ -125,7 +132,9 @@
               <label for="dev-use-period">使用年限（年）：</label>
             </div>
             <div class="input-wrapper">
-              <input id='dev-use-period' type="number" v-model="formData.serviceLife">
+              <input id='dev-use-period' type="number" v-model="formData.serviceLife"
+                     @input="this.$v.formData.serviceLife.touch()">
+              <p class="input-invalid" v-if="$v.formData.serviceLife.$invalid">*不能为空</p>
             </div>
           </div>
           <div class="x-form-control">
@@ -187,6 +196,10 @@
         uuid:{ required },
         simpleNumber: { required },
         location: { required },
+        cycle : { required },
+        productionDate: { required },
+        salesDate: { required },
+        serviceLife: { required }
       }
     },
 
@@ -226,6 +239,8 @@
         this.formData.communication = 2;
         this.formData.cycle = 10;
         this.formData.serviceLife = 3;
+        this.formData.productionDate = this.$f.getDate().YYYYMMDD;
+        this.formData.salesDate = this.$f.getDate().YYYYMMDD;
         this.formData.remark = '';
       },
       closeAddOneDevPopUp:function () {

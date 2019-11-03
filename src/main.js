@@ -13,13 +13,15 @@ import swal from "sweetalert";
 import './plugins/ShareCSS.css'
 import './plugins/ShareAnimation.css'
 import api from "@/plugins/api";
-import '@/plugins/axiosConfig'
+import '@/plugins/axiosConfig';
+import Http from "@/service/Http";
 
 Vue.config.productionTip = false;
 Vue.prototype.$f = common;
 Vue.prototype.$axios = axios;
 Vue.prototype.api = api;
 Vue.prototype.$qs = qs;
+Vue.prototype.$Http = Http;
 
 Vue.use(Vuelidate);
 Vue.use(VueToastr,{});

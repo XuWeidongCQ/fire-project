@@ -89,9 +89,7 @@
         timer:null,//定时器
         device:null,//被选中的设备
         isHistoryDataModalShown:false,
-        deviceSensorData:[//存放设备的最新传感器数据
-
-        ]
+        deviceSensorData:[],//存放设备的最新传感器数据
       }
     },
     created(){
@@ -104,13 +102,13 @@
     },
     methods:{
       getSenorData:function () {
-        this.$axios.get(this.api.getSenorData + '?projectId=' + this.project.projectId)
+        this.$Http.getSensorDataInOneProject({params:{projectId:this.project.projectId}})
           .then(res => {
             const {code,msg} = res.data;
             if (code === 200){
               for(let i=0;i<msg.length;i++){
                 const {uuid,location,temperature,stress,isOnline,state,failureReason} = msg[i];
-                if (this.deviceSensorData[i] === undefined){//是为了防止页面抖动
+                if (this.deviceSensorData[i] === undefined){//解决由于定时更新产生的抖动
                   this.deviceSensorData.push({uuid,location,temperature,stress,isOnline,state,failureReason})
                 } else {
                   this.deviceSensorData.splice(i,1,{uuid,location,temperature,stress,isOnline,state,failureReason})

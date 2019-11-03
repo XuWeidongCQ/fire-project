@@ -147,7 +147,7 @@
 
     methods:{
       getOnlineOfflineDevNum:function(){
-        this.$axios.get(this.api.getOnlineOfflineDevNum)
+        this.$Http.getOnlineAndOfflineDevNum()
           .then(res => {
             const { code,msg } = res.data;
             if (code === 200 ){
@@ -159,11 +159,10 @@
           });
       },
       getUsedUsingDevNum:function(){
-        this.$axios.get(this.api.getUsedUsingDevNum)
+        this.$Http.getUsingAndUsedDevNum()
           .then(res => {
             const { code,msg } = res.data;
             if (code === 200 ){
-              // console.log(msg);
               this.usingDevNum = msg['valid'];
               this.usedDevNum = msg['invalid'];
               this.unknownNum = msg['unknown'];
@@ -195,8 +194,8 @@
       },
       drawUsingRate: function(){
         let usingRate = 0;
-        this.usingDevNum + this.usedDevNum === 0 ?
-          usingRate = 0:usingRate = Math.floor(this.usingDevNum * 100/ (this.usingDevNum + this.usedDevNum));
+        this.usingDevNum + this.usedDevNum + this.unknownNum === 0 ?
+          usingRate = 0:usingRate = Math.floor(this.usingDevNum * 100/ (this.usingDevNum + this.usedDevNum + this.unknownNum));
         let chartInstance = echarts.init(document.getElementById('m-usingRate-chart'));
         RatePieOption.title.text = '设备平均有效率';
         RatePieOption.dataset.source['value'][0] = usingRate;

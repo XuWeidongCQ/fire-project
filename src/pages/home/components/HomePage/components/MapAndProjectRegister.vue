@@ -130,7 +130,7 @@
     },
     methods: {
       getAllProjects:function () {
-        this.$axios.get(this.api.getAllProjects)
+        this.$Http.getAllProjectsInfos()
           .then(res => {
             const { code,msg} = res.data;
             if(code === 200) {
