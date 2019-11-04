@@ -100,7 +100,7 @@
           remark:this.project.remark
         };
         console.log('提交的数据为:',dataForSubmit);
-        this.$axios.post(this.api.postOneProject,this.$qs.stringify({object:JSON.stringify(dataForSubmit)}))
+        this.$Http.addOneProject(dataForSubmit)
           .then(res => {
             const { code,msg } = res.data;
             if (code === 200){

@@ -131,7 +131,7 @@
       },
       //获取所有项目
       getAllProjects:function(){
-        this.$axios.get(this.api.getAllProjects)
+        this.$Http.getAllProjectsInfos()
           .then(res => {
             const { code,msg} = res.data;
             console.log(msg);
@@ -146,10 +146,7 @@
       //删除一个项目
       deleteOneProject:function (project,projectIndex) {
         console.log(`选择删除项目id为${project.projectId}`);
-        this.$axios.post(
-          this.api.deleteOneProject,
-          this.$qs.stringify({object:JSON.stringify({'projectId':project.projectId})})
-        )
+        this.$Http.delOneProject({data:{projectId:project.projectId}})
           .then(res => {
             const { code,msg} = res.data;
             if (code === 200){
@@ -177,12 +174,6 @@
         this.isAddDevModalShown = false;
       }
     },
-    // watch:{
-    //   refreshProjectsDetailTable:function () {
-    //     this.projectInfos = [];
-    //     this.getAllProjects()
-    //   }
-    // },
     mounted() {
 
     }

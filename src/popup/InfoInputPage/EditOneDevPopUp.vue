@@ -209,7 +209,7 @@
         const dataForEdit = this.formData;
         dataForEdit['uuid'] = this.device.uuid;
         dataForEdit['projectId'] = this.project.projectId;
-        this.$axios.put(this.api.editOneDev,dataForEdit)
+        this.$Http.editOneDev(dataForEdit)
           .then(res => {
             const { code,msg } = res.data;
             if (code === 200){

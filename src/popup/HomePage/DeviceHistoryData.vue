@@ -106,8 +106,8 @@
             const { code,msg } = res.data;
             if (code === 200){
               msg.forEach(dataInstance => {
-                const { longCreate,stress,temperature } = dataInstance;
-                this.timeArray.push(this.$f.getDate(longCreate*1000).MMDDHHMMSS);
+                const { gmtCreate,stress,temperature } = dataInstance;
+                this.timeArray.push(this.$f.getDate(gmtCreate*1000).MMDDHHMMSS);
                 this.stressArray.push(stress);
                 this.temperatureArray.push(temperature);
               });

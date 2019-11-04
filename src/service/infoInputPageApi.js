@@ -2,6 +2,12 @@
 const INFO_INPUT_PAGE_API = {
   //删除一个项目
   delOneProject:{
+    method:'delete',
+    url:'/caracara/info/project',
+  },
+
+  //新建一个项目
+  addOneProject:{
     method:'post',
     url:'/caracara/info/project',
   },
@@ -12,7 +18,7 @@ const INFO_INPUT_PAGE_API = {
     url:'/caracara/info/device',
   },
 
-  //获取一个项目中所有设备
+  //获取一个项目中的设备表
   getAllDevInOneProject:{
     method:'get',
     url:'/caracara/info/device/project/id'
@@ -20,7 +26,7 @@ const INFO_INPUT_PAGE_API = {
 
   //删除一台设备
   delOneDev:{
-    method:'post',
+    method:'delete',
     url:'/caracara/info/device'
   },
 

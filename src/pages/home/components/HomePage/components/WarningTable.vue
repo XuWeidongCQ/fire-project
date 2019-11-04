@@ -31,16 +31,23 @@
 </template>
 
 <script>
-    export default {
-        name: "WarningTable",
-        data:function () {
-          return {
-            warningInfos:[
-              // {index:'001',uuid:123,location:'重庆市',msg:'粉末已耗尽',time:this.common.getDate().YYYYMMDDHHMMSS},
-            ]
-          }
-        }
+  export default {
+    name: "WarningTable",
+    data:function () {
+      return {
+        warningInfos:[
+          // {index:'001',uuid:123,location:'重庆市',msg:'粉末已耗尽',time:this.common.getDate().YYYYMMDDHHMMSS},
+        ]
+      }
+    },
+    created() {
+      this.$Http.getAlarm()
+        .then(res => {
+          const {code,msg} = res.data;
+          console.log(msg)
+        })
     }
+  }
 </script>
 
 <style scoped>

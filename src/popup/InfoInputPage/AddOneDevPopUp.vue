@@ -215,10 +215,7 @@
         dataForSubmit['longitude'] = this.project.longitude;
         dataForSubmit['latitude'] = this.project.latitude;
         console.log('提交的数据为:',dataForSubmit);
-        this.$axios.post(
-          this.api.postOneDev,
-          this.$qs.stringify({object:JSON.stringify(dataForSubmit)})
-        )
+        this.$Http.addOneDev(dataForSubmit)
           .then(res => {
             const { code,msg} = res.data;
             if (code === 200){

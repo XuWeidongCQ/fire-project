@@ -16,12 +16,22 @@ for (let key in allApi){
   let url = allApi[key]['url'];
 
   switch (method) {
-    case 'get'||'delete':
+    case 'get':
       Http[key] = function(config={}) {
         return axiosInst[method](url,config)
       };
       break;
-    case 'post'|| 'put':
+    case 'delete':
+      Http[key] = function(config={}) {
+        return axiosInst[method](url,config)
+      };
+      break;
+    case 'post':
+      Http[key] = function (data=[],config={}) {
+        return axiosInst[method](url,data,config)
+      };
+      break;
+    case 'put':
       Http[key] = function (data=[],config={}) {
         return axiosInst[method](url,data,config)
       };

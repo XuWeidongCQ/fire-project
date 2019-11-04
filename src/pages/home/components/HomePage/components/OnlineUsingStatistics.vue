@@ -4,7 +4,7 @@
     <div class="col-4">
       <div class="xubox mb-integer">
         <div class="xubox-content">
-          <div id="m-isOnline-chart" style="height: 230px"></div>
+          <div id="m-isOnline-chart" style="height: 235px"></div>
         </div>
         <div class="xubox-foot">
           <div class="footer-wrapper">

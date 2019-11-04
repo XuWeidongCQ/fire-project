@@ -140,14 +140,14 @@
         dataForEdit['projectId'] = this.project.projectId;
         dataForEdit['deviceNumber'] = this.project.deviceNumber;
         console.log('提交的修改信息：',dataForEdit);
-        this.$axios.put(this.api.editOneProject,dataForEdit)
+        this.$Http.editOneProject(dataForEdit)
           .then(res => {
             const { code,msg } = res.data;
             if (code === 200 ){
-              this.$toastr.Add(configToastr('修改成功-',msg,'success'));
+              this.$toastr.Add(configToastr('修改信息-',msg,'success'));
               this.$emit('editOneProjectSuccess',dataForEdit)//修改项目成功后向父级传递这个修改的数据
             } else {
-              this.$toastr.Add(configToastr('修改失败-',msg,'warning'));
+              this.$toastr.Add(configToastr('修改信息-',msg,'warning'));
             }
           })
           .catch(error => {

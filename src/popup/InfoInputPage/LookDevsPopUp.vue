@@ -115,7 +115,8 @@
       //获取所有设备
       getAllDevInOneProject:function(){
         console.log(`查看项目id为${this.project.projectId}的设备详情`);
-        this.$axios.get(this.api.getAllDevInOneProject + '?projectId=' + this.project.projectId)
+        this.$Http.getAllDevInOneProject({params:{projectId: this.project.projectId}})
+        // this.$axios.get(this.api.getAllDevInOneProject + '?projectId=' + this.project.projectId)
           .then(res => {
             const {code,msg} = res.data;
             console.log(msg);
@@ -131,13 +132,10 @@
       //删除一个设备
       deleteOneDev:function (uuid,index) {
         console.log(`准备删除设备id为${uuid}的设备`);
-        this.$axios.delete(
-          this.api.deleteOneDev,
-          {data:{
-              projectId:this.project.projectId,
-              uuid:uuid
-            }
-          })
+        this.$Http.delOneDev({data:{
+            projectId:this.project.projectId,
+            uuid:uuid
+          }})
           .then(res => {
             // console.log(res);
             const { code,msg } = res.data;

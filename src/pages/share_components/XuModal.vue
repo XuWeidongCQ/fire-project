@@ -66,9 +66,9 @@
   }
   .xu-modal {
     border-radius: 5px;
-    border: 1px solid #162557;
+    border: 1px solid #34bed8;
     position: relative;
-    background-color: #2e3848;
+    background-color: #0c3b61;
     margin-top: 100px;
   }
   .xu-modal-header {

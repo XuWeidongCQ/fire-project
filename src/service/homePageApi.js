@@ -1,7 +1,7 @@
 
 const HOME_PAGE_API = {
 
-  //获取所有项目的信息
+  //获取项目表
   getAllProjectsInfos:{
     method:'get',
     url:'/caracara/info/project'
@@ -29,6 +29,12 @@ const HOME_PAGE_API = {
   getSensorDataInOneDev:{
     method:'get',
     url:'/caracara/data/device/uuid'
+  },
+
+  //获取报警信息表
+  getAlarm:{
+    method:'get',
+    url:'/caracara/info/alarm',
   }
 };
 

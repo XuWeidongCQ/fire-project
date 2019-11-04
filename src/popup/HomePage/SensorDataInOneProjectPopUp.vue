@@ -44,7 +44,7 @@
                 {{devData.state | fixState }}
               </span>
               </th>
-              <th>{{devData.failureReason}}</th>
+              <th>{{devData.invalidReason | fixFailureReason }}</th>
               <th>
                 <button class="btn-search-dev" @click="showHistoryDataModal(devData)">历史数据</button>
               </th>
@@ -107,14 +107,14 @@
             const {code,msg} = res.data;
             if (code === 200){
               for(let i=0;i<msg.length;i++){
-                const {uuid,location,temperature,stress,isOnline,state,failureReason} = msg[i];
+                const {uuid,location,temperature,stress,isOnline,state,invalidReason} = msg[i];
                 if (this.deviceSensorData[i] === undefined){//解决由于定时更新产生的抖动
-                  this.deviceSensorData.push({uuid,location,temperature,stress,isOnline,state,failureReason})
+                  this.deviceSensorData.push({uuid,location,temperature,stress,isOnline,state,invalidReason})
                 } else {
-                  this.deviceSensorData.splice(i,1,{uuid,location,temperature,stress,isOnline,state,failureReason})
+                  this.deviceSensorData.splice(i,1,{uuid,location,temperature,stress,isOnline,state,invalidReason})
                 }
               }
-              // console.log('接收的传感器数据为:',msg)
+              console.log('接收的传感器数据为:',msg)
             }
           })
       },
@@ -147,6 +147,19 @@
             return '无效';
           default:
             return 'unknown'
+        }
+      },
+      fixFailureReason:function (value) {
+        switch (value) {
+          case 0:
+            return '正常';
+          case 1:
+            return '压力错误';
+          case 2:
+            return '温度错误';
+          default:
+            return '未知原因'
+
         }
       }
     },
