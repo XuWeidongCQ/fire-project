@@ -32,23 +32,23 @@
             :class="{'btn-delete':project.deviceNumber === 0,'btn-disable':project.deviceNumber !== 0}"
             :disabled="project.deviceNumber !== 0"
             @click="deleteOneProject(project,index)">
-            删除
+            <span class="fa fa-trash"></span>
           </button>
           <button
             class="btn-add-dev"
             @click="showAddDevModal(project)">
-            添加设备
+            <span class="fa fa-plus"></span>
           </button>
           <button
             :class="{'btn-search-dev':project.deviceNumber !== 0,'btn-disable':project.deviceNumber === 0}"
             :disabled="project.deviceNumber === 0"
             @click="showDevDetailsModal(project)">
-            查看设备
+            <span class="fa fa-eye"></span>
           </button>
           <button
             class="btn-edit"
             @click="showEditProjectModal(project,index)">
-            修改
+            <span class="fa fa-edit"></span>
           </button>
         </th>
       </tr>

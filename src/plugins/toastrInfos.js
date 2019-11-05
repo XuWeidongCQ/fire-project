@@ -1,5 +1,5 @@
 
-export const configToastr = function (msgPrefix='',msg,type,timeOut,position) {
+export const configToastr = function (msgPrefix='',msg='',type,timeOut,position) {
   return {
     msg:msgPrefix + msg,
     timeout:timeOut || 3000,

@@ -151,7 +151,7 @@
             }
           })
           .catch(error => {
-            this.$toastr.Add(configToastr('无法访问服务器','error'));
+            this.$toastr.Add(configToastr('无法访问服务器','','error'));
           })
       },
       reset:function () {

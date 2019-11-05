@@ -43,8 +43,12 @@
             <th>{{dev.serviceLife}}</th>
             <th>{{dev.remark}}</th>
             <th>
-              <button class="btn-delete" @click="deleteOneDev(dev.uuid,index)">删除</button>
-              <button class="btn-edit" @click="showEditDevPopUp(dev,index)">修改</button>
+              <button class="btn-delete" @click="deleteOneDev(dev.uuid,index)">
+                <span class="fa fa-trash"></span>
+              </button>
+              <button class="btn-edit" @click="showEditDevPopUp(dev,index)">
+                <span class="fa fa-edit"></span>
+              </button>
             </th>
           </tr>
           </tbody>
@@ -148,7 +152,7 @@
             }
           })
           .catch(error => {
-            this.$toastr.Add(configToastr('无法连接服务器','error'));
+            this.$toastr.Add(configToastr('无法连接服务器','','error'));
           })
       }
     },

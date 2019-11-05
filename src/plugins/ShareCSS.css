@@ -110,6 +110,9 @@ input {
   color: #b4bccf;
   font-weight: normal;
 }
+.scroll-table {
+  overflow: auto;
+}
 .tiny-tbody th {
   padding: 1px;
   font-size: 14px;
@@ -136,8 +139,8 @@ input {
 .btn-edit,
 .btn-add-dev {
   color: #f7f7f7;
-  border-radius: 3px;
-  font-size: 13px;
+  border-radius: 2px;
+  font-size: 12px;
 }
 
 .btn-add-dev {
@@ -162,6 +165,7 @@ input {
   background-color: #cecece;
   color: #ffffff;
   border-radius: 3px;
+  font-size: 12px;
   cursor: not-allowed;
 }
 

@@ -7,20 +7,20 @@ import Vuelidate from "vuelidate";
 import common from '../static/commonJS'
 import BaiduMap from 'vue-baidu-map'
 import VueToastr from "vue-toastr";
-import axios  from 'axios';
-import qs from 'qs'
+// import axios  from 'axios';
+// import qs from 'qs'
 import swal from "sweetalert";
 import './plugins/ShareCSS.css'
 import './plugins/ShareAnimation.css'
-import api from "@/plugins/api";
+// import api from "@/plugins/api";
 // import '@/plugins/axiosConfig';
 import Http from "@/service/Http";
 
 Vue.config.productionTip = false;
 Vue.prototype.$f = common;
-Vue.prototype.$axios = axios;
-Vue.prototype.api = api;
-Vue.prototype.$qs = qs;
+// Vue.prototype.$axios = axios;
+// Vue.prototype.api = api;
+// Vue.prototype.$qs = qs;
 Vue.prototype.$Http = Http;
 
 Vue.use(Vuelidate);

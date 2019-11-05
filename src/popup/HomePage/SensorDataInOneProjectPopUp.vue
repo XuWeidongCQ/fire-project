@@ -46,7 +46,9 @@
               </th>
               <th>{{devData.invalidReason | fixFailureReason }}</th>
               <th>
-                <button class="btn-search-dev" @click="showHistoryDataModal(devData)">历史数据</button>
+                <button class="btn-search-dev" @click="showHistoryDataModal(devData)">
+                  <span class="fa fa-eye"></span>
+                </button>
               </th>
             </tr>
             </tbody>
@@ -157,6 +159,10 @@
             return '压力错误';
           case 2:
             return '温度错误';
+          case 3:
+            return '设备离线';
+          case 4:
+            return '设备未启用';
           default:
             return '未知原因'
 
