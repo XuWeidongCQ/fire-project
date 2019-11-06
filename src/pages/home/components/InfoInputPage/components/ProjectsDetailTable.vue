@@ -20,14 +20,14 @@
       </thead>
       <tbody class="tbody-font-style">
       <tr v-for="(project,index) in projectInfos" :key="index">
-        <th>{{project.projectId}}</th>
-        <th>{{project.projectName}}</th>
-        <th>{{project.location}}</th>
-        <th>({{project.longitude}}，{{project.latitude}})</th>
-        <th>{{project.deviceNumber}}</th>
-        <th>{{project.projectFinishDate}}</th>
-        <th>{{project.remark }}</th>
-        <th>
+        <td>{{project.projectId}}</td>
+        <td>{{project.projectName}}</td>
+        <td>{{project.location}}</td>
+        <td>({{project.longitude}}，{{project.latitude}})</td>
+        <td>{{project.deviceNumber}}</td>
+        <td>{{project.projectFinishDate}}</td>
+        <td>{{project.remark }}</td>
+        <td>
           <button
             :class="{'btn-delete':project.deviceNumber === 0,'btn-disable':project.deviceNumber !== 0}"
             :disabled="project.deviceNumber !== 0"
@@ -50,7 +50,7 @@
             @click="showEditProjectModal(project,index)">
             <span class="fa fa-edit"></span>
           </button>
-        </th>
+        </td>
       </tr>
       </tbody>
     </table>

@@ -12,7 +12,7 @@
           <div class="no-devices" v-if="project.deviceNumber === 0">
             <span class="no-devices-info">该项目中没有设备</span>
           </div>
-          <table class="table table-sm text-center  border-bottom" v-else>
+          <table class="table table-sm text-center x-table-hover border-bottom" v-else>
             <thead class="tiny-thead">
             <tr>
               <th>设备uuid</th>
@@ -26,30 +26,30 @@
               <th>操作</th>
             </tr>
             </thead>
-            <tbody class="tiny-tbody">
+            <tbody class="tbody-font-style">
             <tr v-for="(devData,index) in deviceSensorData" :key="index">
-              <th>{{devData.uuid}}</th>
-              <th>{{devData.location}}</th>
-              <th>{{devData.temperature}}</th>
-              <th>{{devData.stress}}</th>
-              <th>
+              <td>{{devData.uuid}}</td>
+              <td>{{devData.location}}</td>
+              <td>{{devData.temperature}}</td>
+              <td>{{devData.stress}}</td>
+              <td>
               <span :class="{'online-badge':devData.isOnline === true,'offline-badge':devData.isOnline === false}">
                 {{devData.isOnline | fixIsOnline }}
               </span>
-              </th>
-              <th>
+              </td>
+              <td>
               <span
                 :class="{'using-badge':devData.state === 1,'used-badge':devData.state === -1,
                 'unknown-badge':devData.state === 0}">
                 {{devData.state | fixState }}
               </span>
-              </th>
-              <th>{{devData.invalidReason | fixFailureReason }}</th>
-              <th>
+              </td>
+              <td>{{devData.invalidReason | fixFailureReason }}</td>
+              <td>
                 <button class="btn-search-dev" @click="showHistoryDataModal(devData)">
                   <span class="fa fa-eye"></span>
                 </button>
-              </th>
+              </td>
             </tr>
             </tbody>
           </table>
@@ -67,8 +67,8 @@
 </template>
 
 <script>
-  import { configToastr } from "@/plugins/toastrInfos";
   import XuModal from "@/pages/share_components/XuModal";
+  import XuPageNav from "@/pages/share_components/XuPageNav";
   import DeviceHistoryData from "@/popup/HomePage/DeviceHistoryData";
 
   export default {
@@ -92,6 +92,10 @@
         device:null,//被选中的设备
         isHistoryDataModalShown:false,
         deviceSensorData:[],//存放设备的最新传感器数据
+        onePageNumber: 10,//一页显示的数目
+        isPageNavShown:false,//分页器默认不显示
+        maxPage:1,//最大分页数目
+        presentDevSensorData:[],//存放当前用来显示的数据
       }
     },
     created(){
@@ -154,7 +158,7 @@
       fixFailureReason:function (value) {
         switch (value) {
           case 0:
-            return '正常';
+            return '';
           case 1:
             return '压力错误';
           case 2:

@@ -8,7 +8,7 @@
         <span>‘{{ project.projectName }}’项目的设备详情</span>
       </div>
       <div slot="content">
-        <table class="table table-sm text-center  border-bottom dev-details-table">
+        <table class="table table-sm text-center x-table-hover border-bottom dev-details-table">
           <thead class="thead-light thead-font-style">
           <tr>
             <th>设备uuid</th>
@@ -26,33 +26,38 @@
           </tr>
           </thead>
           <tbody class="tbody-font-style">
-          <tr v-for="(dev,index) in devDetails" :key="index">
-            <th>{{dev.uuid}}</th>
-            <th>{{dev.simpleNumber}}</th>
-            <th>
+          <tr v-for="(dev,index) in presentDevDetails" :key="index">
+            <td>{{dev.uuid}}</td>
+            <td>{{dev.simpleNumber}}</td>
+            <td>
               <span :class="{'online-badge':dev.isEnable === true,'offline-badge':dev.isEnable === false}">
                 {{dev.isEnable | fixIsEnable }}
               </span>
-            </th>
-            <th>{{dev.type | fixDevType }}</th>
-            <th>{{dev.location}}</th>
-            <th>{{dev.communication | fixDevCommunication }}</th>
-            <th>{{dev.cycle}}</th>
-            <th>{{dev.productionDate}}</th>
-            <th>{{dev.salesDate}}</th>
-            <th>{{dev.serviceLife}}</th>
-            <th>{{dev.remark}}</th>
-            <th>
+            </td>
+            <td>{{dev.type | fixDevType }}</td>
+            <td>{{dev.location}}</td>
+            <td>{{dev.communication | fixDevCommunication }}</td>
+            <td>{{dev.cycle}}</td>
+            <td>{{dev.productionDate}}</td>
+            <td>{{dev.salesDate}}</td>
+            <td>{{dev.serviceLife}}</td>
+            <td>{{dev.remark}}</td>
+            <td>
               <button class="btn-delete" @click="deleteOneDev(dev.uuid,index)">
                 <span class="fa fa-trash"></span>
               </button>
               <button class="btn-edit" @click="showEditDevPopUp(dev,index)">
                 <span class="fa fa-edit"></span>
               </button>
-            </th>
+            </td>
           </tr>
           </tbody>
         </table>
+        <xu-page-nav
+          :max-page="maxPage"
+          :is-shown="isPageNavShown"
+          @selectedPage="getSelectedPage"
+          class="x-float-right"></xu-page-nav>
       </div>
     </xu-modal>
 
@@ -69,13 +74,15 @@
 <script>
   import XuModal from "@/pages/share_components/XuModal";
   import EditOneDevPopUp from "@/popup/InfoInputPage/EditOneDevPopUp";
+  import XuPageNav from "@/pages/share_components/XuPageNav";
   import { configToastr } from "@/plugins/toastrInfos";
 
   export default {
     name: "LookDevsPopUp",
     components:{
       EditOneDevPopUp,
-      XuModal
+      XuModal,
+      XuPageNav
     },
     props:{
       modalShown:{
@@ -88,7 +95,11 @@
     },
     data:function () {
       return {
+        onePageNumber:10,//一页显示的数目
         isEditOneDevShown:false,
+        isPageNavShown:false,//是否显示分页器
+        maxPage:1,//最大分页数
+        presentDevDetails:[],//当前用来显示的设备信息
         device:null,//被选中的设备
         deviceIndex:0,//被选中的设备在devDetails中的索引
         devDetails:[//这个数据需要get获取
@@ -114,24 +125,43 @@
       },
       editOneDevSuccess:function(formData){
         this.isEditOneDevShown = false;//修改成功后关闭弹窗
-        this.devDetails.splice(this.deviceIndex,1,formData)
+        this.presentDevDetails.splice(this.deviceIndex,1,formData)
       },
       //获取所有设备
       getAllDevInOneProject:function(){
         console.log(`查看项目id为${this.project.projectId}的设备详情`);
         this.$Http.getAllDevInOneProject({params:{projectId: this.project.projectId}})
-        // this.$axios.get(this.api.getAllDevInOneProject + '?projectId=' + this.project.projectId)
           .then(res => {
             const {code,msg} = res.data;
-            console.log(msg);
+            // console.log(msg);
             if (code === 200){
               msg.forEach(dev => {
                 const { uuid,simpleNumber,type,location,communication,cycle,productionDate,salesDate,serviceLife,remark,isEnable } = dev;
                 this.devDetails.push({ uuid,simpleNumber,type,location,communication,cycle,productionDate,salesDate,serviceLife,remark,isEnable})
-              })
+              });
+              this.initPageNav()
             }
-
           })
+      },
+      //初始化分页器信息
+      initPageNav:function(){
+        this.maxPage = Math.ceil(this.devDetails.length / this.onePageNumber);
+        console.log(this.maxPage);
+        if (this.maxPage > 1){//如果超过1页
+          this.presentDevDetails = this.devDetails.slice(0,this.onePageNumber - 1);
+          this.isPageNavShown = true
+        } else {
+          this.presentDevDetails = this.devDetails
+        }
+      },
+      //分页器选择特定页
+      getSelectedPage:function(page){
+        // console.log('选择的页码为:',page);
+        if (page === this.maxPage){
+          this.presentDevDetails = this.devDetails.slice((page - 1) * 10);
+        } else {
+          this.presentDevDetails = this.devDetails.slice((page - 1) * 10,page * 10 - 1);
+        }
       },
       //删除一个设备
       deleteOneDev:function (uuid,index) {
@@ -144,7 +174,7 @@
             // console.log(res);
             const { code,msg } = res.data;
             if (code === 200) {
-              this.devDetails.splice(index,1);
+              this.presentDevDetails.splice(index,1);
               this.$toastr.Add(configToastr('删除设备-',msg,'success'));
               this.$emit('deleteOneDevSuccess');
             } else {

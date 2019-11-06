@@ -25,9 +25,9 @@
           </thead>
           <tbody class="tiny-tbody">
           <tr v-for="(item,index) in monthProjectInfos" :key="index">
-            <th>{{item.monthName}}</th>
-            <th>{{item.devNum}}</th>
-            <th>{{item.projectNum}}</th>
+            <td>{{item.monthName}}</td>
+            <td>{{item.devNum}}</td>
+            <td>{{item.projectNum}}</td>
           </tr>
           </tbody>
         </table>

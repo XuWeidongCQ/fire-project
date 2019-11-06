@@ -31,10 +31,10 @@ const HOME_PAGE_API = {
     url:'/caracara/data/device/uuid'
   },
 
-  //获取报警信息表
+  //获取最新报警信息表
   getAlarm:{
     method:'get',
-    url:'/caracara/info/alarm',
+    url:'/caracara/info/alarm/unprocessed',
   }
 };
 

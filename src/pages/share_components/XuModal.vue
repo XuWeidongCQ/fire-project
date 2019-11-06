@@ -99,6 +99,6 @@
   }
   .xu-modal-footer {
     padding: 10px 15px 10px 15px;
-    border-top: 1px solid #eaedf1;
+    border-top: 1px solid #162557;
   }
 </style>

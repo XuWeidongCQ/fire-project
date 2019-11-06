@@ -45,6 +45,7 @@
             <button class="search-btn" @click="searchProject" :disabled="$v.$invalid">查询</button>
           </div>
         </div>
+
         <div class="xubox-content">
           <div class="register-project-table-wrapper">
             <table class="table table-sm text-center border-bottom">
@@ -58,20 +59,22 @@
               </thead>
               <tbody class="tiny-tbody">
               <tr v-for="(project,index) in registerProjects" :key="index">
-                <th>
+                <td>
                   <span class="project-name-toggle"
                         @click="showSensorDataModal(project,false)">
                     {{ project.projectName}}
                   </span>
-                </th>
-                <th>{{ project.deviceNumber}}</th>
-                <th>{{ project.location}}</th>
-                <th>{{ project.projectFinishDate}}</th>
+                </td>
+                <td>{{ project.deviceNumber}}</td>
+                <td>{{ project.location}}</td>
+                <td>{{ project.projectFinishDate}}</td>
               </tr>
               </tbody>
             </table>
           </div>
         </div>
+
+
         <div class="xubox-foot">
           <div class="footer-wrapper">
             <div class="chart-explain">
@@ -102,6 +105,7 @@
 </template>
 
 <script>
+  import XuPageNav from "@/pages/share_components/XuPageNav";
   import SensorDataInOneProjectPopUp from "@/popup/HomePage/SensorDataInOneProjectPopUp";
   import { required } from 'vuelidate/lib/validators';
 
@@ -109,6 +113,7 @@
     name: "MapAndProjectRegister",
     components:{
       SensorDataInOneProjectPopUp,
+      XuPageNav
     },
     data:function () {
       return {

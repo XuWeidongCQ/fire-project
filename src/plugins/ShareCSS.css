@@ -56,6 +56,7 @@ input {
 
 .xubox-content {
   padding: 10px 15px 5px 15px;
+  position: relative;
 }
 
 .xubox-foot {
@@ -105,7 +106,7 @@ input {
   font-size: 14px;
   color: #e0e3e9;
 }
-.tbody-font-style th {
+.tbody-font-style td {
   font-size: 14px;
   color: #b4bccf;
   font-weight: normal;
@@ -113,11 +114,15 @@ input {
 .scroll-table {
   overflow: auto;
 }
-.tiny-tbody th {
+.tiny-tbody td {
   padding: 1px;
   font-size: 14px;
   color: #b4bccf;
   font-weight: normal;
+}
+
+.x-table-hover tbody tr:hover{
+  background-color: #3869aa;
 }
 
 .input-invalid {
@@ -179,6 +184,19 @@ input {
   padding: 1px 2px;
   color: #ffffff;
   font-size: 12px;
+}
+
+.nav-page-btn {
+  height: 25px;
+  margin-left: 10px;
+  background-color: #3869aa;
+  width: 50px;
+  color: #f7f7f7;
+  border-radius: 3px;
+}
+
+.nav-page-btn:hover {
+  background-color: #33629e;
 }
 
 .online-badge,
