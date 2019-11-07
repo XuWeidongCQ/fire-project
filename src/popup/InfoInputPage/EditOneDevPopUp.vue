@@ -32,7 +32,7 @@
               </label>
               <label>
                 <input type="radio" v-model="formData.isEnable" :value=false>
-                <span>不启用</span>
+                <span>禁用</span>
               </label>
             </div>
           </div>
@@ -223,7 +223,6 @@
               console.log(error);
               this.$toastr.Add(configToastr('无法连接服务器','','error'))
           })
-
       }
     },
     mounted() {

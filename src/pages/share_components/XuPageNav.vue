@@ -115,6 +115,9 @@
         this.initPageNumbers()
       }
     },
+    mounted() {
+      this.initPageNumbers()
+    }
   }
 </script>
 
@@ -143,5 +146,17 @@
   }
   .choose-page {
     width: 35px;
+  }
+  .nav-page-btn {
+    height: 25px;
+    margin-left: 10px;
+    background-color: #3869aa;
+    width: 50px;
+    color: #f7f7f7;
+    border-radius: 3px;
+  }
+
+  .nav-page-btn:hover {
+    background-color: #33629e;
   }
 </style>

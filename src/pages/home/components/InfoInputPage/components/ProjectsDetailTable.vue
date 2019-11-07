@@ -5,7 +5,7 @@
       <span class="no-projects-info">数据库中暂无项目或请求项目数据失败</span>
     </div>
 
-    <table class="table table-striped text-center border-bottom" v-if="projectInfos.length !== 0">
+    <table class="table table-striped text-center x-table-hover border-bottom" v-if="projectInfos.length !== 0">
       <thead class="thead-light thead-font-style">
       <tr>
         <th>#ID</th>
@@ -101,7 +101,7 @@
         refreshProjectsDetailTable:0,
         projectIndex:0,//被选中的项目实例的数组索引
         project:null,//被选中的项目实例
-        projectInfos:[
+        projectInfos:[//get获得的项目信息
           // {projectId:12,location:'上海市公交集团',deviceNumber:480,longitude:123.2345,latitude:23.3467},
         ],
       }

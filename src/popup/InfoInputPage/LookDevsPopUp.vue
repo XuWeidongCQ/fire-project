@@ -30,9 +30,14 @@
             <td>{{dev.uuid}}</td>
             <td>{{dev.simpleNumber}}</td>
             <td>
-              <span :class="{'online-badge':dev.isEnable === true,'offline-badge':dev.isEnable === false}">
-                {{dev.isEnable | fixIsEnable }}
-              </span>
+              <xu-switch :val1="'启用'"
+                         :val2="'禁用'"
+                         :present-value="dev.isEnable | fixIsEnable"
+                          @afterGetSelectValue="changeEnable($event,project.projectId,dev,index)">
+              </xu-switch>
+<!--              <span :class="{'online-badge':dev.isEnable === true,'offline-badge':dev.isEnable === false}">-->
+<!--                {{dev.isEnable | fixIsEnable }}-->
+<!--              </span>-->
             </td>
             <td>{{dev.type | fixDevType }}</td>
             <td>{{dev.location}}</td>
@@ -75,6 +80,7 @@
   import XuModal from "@/pages/share_components/XuModal";
   import EditOneDevPopUp from "@/popup/InfoInputPage/EditOneDevPopUp";
   import XuPageNav from "@/pages/share_components/XuPageNav";
+  import XuSwitch from "@/pages/share_components/XuSwitch";
   import { configToastr } from "@/plugins/toastrInfos";
 
   export default {
@@ -82,7 +88,8 @@
     components:{
       EditOneDevPopUp,
       XuModal,
-      XuPageNav
+      XuPageNav,
+      XuSwitch
     },
     props:{
       modalShown:{
@@ -123,9 +130,31 @@
         this.deviceIndex = index; //向子组件传递要修改的设备索引
         console.log(`修改项目id为${this.project.projectId}里面的设备uuid为${this.device.uuid}`);
       },
+      //编辑设备成功
       editOneDevSuccess:function(formData){
         this.isEditOneDevShown = false;//修改成功后关闭弹窗
         this.presentDevDetails.splice(this.deviceIndex,1,formData)
+      },
+      //使用开关按钮选择值后
+      changeEnable:function(event,projectId,device,deviceIndex){
+        this.$Http.editOneDev({
+          projectId:projectId,
+          uuid:device.uuid,
+          isEnable:event
+        })
+          .then(res => {
+            const { code,msg } = res.data;
+            if (code === 200){
+              device.isEnable = event;
+              this.presentDevDetails.splice(deviceIndex,1,device);
+              this.$toastr.Add(configToastr('修改设备-',msg,'success'))
+            } else {
+              this.$toastr.Add(configToastr('修改设备失败-',msg,'warning'))
+            }
+          })
+          .catch(error => {
+            this.$toastr.Add(configToastr('无法连接服务器','','error'))
+          })
       },
       //获取所有设备
       getAllDevInOneProject:function(){
@@ -146,11 +175,12 @@
       //初始化分页器信息
       initPageNav:function(){
         this.maxPage = Math.ceil(this.devDetails.length / this.onePageNumber);
-        console.log(this.maxPage);
+        // console.log(this.maxPage);
         if (this.maxPage > 1){//如果超过1页
-          this.presentDevDetails = this.devDetails.slice(0,this.onePageNumber - 1);
+          this.presentDevDetails = this.devDetails.slice(0,this.onePageNumber);
           this.isPageNavShown = true
         } else {
+          this.isPageNavShown = false;
           this.presentDevDetails = this.devDetails
         }
       },
@@ -160,7 +190,7 @@
         if (page === this.maxPage){
           this.presentDevDetails = this.devDetails.slice((page - 1) * 10);
         } else {
-          this.presentDevDetails = this.devDetails.slice((page - 1) * 10,page * 10 - 1);
+          this.presentDevDetails = this.devDetails.slice((page - 1) * 10,page * 10);
         }
       },
       //删除一个设备
@@ -215,11 +245,11 @@
       fixIsEnable:function (value) {
         switch (value) {
           case false:
-            return '未启用';
+            return '禁用';
           case true:
-            return '已启用';
+            return '启用';
           default:
-            return '未知';
+            return '禁用';
         }
       }
     }

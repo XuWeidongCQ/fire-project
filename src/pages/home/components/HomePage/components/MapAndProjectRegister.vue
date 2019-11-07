@@ -58,7 +58,7 @@
               </tr>
               </thead>
               <tbody class="tiny-tbody">
-              <tr v-for="(project,index) in registerProjects" :key="index">
+              <tr v-for="(project,index) in presentProjectDetails" :key="index">
                 <td>
                   <span class="project-name-toggle"
                         @click="showSensorDataModal(project,false)">
@@ -71,6 +71,12 @@
               </tr>
               </tbody>
             </table>
+
+            <xu-page-nav :max-page="maxPage"
+                         :is-shown="isPageNavShown"
+                         @selectedPage="getSelectedPage"
+                         class="x-float-right"></xu-page-nav>
+
           </div>
         </div>
 
@@ -106,6 +112,7 @@
 
 <script>
   import XuPageNav from "@/pages/share_components/XuPageNav";
+  import XuSwitch from "@/pages/share_components/XuSwitch";
   import SensorDataInOneProjectPopUp from "@/popup/HomePage/SensorDataInOneProjectPopUp";
   import { required } from 'vuelidate/lib/validators';
 
@@ -113,15 +120,20 @@
     name: "MapAndProjectRegister",
     components:{
       SensorDataInOneProjectPopUp,
-      XuPageNav
+      XuPageNav,
+      XuSwitch
     },
     data:function () {
       return {
-        projectNameForSearch:'',
+        onePageNumber:11,//一页显示的数目
+        isPageNavShown:false,//是否显示分页器
+        maxPage:1,//最大分页数
+        presentProjectDetails:[],//当前用来显示的设备信息
+        projectNameForSearch:'',//用来搜索的项目名字
         chooseProject:{},//被选中的项目实例
         isSensorModalShown:false,
-        registerProjects:[],//存放显示的项目数据
-        projectsArray:[],//存放请求到的项目
+        registerProjects:[],//存放搜索到项目数据
+        projectsArray:[],//存放原始请求到的项目
         infoWindowShown:false,//是否显示信息窗口
         mapCenter:null,//地图显示中心
         infoWindowCenter:{},//信息窗口弹出位置
@@ -144,6 +156,8 @@
                 this.projectsArray.push({projectId,projectName,projectFinishDate,location,deviceNumber,loc:{lng:longitude,lat:latitude}})
               });
               this.registerProjects = this.projectsArray;
+              this.presentProjectDetails = this.projectsArray;
+              this.initPageNav()
             }
           })
       },
@@ -163,6 +177,8 @@
             this.registerProjects.push(project);
           }
         });
+        // this.presentProjectDetails = this.registerProjects;
+        this.initPageNav()
       },
       showInfoWindow:function (projectInstance) {
         this.infoWindowShown = true;
@@ -170,21 +186,42 @@
       },
       closeInfoWindow:function () {
         this.infoWindowShown = false;
-      }
+      },
+      //初始化分页器信息
+      initPageNav:function(){
+        this.maxPage = Math.ceil(this.registerProjects.length / this.onePageNumber);
+        if (this.maxPage > 1){//如果超过1页
+          this.presentProjectDetails = this.registerProjects.slice(0,this.onePageNumber);
+          this.isPageNavShown = true
+        } else {
+          this.isPageNavShown = false;
+          this.presentProjectDetails = this.registerProjects
+        }
+      },
+      //分页器选择特定页
+      getSelectedPage:function(page){
+        // console.log('选择的页码为:',page);
+        if (page === this.maxPage){
+          this.presentProjectDetails = this.registerProjects.slice((page - 1) * 10);
+        } else {
+          this.presentProjectDetails = this.registerProjects.slice((page - 1) * 10,page * 10);
+        }
+      },
     },
     watch:{
       //如果没有输入就把数据还原
       projectNameForSearch:function () {
         if (this.projectNameForSearch === ''){
           this.registerProjects = this.projectsArray;
-          this.$emit('searchDone',this.registerProjects);//数据还原向上传递事件
+          this.initPageNav()
+          // this.$emit('searchDone',this.registerProjects);//数据还原向上传递事件
         }
       }
     },
     computed:{
       maxMinSum:function () {
         let deviceNumbers = [];
-        this.registerProjects.forEach(project => {
+        this.presentProjectDetails.forEach(project => {
           deviceNumbers.push(project.deviceNumber)
         });
         return {
