@@ -8,7 +8,7 @@
         {{ project.projectName }}--监测情况
       </div>
       <div slot="content">
-        <div class="dev-details-table">
+        <div class="dev-details-table scroll-table scrollBar-style">
           <div class="no-devices" v-if="project.deviceNumber === 0">
             <span class="no-devices-info">该项目中没有设备</span>
           </div>
@@ -47,7 +47,7 @@
               <td>{{devData.invalidReason | fixFailureReason }}</td>
               <td>
                 <button class="btn-search-dev" @click="showHistoryDataModal(devData)">
-                  <span class="fa fa-eye"></span>
+                  <span class="fa fa-line-chart"></span>
                 </button>
               </td>
             </tr>
@@ -182,7 +182,8 @@
 
 <style scoped>
   .dev-details-table {
-    min-width: 800px;
+    min-width: 700px;
+    max-height: 500px;
     /*height: 500px;*/
   }
   .no-devices {

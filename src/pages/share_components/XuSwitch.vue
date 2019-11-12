@@ -45,17 +45,18 @@
 
 <style scoped>
   .wrapper {
-    width: 52px;
+    /*width: 52px;*/
     height: 20px;
     border-radius: 9px;
     border: 1px solid #304981;
     position: relative;
+    display: inline-block;
   }
   .wrapper::before,
   .wrapper::after{
     content: '';
     display: inline-block;
-    width: 5px;
+    width: 3px;
   }
   .value-control {
     font-size: 12px;
@@ -65,12 +66,14 @@
     background-color: #1aa6ff;
     text-align: right;
     transition: background-color 0.2s ease 0s;
+    padding-left: 15px;
   }
 
   .switch-off {
     background-color: #ff9224;
     text-align: left;
     transition: background-color 0.2s ease 0s;
+    padding-right: 15px;
   }
 
   .toggle-circle {
@@ -88,7 +91,7 @@
     transition: transform 0.2s ease 0s;
   }
   .go-off {
-    transform: translateX(34px);
+    transform: translateX(32px);
     transition: transform 0.2s ease 0s;
   }
 </style>

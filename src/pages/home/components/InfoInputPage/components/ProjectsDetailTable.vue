@@ -1,5 +1,5 @@
 <template>
-  <div class="project-details-wrapper">
+  <div class="project-details-wrapper scrollBar-style">
 
     <div class="no-projects" v-if="projectInfos.length === 0">
       <span class="no-projects-info">数据库中暂无项目或请求项目数据失败</span>

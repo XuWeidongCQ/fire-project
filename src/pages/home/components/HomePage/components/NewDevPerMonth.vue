@@ -15,7 +15,7 @@
     </div>
     <div class="xubox-content">
       <div class="month-project-wrapper">
-        <table class="table table-sm text-center border-bottom">
+        <table class="table table-sm text-center border-bottom x-table-hover">
           <thead class="tiny-thead">
           <tr>
             <th>月份</th>
@@ -27,7 +27,11 @@
           <tr v-for="(item,index) in monthProjectInfos" :key="index">
             <td>{{item.monthName}}</td>
             <td>{{item.devNum}}</td>
-            <td>{{item.projectNum}}</td>
+            <td>
+              <span class="project-number-toggle">
+                {{item.projectNum}}
+              </span>
+            </td>
           </tr>
           </tbody>
         </table>
@@ -117,5 +121,9 @@
   }
   .foot-item {
     color: #e62229;
+  }
+  .project-number-toggle {
+    color: #3c9eff;
+    cursor: pointer;
   }
 </style>

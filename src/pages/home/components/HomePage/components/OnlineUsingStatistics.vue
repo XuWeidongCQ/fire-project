@@ -94,7 +94,7 @@
         color:'#e0e3e9'
       }
     },
-    color:['#019b4c','rgba(255,255,255,0.1)'],
+    color:['#019b4c','rgba(255,255,255,0.0)'],
     dataset: {
       source:{
         'category':['positive','negative'],

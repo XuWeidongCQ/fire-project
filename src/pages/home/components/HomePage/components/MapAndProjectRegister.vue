@@ -48,7 +48,7 @@
 
         <div class="xubox-content">
           <div class="register-project-table-wrapper">
-            <table class="table table-sm text-center border-bottom">
+            <table class="table table-sm text-center border-bottom x-table-hover">
               <thead class="tiny-thead">
               <tr>
                 <th>项目名称</th>

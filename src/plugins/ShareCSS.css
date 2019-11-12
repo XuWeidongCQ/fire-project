@@ -114,6 +114,28 @@ input {
 .scroll-table {
   overflow: auto;
 }
+
+
+.scrollBar-style{
+  -ms-scrollbar-face-color: #3869aa;
+  -ms-scrollbar-track-color: #bbbbbb;
+}
+.scrollBar-style::-webkit-scrollbar {
+  width: 8px;
+  border-radius: 4px;
+  background-color: #bbbbbb;
+}
+
+.scrollBar-style::-webkit-scrollbar-thumb{
+  background-color: #33629e;
+  border-radius: 3px;
+}
+.scrollBar-style::-webkit-scrollbar-thumb:hover {
+  background-color: #3869aa;
+}
+
+
+
 .tiny-tbody td {
   padding: 1px;
   font-size: 14px;

@@ -138,7 +138,7 @@
       editProject:function(){
         const dataForEdit = this.formData;
         dataForEdit['projectId'] = this.project.projectId;
-        dataForEdit['deviceNumber'] = this.project.deviceNumber;
+        // dataForEdit['deviceNumber'] = this.project.deviceNumber;
         console.log('提交的修改信息：',dataForEdit);
         this.$Http.editOneProject(dataForEdit)
           .then(res => {
