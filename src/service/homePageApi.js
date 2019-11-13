@@ -35,6 +35,12 @@ const HOME_PAGE_API = {
   getAlarm:{
     method:'get',
     url:'/caracara/info/alarm/unprocessed',
+  },
+
+  //获取某年每月的项目统计
+  getMonthlyProjects:{
+    method:'get',
+    url:'/caracara/info/project/count/increase'
   }
 };
 

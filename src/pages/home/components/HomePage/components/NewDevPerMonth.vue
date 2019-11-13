@@ -55,46 +55,97 @@
 </template>
 
 <script>
-    export default {
-        name: "NewDevPerMonth",
-        data:function () {
-          return {
-            monthProjectInfos:[
-              {monthName:'一月',devNum:70,projectNum:1},
-              {monthName:'二月',devNum:123,projectNum:5},
-              {monthName:'三月',devNum:78,projectNum:3},
-              {monthName:'四月',devNum:47,projectNum:10},
-              {monthName:'五月',devNum:77,projectNum:9},
-              {monthName:'六月',devNum:19,projectNum:7},
-              {monthName:'七月',devNum:35,projectNum:8},
-              {monthName:'八月',devNum:40,projectNum:6},
-              {monthName:'九月',devNum:48,projectNum:11},
-              {monthName:'十月',devNum:61,projectNum:13},
-              {monthName:'十一月',devNum:69,projectNum:16},
-              {monthName:'十二月',devNum:70,projectNum:6},
-            ],
-          }
-        },
-        methods:{
-        },
-        computed:{
-          sum:function () {
-            return {
-              dev:this.$f.sum(this.$f.getArrayInObj(this.monthProjectInfos,'devNum')),
-              project:this.$f.sum(this.$f.getArrayInObj(this.monthProjectInfos,'projectNum')),
-            }
-          },
-          max:function () {
-            return this.$f.max(this.$f.getArrayInObj(this.monthProjectInfos,'projectNum'))
-          },
-          min:function () {
-            return this.$f.min(this.$f.getArrayInObj(this.monthProjectInfos,'projectNum'))
-          }
-        },
-        //组件挂载完成后执行
-        mounted:function () {
-          // this.draw()
+  import { configToastr } from "@/plugins/toastrInfos";
+
+  export default {
+      name: "NewDevPerMonth",
+      data:function () {
+        return {
+          monthProjectInfos:[
+            // {monthName:'一月',devNum:70,projectNum:1},
+            // {monthName:'二月',devNum:123,projectNum:5},
+            // {monthName:'三月',devNum:78,projectNum:3},
+            // {monthName:'四月',devNum:47,projectNum:10},
+            // {monthName:'五月',devNum:77,projectNum:9},
+            // {monthName:'六月',devNum:19,projectNum:7},
+            // {monthName:'七月',devNum:35,projectNum:8},
+            // {monthName:'八月',devNum:40,projectNum:6},
+            // {monthName:'九月',devNum:48,projectNum:11},
+            // {monthName:'十月',devNum:61,projectNum:13},
+            // {monthName:'十一月',devNum:69,projectNum:16},
+            // {monthName:'十二月',devNum:70,projectNum:6},
+          ],
         }
+      },
+      methods:{
+        //请求月份数据
+        getMonthlyProjects:function () {
+          this.$Http.getMonthlyProjects()
+            .then(res => {
+              const { code,msg } = res.data;
+              console.log(msg);
+              if (code === 200){
+                msg.forEach(ele => {
+                  const { monthName,devNum,projectNum } = ele;
+                  this.monthProjectInfos.push({monthName,devNum,projectNum})
+                })
+              }
+            })
+        }
+      },
+      computed:{
+        sum:function () {
+          return {
+            dev:this.$f.sum(this.$f.getArrayInObj(this.monthProjectInfos,'devNum')),
+            project:this.$f.sum(this.$f.getArrayInObj(this.monthProjectInfos,'projectNum')),
+          }
+        },
+        max:function () {
+          return this.$f.max(this.$f.getArrayInObj(this.monthProjectInfos,'projectNum'))
+        },
+        min:function () {
+          return this.$f.min(this.$f.getArrayInObj(this.monthProjectInfos,'projectNum'))
+        }
+      },
+      filters:{
+        fixMonth:function (value) {
+          switch (value) {
+            case '1':
+              return '一月';
+            case '2':
+              return '二月';
+            case '3':
+              return '三月';
+            case '4':
+              return '四月';
+            case '5':
+              return '五月';
+            case '6':
+              return '六月';
+            case '7':
+              return '七月';
+            case '8':
+              return '八月';
+            case '9':
+              return '九月';
+            case '10':
+              return '十月';
+            case '11':
+              return '十一月';
+            case '12':
+              return '十二月';
+            default:
+              return '未知'
+          }
+        }
+      },
+      created(){
+        this.getMonthlyProjects()
+      },
+      //组件挂载完成后执行
+      mounted:function () {
+        // this.draw()
+      }
     }
 </script>
 
