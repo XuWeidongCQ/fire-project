@@ -53,6 +53,7 @@ const getDate = function () {
 
   return {
     YYYYMMDD:nowYear+'-'+nowMonth+'-'+nowDay,
+    YYYY:nowYear,
     HHMMSS:nowHour+':'+nowMinute+':'+nowSecond,
     YYYYMMDDHHMMSS:nowYear+'-'+nowMonth+'-'+nowDay+' '+nowHour+':'+nowMinute+':'+nowSecond,
     MMDDHHMMSS:nowMonth+'-'+nowDay+' '+nowHour+':'+nowMinute+':'+nowSecond,

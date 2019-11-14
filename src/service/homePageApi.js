@@ -41,6 +41,12 @@ const HOME_PAGE_API = {
   getMonthlyProjects:{
     method:'get',
     url:'/caracara/info/project/count/increase'
+  },
+
+  //通过特定时间段获取项目信息
+  getProjectsByTime:{
+    method:'get',
+    url:'/caracara/info/project/list/increase'
   }
 };
 

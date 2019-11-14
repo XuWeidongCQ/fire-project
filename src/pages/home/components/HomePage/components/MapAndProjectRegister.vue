@@ -146,6 +146,7 @@
       this.getAllProjects()
     },
     methods: {
+      //初始获取数据
       getAllProjects:function () {
         this.$Http.getAllProjectsInfos()
           .then(res => {
@@ -161,6 +162,7 @@
             }
           })
       },
+      //显示项目中所有设备最新数据
       showSensorDataModal:function (project,isMapToggle) {
         console.log(`获取项目id为${project.projectId}的监测数据`);
         this.chooseProject = project;
@@ -170,6 +172,7 @@
         this.infoWindowShown = true;
         this.isSensorModalShown = true;
       },
+      //项目搜索
       searchProject:function () {
         this.registerProjects = [];
         this.projectsArray.forEach(project => {

@@ -92,10 +92,10 @@
         device:null,//被选中的设备
         isHistoryDataModalShown:false,
         deviceSensorData:[],//存放设备的最新传感器数据
-        onePageNumber: 10,//一页显示的数目
-        isPageNavShown:false,//分页器默认不显示
-        maxPage:1,//最大分页数目
-        presentDevSensorData:[],//存放当前用来显示的数据
+        // onePageNumber: 10,//一页显示的数目
+        // isPageNavShown:false,//分页器默认不显示
+        // maxPage:1,//最大分页数目
+        // presentDevSensorData:[],//存放当前用来显示的数据
       }
     },
     created(){
@@ -107,6 +107,7 @@
       }
     },
     methods:{
+      //初始获取数据
       getSenorData:function () {
         this.$Http.getSensorDataInOneProject({params:{projectId:this.project.projectId}})
           .then(res => {
