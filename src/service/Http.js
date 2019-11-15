@@ -4,7 +4,7 @@ import homePageApi from './homePageApi'
 import infoInputPageApi from './infoInputPageApi'
 
 let axiosInst = axios.create({
-  baseURL:'http://zhxf.yuhualab.com:8080'
+  baseURL:'https://www.zhxf.yuhualab.com:8080'
 });
 
 // let allApi = {};

@@ -81,7 +81,7 @@
         this.$Http.getAlarm()
           .then(res => {
             const {code,msg} = res.data;
-            console.log('收到的报警信息为:',msg);
+            // console.log('收到的报警信息为:',msg);
             msg.forEach(info => {
               const {alarmMessage,alarmType,gmtCreate,projectId,projectLocation,deviceLocation,uuid} = info;
               this.warningInfos.push({

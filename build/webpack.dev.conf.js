@@ -10,6 +10,10 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const portfinder = require('portfinder')
 
+//使用证书新加的两个依赖
+// const https = require('https');
+// const fs = require('fs');
+
 const HOST = process.env.HOST
 const PORT = process.env.PORT && Number(process.env.PORT)
 
@@ -42,7 +46,11 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     quiet: true, // necessary for FriendlyErrorsPlugin
     watchOptions: {
       poll: config.dev.poll,
-    }
+    },
+    // https:{
+    //   cert:fs.readFileSync(path.join(__dirname,'./cert/3010707_zhxf.pem')),
+    //   key:fs.readFileSync(path.join(__dirname,'./cert/3010707_zhxf.key')),
+    // }
   },
   plugins: [
     new webpack.DefinePlugin({

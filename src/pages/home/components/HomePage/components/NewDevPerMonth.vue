@@ -87,7 +87,7 @@
         this.$Http.getMonthlyProjects({params:{year:this.selectedYear}})
           .then(res => {
             const { code,msg } = res.data;
-            console.log(msg);
+            // console.log(msg);
             if (code === 200){
               msg.forEach(ele => {
                 const { dateName,devNum,projectNum } = ele;
