@@ -47,16 +47,10 @@
   .wrapper {
     /*width: 52px;*/
     height: 20px;
-    border-radius: 9px;
-    border: 1px solid #304981;
+    border-radius: 11px;
     position: relative;
+    line-height: 20px;
     display: inline-block;
-  }
-  .wrapper::before,
-  .wrapper::after{
-    content: '';
-    display: inline-block;
-    width: 3px;
   }
   .value-control {
     font-size: 12px;
@@ -64,34 +58,36 @@
   }
   .switch-on {
     background-color: #1aa6ff;
-    text-align: right;
     transition: background-color 0.2s ease 0s;
-    padding-left: 15px;
+    padding-left: 20px;
+    padding-right: 8px;
   }
 
   .switch-off {
-    background-color: #ff9224;
-    text-align: left;
+    background-color: #cccccc;
     transition: background-color 0.2s ease 0s;
-    padding-right: 15px;
+    padding-right: 20px;
+    padding-left: 8px;
   }
 
   .toggle-circle {
     position: absolute;
-    left: 0;
     display: inline-block;
-    height: 18px;
-    width: 18px;
+    height: 16px;
+    width: 16px;
     border-radius: 50%;
     cursor: pointer;
-    background-color: #ffffff;
+    background-color: #eeeeee;
   }
   .go-on {
+    left: 2px;
+    top: 2px;
     transform: translateX(0px);
     transition: transform 0.2s ease 0s;
   }
   .go-off {
-    transform: translateX(32px);
+    top: 2px;
+    transform: translateX(26px);
     transition: transform 0.2s ease 0s;
   }
 </style>

@@ -11,6 +11,7 @@ import swal from "sweetalert";
 import './plugins/ShareCSS.css'
 import './plugins/ShareAnimation.css'
 import Http from "@/service/Http";
+import store from "@/store/store";
 
 Vue.config.productionTip = false;
 Vue.prototype.$f = common;
@@ -26,6 +27,7 @@ Vue.use(BaiduMap,{
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>'
 });

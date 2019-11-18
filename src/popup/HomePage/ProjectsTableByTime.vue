@@ -76,9 +76,12 @@
             }
           })
       },
-      //显示项目设备最新数据的弹窗
+      //点击项目名称--显示项目设备最新数据的弹窗
       showSensorModal:function(project){
         this.selectProject = project;
+        this.$store.commit('changeMapCenter',project.loc);
+        this.$store.commit('changeInfoCenter',project.loc);
+        this.$store.commit('changeWindowShown',true);
         this.isSensorModalShown = true
       },
       close:function () {

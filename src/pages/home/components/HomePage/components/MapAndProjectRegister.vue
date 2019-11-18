@@ -17,7 +17,7 @@
         </bm-marker>
 <!--        鼠标移上去显示或者点击表格显示-->
         <bm-info-window
-          :position="chooseProject.loc || {lng: 106.5584, lat: 29.5745}"
+          :position="infoWindowCenter || {lng: 106.5584, lat: 29.5745}"
           :show="infoWindowShown"
           title="项目概览"
           @open="infoWindowShown = true"
@@ -134,9 +134,9 @@
         isSensorModalShown:false,
         registerProjects:[],//存放搜索到项目数据
         projectsArray:[],//存放原始请求到的项目
-        infoWindowShown:false,//是否显示信息窗口
-        mapCenter:null,//地图显示中心
-        infoWindowCenter:{},//信息窗口弹出位置
+        // infoWindowShown:false,//是否显示信息窗口
+        // mapCenter:null,//地图显示中心
+        // infoWindowCenter:{},//信息窗口弹出位置
       }
     },
     validations:{
@@ -162,14 +162,17 @@
             }
           })
       },
-      //显示项目中所有设备最新数据
+      //点击项目名称或者坐标点--显示项目中所有设备最新数据
       showSensorDataModal:function (project,isMapToggle) {
         console.log(`获取项目id为${project.projectId}的监测数据`);
         this.chooseProject = project;
+        this.$store.commit('changeInfoCenter',project.loc);
         if (!isMapToggle) {
-          this.mapCenter = project.loc
+          this.$store.commit('changeMapCenter',project.loc);
+          // this.mapCenter = project.loc
         }
-        this.infoWindowShown = true;
+        // this.infoWindowShown = true;
+        this.$store.commit('changeWindowShown',true);
         this.isSensorModalShown = true;
       },
       //项目搜索
@@ -183,12 +186,16 @@
         // this.presentProjectDetails = this.registerProjects;
         this.initPageNav()
       },
+      //显示信息窗口
       showInfoWindow:function (projectInstance) {
-        this.infoWindowShown = true;
+        // this.infoWindowShown = true;
+        this.$store.commit('changeWindowShown',true);
         this.chooseProject = projectInstance;
+        this.$store.commit('changeInfoCenter',projectInstance.loc);
       },
       closeInfoWindow:function () {
-        this.infoWindowShown = false;
+        // this.infoWindowShown = false;
+        this.$store.commit('changeWindowShown',false);
       },
       //初始化分页器信息
       initPageNav:function(){
@@ -222,6 +229,20 @@
       }
     },
     computed:{
+      mapCenter:function(){
+        return this.$store.state.mapCenter
+      },
+      infoWindowCenter:function(){
+        return this.$store.state.infoWindowCenter
+      },
+      infoWindowShown:{
+        get(){
+          return this.$store.state.infoWindowShown
+        },
+        set(value){
+          this.$store.commit('changeWindowShown',value);
+        }
+      },
       maxMinSum:function () {
         let deviceNumbers = [];
         this.presentProjectDetails.forEach(project => {

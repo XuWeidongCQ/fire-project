@@ -85,10 +85,12 @@
   import LookDevsPopUp from "@/popup/InfoInputPage/LookDevsPopUp";
   import EditOneProjectPopUp from "@/popup/InfoInputPage/EditOneProjectPopUp";
   import { configToastr } from "@/plugins/toastrInfos";
+  import XuSwitch from "@/pages/share_components/XuSwitch";
 
   export default {
     name: "ProjectsDetailTable",
     components: {
+      XuSwitch,
       AddOneDevPopUp,
       LookDevsPopUp,
       EditOneProjectPopUp
