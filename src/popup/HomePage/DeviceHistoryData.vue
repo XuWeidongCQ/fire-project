@@ -5,6 +5,9 @@
     :header-shown="true">
     <div slot="header">
       <span>设备uuid:{{device.uuid}}--历史数据</span>
+      <span class="xu-badge xu-ml" :class="{'xu-badge-active':period === 240}" @click="getDifferentPeriodData(240)">十天以内</span>
+      <span class="xu-badge" :class="{'xu-badge-active':period === 72}" @click="getDifferentPeriodData(72)">三天以内</span>
+      <span class="xu-badge" :class="{'xu-badge-active':period === 24}" @click="getDifferentPeriodData(24)">一天以内</span>
     </div>
     <div slot="content">
       <div id="stress-chart-wrapper"></div>
@@ -47,7 +50,7 @@
       }
     },
     xAxis: {
-      type:'category',
+      type:'time',
       boundaryGap: false,
       axisLine:{
         lineStyle:{
@@ -55,7 +58,7 @@
         }
       },
       axisLabel:{
-        interval:1,
+        interval:'auto',
         color:'#e0e3e9'
       },
       nameTextStyle:{
@@ -63,6 +66,7 @@
       }
     },
     dataset: {
+      dimensions:[{name:'time',type:'time'},{name:'value',type:'float'}],
       source: {
         'time':[],
         'value':[]
@@ -91,6 +95,7 @@
     },
     data:function(){
       return {
+        period:24,//查看的数据周期,默认过去一天的
         timeArray:[],//用来存放历史数据对应的时间点
         stressArray:[],//用来存放历史压强数据
         temperatureArray:[],//用来存放历史温度数据
@@ -100,14 +105,18 @@
       this.getHistoryData();
     },
     methods:{
-      getHistoryData:function(){
-        this.$Http.getSensorDataInOneDev({params:{uuid:this.device.uuid,size:10}})
+      //1 初始获取传感器数据
+      getHistoryData:function(size=24){
+        this.timeArray = [];
+        this.stressArray = [];
+        this.temperatureArray = [];
+        this.$Http.getSensorDataInOneDev({params:{uuid:this.device.uuid,size:size}})
           .then(res => {
             const { code,msg } = res.data;
             if (code === 200){
               msg.forEach(dataInstance => {
                 const { gmtCreate,stress,temperature } = dataInstance;
-                this.timeArray.push(this.$f.getDate(gmtCreate*1000).MMDDHHMMSS);
+                this.timeArray.push(this.$f.getDate(gmtCreate*1000).YYYYMMDDHHMM);
                 this.stressArray.push(stress);
                 this.temperatureArray.push(temperature);
               });
@@ -120,6 +129,11 @@
               this.drawTemperatureChart()
             }
           })
+      },
+      //2 查看不同的历史数据
+      getDifferentPeriodData:function(size) {
+        this.getHistoryData(size);
+        this.period = size;
       },
       drawStressLineChart:function(){
         let chartInstance = echarts.init(document.getElementById('stress-chart-wrapper'));
@@ -157,6 +171,20 @@
     border: 2px solid #cccccc;
     border-radius: 3px;
     margin-bottom: 10px;
+  }
+  .xu-ml {
+    margin-left: 250px;
+  }
+  .xu-badge {
+    border: 1px solid #34bed8;
+    padding: 6px 5px;
+    font-size: 14px;
+    border-radius: 100px;
+    cursor: pointer;
+    color: #d0d3d9;
+  }
+  .xu-badge-active {
+    background-color: #304981;
   }
 
 </style>

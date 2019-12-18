@@ -1,7 +1,7 @@
 <template>
   <div class="login-wrapper">
     <div class="beta-wrapper">
-      <span>网站正在升级中......</span>
+      <span>网站正在升级中...... 最佳屏幕分辨率1920×1080</span>
     </div>
     <div class="xu-login-container animated fadeInDown">
       <div class="row">
@@ -113,11 +113,10 @@
     position: fixed;
     border-radius: 10px;
     height: 100px;
-    width: 400px;
   }
   .beta-wrapper > span {
-    margin-left: 15px;
-    font-size: 40px;
+    margin:0 15px;
+    font-size: 20px;
     line-height: 100px;
     color: #3a4460;
   }

@@ -41,6 +41,7 @@ const INFO_INPUT_PAGE_API = {
     method:'put',
     url:'/caracara/info/project'
   }
+
 };
 
 export default INFO_INPUT_PAGE_API

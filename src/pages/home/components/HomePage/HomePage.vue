@@ -10,11 +10,11 @@
       </div>
     </div>
     <div class="row">
-      <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12">
+      <div class="col-xl-7 col-lg-12 col-md-12 col-sm-12">
         <!--报警组件-->
         <warning-table></warning-table>
       </div>
-      <div class="col-xl-6 col-lg-12 col-md-12 col-sm-12">
+      <div class="col-xl-5 col-lg-12 col-md-12 col-sm-12">
         <!--有线有效统计-->
         <online-using-statistics></online-using-statistics>
       </div>
