@@ -111,8 +111,8 @@
 </template>
 
 <script>
-  import XuPageNav from "@/pages/share_components/XuPageNav";
-  import XuSwitch from "@/pages/share_components/XuSwitch";
+  import XuPageNav from "@/XuComponent/XuPageNav";
+  import XuSwitch from "@/XuComponent/XuSwitch";
   import SensorDataInOneProjectPopUp from "@/popup/HomePage/SensorDataInOneProjectPopUp";
   import { required } from 'vuelidate/lib/validators';
 
@@ -150,7 +150,7 @@
       getAllProjects:function () {
         this.$Http.getAllProjectsInfos()
           .then(res => {
-            const { code,msg} = res.data;
+            const { code,msg} = res;
             if(code === 200) {
               msg.forEach(project => {
                 const { projectId,projectFinishDate,location,deviceNumber,projectName,longitude,latitude} = project;
@@ -230,14 +230,14 @@
     },
     computed:{
       mapCenter:function(){
-        return this.$store.state.mapCenter
+        return this.$store.state['homePage'].mapCenter
       },
       infoWindowCenter:function(){
-        return this.$store.state.infoWindowCenter
+        return this.$store.state['homePage'].infoWindowCenter
       },
       infoWindowShown:{
         get(){
-          return this.$store.state.infoWindowShown
+          return this.$store.state['homePage'].infoWindowShown
         },
         set(value){
           this.$store.commit('changeWindowShown',value);

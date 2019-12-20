@@ -67,8 +67,8 @@
 </template>
 
 <script>
-  import XuModal from "@/pages/share_components/XuModal";
-  import XuPageNav from "@/pages/share_components/XuPageNav";
+  import XuModal from "@/XuComponent/XuModal";
+  import XuPageNav from "@/XuComponent/XuPageNav";
   import DeviceHistoryData from "@/popup/HomePage/DeviceHistoryData";
 
   export default {
@@ -111,7 +111,7 @@
       getSenorData:function () {
         this.$Http.getSensorDataInOneProject({params:{projectId:this.project.projectId}})
           .then(res => {
-            const {code,msg} = res.data;
+            const {code,msg} = res;
             if (code === 200){
               for(let i=0;i<msg.length;i++){
                 const {uuid,location,temperature,stress,isOnline,state,invalidReason} = msg[i];
@@ -121,7 +121,7 @@
                   this.deviceSensorData.splice(i,1,{uuid,location,temperature,stress,isOnline,state,invalidReason})
                 }
               }
-              console.log('接收的传感器数据为:',msg)
+              // console.log('接收的传感器数据为:',msg)
             }
           })
       },
@@ -183,7 +183,7 @@
 
 <style scoped>
   .dev-details-table {
-    min-width: 700px;
+    min-width: 800px;
     max-height: 500px;
     /*height: 500px;*/
   }

@@ -39,7 +39,7 @@
 </template>
 
 <script>
-  import XuModal from "@/pages/share_components/XuModal";
+  import XuModal from "@/XuComponent/XuModal";
   import SensorDataInOneProjectPopUp from "@/popup/HomePage/SensorDataInOneProjectPopUp";
 
   export default {
@@ -62,11 +62,11 @@
       }
     },
     methods:{
-      //初始获取数据
+      //1.初始获取数据
       getProjectsByTime:function () {
         this.$Http.getProjectsByTime({params:{year:this.statistics.year,month:this.statistics.month}})
           .then(res => {
-            const {code,msg} = res.data;
+            const {code,msg} = res;
             if (code === 200){
               // console.log(msg);
               msg.forEach(project => {
@@ -76,7 +76,7 @@
             }
           })
       },
-      //点击项目名称--显示项目设备最新数据的弹窗
+      //2.点击项目名称--显示项目设备最新数据的弹窗
       showSensorModal:function(project){
         this.selectProject = project;
         this.$store.commit('changeMapCenter',project.loc);

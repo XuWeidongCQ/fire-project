@@ -10,7 +10,7 @@
       </div>
       <div slot="content" class="form-wrapper">
         <form>
-          <div class="x-form-control">
+          <div class="xu-form-control">
             <div class="input-explain-wrapper">
               <label for="dev-id">设备uuid：</label>
             </div>
@@ -21,7 +21,7 @@
             </div>
           </div>
 
-          <div class="x-form-control">
+          <div class="xu-form-control">
             <div class="input-explain-wrapper">
               <label for="dev-simple-number">设备编号：</label>
             </div>
@@ -32,7 +32,7 @@
             </div>
           </div>
 
-          <div class="x-form-control">
+          <div class="xu-form-control">
             <div class="input-explain-wrapper">
               <span>是否启用：</span>
             </div>
@@ -48,7 +48,7 @@
             </div>
           </div>
 
-          <div class="x-form-control">
+          <div class="xu-form-control">
             <div class="input-explain-wrapper">
               <span>设备类型：</span>
             </div>
@@ -67,7 +67,7 @@
               </label>
             </div>
           </div>
-          <div class="x-form-control">
+          <div class="xu-form-control">
             <div class="input-explain-wrapper">
               <span>通信技术：</span>
             </div>
@@ -86,7 +86,7 @@
               </label>
             </div>
           </div>
-          <div class="x-form-control">
+          <div class="xu-form-control">
             <div class="input-explain-wrapper">
               <label for="dev-communication-cycle">发送周期（分钟）：</label>
             </div>
@@ -97,7 +97,7 @@
               <p class="input-invalid" v-if="$v.formData.cycle.$invalid">*不能为空</p>
             </div>
           </div>
-          <div class="x-form-control">
+          <div class="xu-form-control">
             <div class="input-explain-wrapper">
               <label for="dev-location">安装位置：</label>
             </div>
@@ -107,7 +107,7 @@
               <p class="input-invalid" v-if="$v.formData.location.$invalid">*不能为空</p>
             </div>
           </div>
-          <div class="x-form-control">
+          <div class="xu-form-control">
             <div class="input-explain-wrapper">
               <label for="dev-prod-date">生产日期：</label>
             </div>
@@ -117,7 +117,7 @@
               <p class="input-invalid" v-if="$v.formData.productionDate.$invalid">*不能为空</p>
             </div>
           </div>
-          <div class="x-form-control">
+          <div class="xu-form-control">
             <div class="input-explain-wrapper">
               <label for="dev-sale-date">销售日期：</label>
             </div>
@@ -127,7 +127,7 @@
               <p class="input-invalid" v-if="$v.formData.salesDate.$invalid">*不能为空</p>
             </div>
           </div>
-          <div class="x-form-control">
+          <div class="xu-form-control">
             <div class="input-explain-wrapper">
               <label for="dev-use-period">使用年限（年）：</label>
             </div>
@@ -137,7 +137,7 @@
               <p class="input-invalid" v-if="$v.formData.serviceLife.$invalid">*不能为空</p>
             </div>
           </div>
-          <div class="x-form-control">
+          <div class="xu-form-control">
             <div class="input-explain-wrapper">
               <label for="dev-remark">备注：</label>
             </div>
@@ -158,9 +158,8 @@
 </template>
 
 <script>
-  import XuModal from "@/pages/share_components/XuModal";
+  import XuModal from "@/XuComponent/XuModal";
   import { required } from 'vuelidate/lib/validators';
-  import { configToastr } from "@/plugins/toastrInfos";
 
   export default {
     name: "AddOneDevPopUp",
@@ -208,27 +207,22 @@
     },
 
     methods:{
-      //提交一台设备的信息
+      //1.提交一台设备的信息
       postOneDev:function () {
         const dataForSubmit = this.formData;
         dataForSubmit['projectId'] = this.project.projectId;
         dataForSubmit['longitude'] = this.project.longitude;
         dataForSubmit['latitude'] = this.project.latitude;
-        console.log('提交的数据为:',dataForSubmit);
+        // console.log('提交的数据为:',dataForSubmit);
         this.$Http.addOneDev(dataForSubmit)
           .then(res => {
-            const { code,msg} = res.data;
+            const { code,msg} = res;
             if (code === 200){
-              this.$toastr.Add(configToastr('添加设备-',msg,'success'));
               this.$emit('addOneDevSuccess');
-            } else {
-              this.$toastr.Add(configToastr('添加设备失败-',msg,'warning'));
             }
           })
-          .catch(error => {
-            this.$toastr.Add(configToastr('无法连接服务器','','error'));
-          })
       },
+      //2.重置表单
       reset: function () {
         this.formData.uuid = '';
         this.formData.simpleNumber = '';
@@ -240,9 +234,13 @@
         this.formData.salesDate = this.$f.getDate().YYYYMMDD;
         this.formData.remark = '';
       },
+      //3.关闭表单
       closeAddOneDevPopUp:function () {
         this.$emit('close')
       }
+    },
+    created() {
+      this.reset()
     }
   }
 </script>
@@ -250,6 +248,8 @@
 <style scoped>
   .form-wrapper {
     max-width: 900px;
+    color: #e0e3e9;
+    font-size: 14px;
   }
   .x-form-control {
     margin-bottom: 15px;

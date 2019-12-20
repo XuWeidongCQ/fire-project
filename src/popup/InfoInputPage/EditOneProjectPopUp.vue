@@ -81,7 +81,7 @@
 </template>
 
 <script>
-  import XuModal from "@/pages/share_components/XuModal";
+  import XuModal from "@/XuComponent/XuModal";
   import { required } from 'vuelidate/lib/validators';
   import { configToastr } from "@/plugins/toastrInfos";
 
@@ -142,16 +142,10 @@
         console.log('提交的修改信息：',dataForEdit);
         this.$Http.editOneProject(dataForEdit)
           .then(res => {
-            const { code,msg } = res.data;
+            const { code,msg } = res;
             if (code === 200 ){
-              this.$toastr.Add(configToastr('修改信息-',msg,'success'));
               this.$emit('editOneProjectSuccess',dataForEdit)//修改项目成功后向父级传递这个修改的数据
-            } else {
-              this.$toastr.Add(configToastr('修改信息-',msg,'warning'));
             }
-          })
-          .catch(error => {
-            this.$toastr.Add(configToastr('无法访问服务器','','error'));
           })
       },
       reset:function () {

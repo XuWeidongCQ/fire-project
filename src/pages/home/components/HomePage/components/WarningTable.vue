@@ -79,7 +79,7 @@
 </template>
 
 <script>
-  import XuPageNav from "@/pages/share_components/XuPageNav";
+  import XuPageNav from "@/XuComponent/XuPageNav";
   import DeviceHistoryData from "@/popup/HomePage/DeviceHistoryData";
   import {configToastr} from "@/plugins/toastrInfos";
   import { required } from 'vuelidate/lib/validators';
@@ -92,9 +92,11 @@
     },
     data:function () {
       return {
+        timer:null,//获取未处理报警信息的定时器
         warningInfos:[
           // {index:'001',uuid:123,location:'重庆市',msg:'粉末已耗尽',time:this.common.getDate().YYYYMMDDHHMMSS},
         ],
+        cacheWaringInfos:[],//报警信息缓存
         allWarningInfos:[],//所有的报警信息
         isHistoryDataModalShown:false,
         maxPage: 1,
@@ -116,7 +118,7 @@
         this.warningInfos = [];//初始加载先清空
         this.$Http.getAlarm()
           .then(res => {
-            const {code,msg} = res.data;
+            const {code,msg} = res;
             // console.log('收到的报警信息为:',msg);
             msg.forEach(info => {
               const {alarmMessage,alarmType,gmtCreate,projectId,projectLocation,deviceLocation,uuid} = info;
@@ -126,7 +128,7 @@
                 alarmMessage:alarmMessage,
                 projectLocation:projectLocation,
                 deviceLocation:deviceLocation,
-                time:this.$f.getDate(gmtCreate*1000).YYYYMMDDHHMMSS
+                time:this.$f.getDate(gmtCreate*1000).YYYYMMDDHHMM
               })
             });
           })
@@ -136,18 +138,19 @@
         this.allWarningInfos = [];
         this.$Http.getDevAlarmInfos()//{params:{size:size}}
           .then(res => {
-            const {code,msg} = res.data;
+            const {code,msg} = res;
             // console.log(res.data)
             msg.forEach(info => {
               const {uuid,alarmMessage,gmtModified,processMark} = info;
               this.allWarningInfos.push({
                 uuid,
                 alarmMessage,
-                gmtModified:this.$f.getDate(gmtModified*1000).YYYYMMDDHHMMSS,
+                gmtModified:this.$f.getDate(gmtModified*1000).YYYYMMDDHHMM,
                 processMark
               })
             });
-            this.allWarningInfos = this.allWarningInfos.reverse() //翻转，将最近时间放在最前面
+            this.allWarningInfos = this.allWarningInfos.reverse(); //翻转，将最近时间放在最前面
+            this.cacheWaringInfos = this.allWarningInfos;
           })
       },
       //3.查看报警设备的历史数据
@@ -163,20 +166,14 @@
           .then(res => {
             const {code,msg} = res.data;
             if (code === 200){
-              this.$toastr.Add(configToastr('报警信息处理-',msg,'success'));
               this.getData();
               this.getAlarmInfos()
-            } else {
-              this.$toastr.Add(configToastr('报警信息处理失败-',msg,'warning'))
             }
-          })
-          .catch(error => {
-              this.$toastr.Add(configToastr('无法连接服务器-','','error'))
           })
       },
       //5.查询某一设备的报警记录
       searchAlarmInfos:function(){
-        this.allWarningInfos = this.allWarningInfos.filter(value => value['uuid'] === this.uuidForSearch)
+        this.allWarningInfos = this.allWarningInfos.filter(value => value['uuid'].includes(this.uuidForSearch))
       },
       //初始化分页器
       initPageNav:function () {
@@ -189,9 +186,16 @@
     watch:{
       uuidForSearch:function () {
         if (this.uuidForSearch === ''){
-          this.getAlarmInfos()
+          this.allWarningInfos = this.cacheWaringInfos;
         }
       }
+    },
+    mounted() {
+      //10s获取一次未处理报警信息
+      this.timer = setInterval(() => this.getData(),10000)
+    },
+    beforeDestroy(){
+      clearInterval(this.timer)
     }
   }
 </script>

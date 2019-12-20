@@ -1,12 +1,8 @@
 <template>
-  <div class="project-details-wrapper scrollBar-style">
+  <div class="project-details-wrapper xu-fix-table-wrapper scrollBar-style">
 
-    <div class="no-projects" v-if="projectInfos.length === 0">
-      <span class="no-projects-info">数据库中暂无项目或请求项目数据失败</span>
-    </div>
-
-    <table class="table table-striped text-center x-table-hover border-bottom" v-if="projectInfos.length !== 0">
-      <thead class="thead-light thead-font-style">
+    <table class="xu-table xu-table-center xu-text-white-level1 xu-table-hover">
+      <thead class="bg-info">
       <tr>
         <th>#ID</th>
         <th>项目名称</th>
@@ -18,7 +14,7 @@
         <th>操作</th>
       </tr>
       </thead>
-      <tbody class="tbody-font-style">
+      <tbody>
       <tr v-for="(project,index) in projectInfos" :key="index">
         <td>{{project.projectId}}</td>
         <td>{{project.projectName}}</td>
@@ -54,6 +50,9 @@
       </tr>
       </tbody>
     </table>
+    <div class="no-projects" v-if="projectInfos.length === 0">
+      <span class="no-projects-info">数据库中暂无项目或请求项目数据失败</span>
+    </div>
     <!--在一个项目中添加一台设备弹窗-->
     <add-one-dev-pop-up
       :modal-shown="isAddDevModalShown"
@@ -84,8 +83,8 @@
   import AddOneDevPopUp from "@/popup/InfoInputPage/AddOneDevPopUp";
   import LookDevsPopUp from "@/popup/InfoInputPage/LookDevsPopUp";
   import EditOneProjectPopUp from "@/popup/InfoInputPage/EditOneProjectPopUp";
-  import { configToastr } from "@/plugins/toastrInfos";
-  import XuSwitch from "@/pages/share_components/XuSwitch";
+  import XuSwitch from "@/XuComponent/XuSwitch";
+  import  XuCSS  from '@/plugins/XuCSS'
 
   export default {
     name: "ProjectsDetailTable",
@@ -118,66 +117,68 @@
     },
 
     methods:{
-      //添加设备对话框
+      //1.添加设备对话框
       showAddDevModal:function (project) {
         this.isAddDevModalShown = true;
         this.project = project;
         console.log(`选择在项目id为${this.project.projectId}中添加设备`)
       },
-      //编辑项目对话框
+      //2.编辑项目对话框
       showEditProjectModal:function(project,index){
         this.isEditProjectModalShown = true;
         this.project = project;
         this.projectIndex = index;
         console.log(`编辑的项目id为${this.project.projectId}`)
       },
-      //获取所有项目
+      //3.获取所有项目
       getAllProjects:function(){
+        this.projectInfos = [];
         this.$Http.getAllProjectsInfos()
           .then(res => {
-            const { code,msg} = res.data;
-            console.log(msg);
-            if(code === 200) {
+            const {code,msg} = res;
+            if (code === 200){
               msg.forEach(project => {
                 const { projectId,location,longitude,latitude,deviceNumber,projectName,remark,projectFinishDate } = project;
                 this.projectInfos.push({projectId,location,longitude,latitude,deviceNumber,projectName,remark,projectFinishDate})
-              })
+              });
             }
           })
       },
-      //删除一个项目
+      //4.删除一个项目
       deleteOneProject:function (project,projectIndex) {
         console.log(`选择删除项目id为${project.projectId}`);
         this.$Http.delOneProject({data:{projectId:project.projectId}})
           .then(res => {
-            const { code,msg} = res.data;
+            const { code,msg} = res;
             if (code === 200){
-              this.$toastr.Add(configToastr('删除项目-',msg,'success'));
               this.projectInfos.splice(projectIndex,1);
-            } else {
-              this.$toastr.Add(configToastr('删除项目-',msg,'warning'));
             }
           })
-          .catch(error => {
-            this.$toastr.Add(configToastr('无法连接服务器','error'));
-          })
       },
-      //查看设备详情
+      //5.查看项目中设备详情
       showDevDetailsModal:function(project){
         this.isDevDetailsModalShown = true;
         this.project = project;
       },
+      //6.编辑项目信息成功
       editOneProjectSuccess:function(project){
-        this.projectInfos.splice(this.projectIndex,1,project);
+        this.getAllProjects();
         this.isEditProjectModalShown = false;
       },
+      //6.项目中添加设备成功
       addOneDevSuccess:function () {
         this.project.deviceNumber ++;
         this.isAddDevModalShown = false;
       }
     },
-    mounted() {
-
+    watch:{
+      projectInfos:function () {
+        // console.log(1);
+        // XuCSS.fixTableThead()
+      }
+    },
+    updated() {
+      // XuCSS.fixTableThead()
     }
   }
 </script>
@@ -185,7 +186,6 @@
 <style scoped>
   .project-details-wrapper {
     max-height: 100%;
-    overflow-y: auto;
   }
   .no-projects {
     display: flex;

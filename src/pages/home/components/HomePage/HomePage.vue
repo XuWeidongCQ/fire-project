@@ -1,26 +1,26 @@
 <template>
-  <div class="container-fluid page-wrapper" >
-    <div class="row">
-      <div class="col-xl-2 col-lg-12 col-md-12 col-sm-12">
+  <div class="page-wrapper">
+    <div class="xu-row">
+      <div class="xu-col-2">
         <!--各个月份的增量组件图-->
         <new-dev-per-month></new-dev-per-month>
       </div>
-      <div class="col-xl-10 col-lg-12">
+      <div class="xu-col-10">
         <map-and-project-register></map-and-project-register>
       </div>
     </div>
-    <div class="row">
-      <div class="col-xl-7 col-lg-12 col-md-12 col-sm-12">
+    <div class="xu-row">
+      <div class="xu-col-7">
         <!--报警组件-->
         <warning-table></warning-table>
       </div>
-      <div class="col-xl-5 col-lg-12 col-md-12 col-sm-12">
+      <div class="xu-col-5">
         <!--有线有效统计-->
         <online-using-statistics></online-using-statistics>
       </div>
     </div>
-    <div class="row">
-      <div class="col-12 text-center">
+    <div class="xu-row">
+      <div class="xu-col-12 text-center">
         <small class="text-muted">重庆大学微系统研究中心©2019</small>
       </div>
     </div>
@@ -61,5 +61,8 @@
 </script>
 
 <style scoped>
-
+  .page-wrapper {
+    padding: 60px 15px 0;
+    min-width: 1900px;
+  }
 </style>

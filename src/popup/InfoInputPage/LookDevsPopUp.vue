@@ -8,8 +8,8 @@
         <span>‘{{ project.projectName }}’项目的设备详情</span>
       </div>
       <div slot="content">
-        <table class="table table-sm text-center x-table-hover border-bottom dev-details-table">
-          <thead class="thead-light thead-font-style">
+        <table class="xu-table xu-table-hover xu-table-sm xu-table-center dev-details-table xu-text-white-level1 mb-integer">
+          <thead class="bg-success">
           <tr>
             <th>设备uuid</th>
             <th>设备编号</th>
@@ -25,7 +25,7 @@
             <th>操作</th>
           </tr>
           </thead>
-          <tbody class="tbody-font-style">
+          <tbody>
           <tr v-for="(dev,index) in presentDevDetails" :key="index">
             <td>{{dev.uuid}}</td>
             <td>{{dev.simpleNumber}}</td>
@@ -35,9 +35,6 @@
                          :present-value="dev.isEnable | fixIsEnable"
                           @afterGetSelectValue="changeEnable($event,project.projectId,dev,index)">
               </xu-switch>
-<!--              <span :class="{'online-badge':dev.isEnable === true,'offline-badge':dev.isEnable === false}">-->
-<!--                {{dev.isEnable | fixIsEnable }}-->
-<!--              </span>-->
             </td>
             <td>{{dev.type | fixDevType }}</td>
             <td>{{dev.location}}</td>
@@ -77,10 +74,10 @@
 </template>
 
 <script>
-  import XuModal from "@/pages/share_components/XuModal";
+  import XuModal from "@/XuComponent/XuModal";
   import EditOneDevPopUp from "@/popup/InfoInputPage/EditOneDevPopUp";
-  import XuPageNav from "@/pages/share_components/XuPageNav";
-  import XuSwitch from "@/pages/share_components/XuSwitch";
+  import XuPageNav from "@/XuComponent/XuPageNav";
+  import XuSwitch from "@/XuComponent/XuSwitch";
   import { configToastr } from "@/plugins/toastrInfos";
 
   export default {
@@ -123,19 +120,19 @@
       closeLookDevsPopUp:function () {
         this.$emit('close')
       },
-      //显示修改设备弹窗
+      //1 显示修改设备弹窗
       showEditDevPopUp:function(dev,index){
         this.isEditOneDevShown = true;
         this.device = dev;
         this.deviceIndex = index; //向子组件传递要修改的设备索引
-        console.log(`修改项目id为${this.project.projectId}里面的设备uuid为${this.device.uuid}`);
+        // console.log(`修改项目id为${this.project.projectId}里面的设备uuid为${this.device.uuid}`);
       },
-      //编辑设备成功
+      //2 编辑设备成功
       editOneDevSuccess:function(formData){
         this.isEditOneDevShown = false;//修改成功后关闭弹窗
         this.presentDevDetails.splice(this.deviceIndex,1,formData)
       },
-      //使用开关按钮选择值后
+      //3 使用开关按钮选择值后
       changeEnable:function(event,projectId,device,deviceIndex){
         this.$Http.editOneDev({
           projectId:projectId,
@@ -143,25 +140,19 @@
           isEnable:event
         })
           .then(res => {
-            const { code,msg } = res.data;
+            const { code,msg } = res;
             if (code === 200){
               device.isEnable = event;
               this.presentDevDetails.splice(deviceIndex,1,device);
-              this.$toastr.Add(configToastr('修改设备-',msg,'success'))
-            } else {
-              this.$toastr.Add(configToastr('修改设备失败-',msg,'warning'))
             }
           })
-          .catch(error => {
-            this.$toastr.Add(configToastr('无法连接服务器','','error'))
-          })
       },
-      //获取所有设备
+      //4 获取所有设备
       getAllDevInOneProject:function(){
         console.log(`查看项目id为${this.project.projectId}的设备详情`);
         this.$Http.getAllDevInOneProject({params:{projectId: this.project.projectId}})
           .then(res => {
-            const {code,msg} = res.data;
+            const {code,msg} = res;
             // console.log(msg);
             if (code === 200){
               msg.forEach(dev => {
@@ -202,17 +193,11 @@
           }})
           .then(res => {
             // console.log(res);
-            const { code,msg } = res.data;
+            const { code,msg } = res;
             if (code === 200) {
               this.presentDevDetails.splice(index,1);
-              this.$toastr.Add(configToastr('删除设备-',msg,'success'));
               this.$emit('deleteOneDevSuccess');
-            } else {
-              this.$toastr.Add(configToastr('删除设备失败-',msg,'warning'));
             }
-          })
-          .catch(error => {
-            this.$toastr.Add(configToastr('无法连接服务器','','error'));
           })
       }
     },

@@ -75,18 +75,18 @@
         selectedYear:this.$f.getDate().YYYY,//当前选择的年
         isProjectsTableShown:false,//是否显示月份项目弹窗
         statistics:{},//用来向月份项目弹窗传递的信息
-        yearList:[2018,2019],//下拉菜单选择项
+        yearList:[this.$f.getDate().YYYY,this.$f.getDate().YYYY-1,this.$f.getDate().YYYY-2],//下拉菜单选择项
         monthProjectInfos:[
         ],
       }
     },
     methods:{
-      //请求月份数据
+      //1.请求月份数据
       getMonthlyProjects:function () {
         this.monthProjectInfos = [];
         this.$Http.getMonthlyProjects({params:{year:this.selectedYear}})
           .then(res => {
-            const { code,msg } = res.data;
+            const { code,msg } = res;
             // console.log(msg);
             if (code === 200){
               msg.forEach(ele => {
@@ -96,7 +96,7 @@
             }
           })
       },
-      //显示时间项目情况弹窗
+      //2.显示时间项目情况弹窗
       showProjectsTable:function (month) {
         this.statistics = {year:this.selectedYear,month:month};
         this.isProjectsTableShown = true

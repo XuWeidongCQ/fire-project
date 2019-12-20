@@ -62,7 +62,6 @@
 
 <script>
   import { required } from 'vuelidate/lib/validators';
-  import { configToastr } from "@/plugins/toastrInfos";
 
   export default {
     name: "AddNewProjectForm",
@@ -82,6 +81,7 @@
       }
     },
     methods:{
+      //1.重置表单
       reset: function () {
         for (let key in this.project) {
           this.project[key] = ''
@@ -89,7 +89,7 @@
         this.project['province'] = '重庆';
         this.project['projectFinishDate'] = this.$f.getDate().YYYYMMDD
       },
-      //新建一个项目
+      //2.新建一个项目
       postOneProject:function () {
         const dataForSubmit = {
           projectName:this.project.name,
@@ -99,22 +99,15 @@
           projectFinishDate:this.project.projectFinishDate,
           remark:this.project.remark
         };
-        console.log('提交的数据为:',dataForSubmit);
+        // console.log('提交的数据为:',dataForSubmit);
         this.$Http.addOneProject(dataForSubmit)
           .then(res => {
-            const { code,msg } = res.data;
+            const { code,msg } = res;
             if (code === 200){
-              this.$toastr.Add(configToastr('添加成功-',msg,'success'));
               this.reset();
               this.$emit('addProjectSuccess')
-            } else {
-              this.$toastr.Add(configToastr('添加失败-',msg,'warning'));
             }
           })
-          .catch(error => {
-            this.$toastr.Add(configToastr('无法连接到服务器','','error'));
-          })
-
       }
     }
 

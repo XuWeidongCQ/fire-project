@@ -37,9 +37,11 @@
     created(){
       this.selectValue = this.presentValue
     },
-    mounted() {
-
-    }
+    watch:{
+      presentValue:function () {
+        this.selectValue = this.presentValue
+      }
+    },
   }
 </script>
 

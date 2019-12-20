@@ -1,5 +1,5 @@
 <template>
-    <div class="page-wrapper container-fluid">
+    <div class="page-wrapper">
       <div class="info-input-wrapper">
         <div class="form-wrapper">
           <!--添加项目表单-->
@@ -63,6 +63,10 @@
 </script>
 
 <style scoped>
+  .page-wrapper {
+    padding: 60px 15px 0;
+    min-width: 1900px;
+  }
   .info-input-wrapper {
     /*outline: 1px solid black;*/
     height: 1150px;

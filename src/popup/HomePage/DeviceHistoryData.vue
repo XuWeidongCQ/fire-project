@@ -17,7 +17,7 @@
 </template>
 
 <script>
-  import XuModal from "@/pages/share_components/XuModal";
+  import XuModal from "@/XuComponent/XuModal";
 
   const lineOption = {
     color:'#DC143C',//参数
@@ -112,7 +112,7 @@
         this.temperatureArray = [];
         this.$Http.getSensorDataInOneDev({params:{uuid:this.device.uuid,size:size}})
           .then(res => {
-            const { code,msg } = res.data;
+            const { code,msg } = res;
             if (code === 200){
               msg.forEach(dataInstance => {
                 const { gmtCreate,stress,temperature } = dataInstance;

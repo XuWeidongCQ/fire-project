@@ -27,11 +27,11 @@
             </div>
             <div class="input-wrapper">
               <label>
-                <input type="radio" v-model="formData.isEnable" :value=true>
+                <input type="radio" v-model="formData.isEnable" :value="true">
                 <span>启用</span>
               </label>
               <label>
-                <input type="radio" v-model="formData.isEnable" :value=false>
+                <input type="radio" v-model="formData.isEnable" :value="false">
                 <span>禁用</span>
               </label>
             </div>
@@ -43,15 +43,15 @@
             </div>
             <div class="input-wrapper">
               <label>
-                <input type="radio" v-model="formData.type" value=1>
+                <input type="radio" v-model="formData.type" :value='1'>
                 <span>储压</span>
               </label>
               <label>
-                <input type="radio" v-model="formData.type" value=2>
+                <input type="radio" v-model="formData.type" :value='2'>
                 <span>非储压</span>
               </label>
               <label>
-                <input type="radio" v-model="formData.type" value=0>
+                <input type="radio" v-model="formData.type" :value='0'>
                 <span>未知</span>
               </label>
             </div>
@@ -62,15 +62,15 @@
             </div>
             <div class="input-wrapper">
               <label>
-                <input type="radio" v-model="formData.communication" value=2>
+                <input type="radio" v-model="formData.communication" :value='2'>
                 <span>NB-IoT</span>
               </label>
               <label>
-                <input type="radio" v-model="formData.communication" value=1>
+                <input type="radio" v-model="formData.communication" :value='1'>
                 <span>Zig-bee</span>
               </label>
               <label>
-                <input type="radio" v-model="formData.communication" value=0>
+                <input type="radio" v-model="formData.communication" :value='0'>
                 <span>未知</span>
               </label>
             </div>
@@ -81,8 +81,8 @@
             </div>
             <div class="input-wrapper">
               <input id='dev-communication-cycle' type="number" v-model="formData.cycle" placeholder="以分钟为单位"
-                     @input="this.$v.formData.cycle.touch()">
-              <p class="input-invalid" v-if="this.$v.formData.cycle.$invalid">*不能为空</p>
+                     @input="$v.formData.cycle.touch()">
+              <p class="input-invalid" v-if="$v.formData.cycle.$invalid">*不能为空</p>
             </div>
           </div>
           <div class="x-form-control">
@@ -101,8 +101,8 @@
             </div>
             <div class="input-wrapper">
               <input id='dev-prod-date' type="date" v-model="formData.productionDate"
-                     @input="this.$v.formData.productionDate.$touch()">
-              <p class="input-invalid" v-if="this.$v.formData.productionDate.$invalid">*不能为空</p>
+                     @input="$v.formData.productionDate.$touch()">
+              <p class="input-invalid" v-if="$v.formData.productionDate.$invalid">*不能为空</p>
             </div>
           </div>
           <div class="x-form-control">
@@ -111,8 +111,8 @@
             </div>
             <div class="input-wrapper">
               <input id='dev-sale-date' type="date" v-model="formData.salesDate"
-                     @input="this.$v.formData.salesDate.$touch()">
-              <p class="input-invalid" v-if="this.$v.formData.salesDate.$invalid">*不能为空</p>
+                     @input="$v.formData.salesDate.$touch()">
+              <p class="input-invalid" v-if="$v.formData.salesDate.$invalid">*不能为空</p>
             </div>
           </div>
           <div class="x-form-control">
@@ -121,8 +121,8 @@
             </div>
             <div class="input-wrapper">
               <input id='dev-use-period' type="number" v-model="formData.serviceLife"
-                     @input="this.$v.formData.serviceLife.$touch()">
-              <p class="input-invalid" v-if="this.$v.formData.serviceLife.$invalid">*不能为空</p>
+                     @input="$v.formData.serviceLife.$touch()">
+              <p class="input-invalid" v-if="$v.formData.serviceLife.$invalid">*不能为空</p>
             </div>
           </div>
           <div class="x-form-control">
@@ -146,7 +146,7 @@
 </template>
 
 <script>
-  import XuModal from "@/pages/share_components/XuModal";
+  import XuModal from "@/XuComponent/XuModal";
   import { required } from 'vuelidate/lib/validators';
   import { configToastr } from "@/plugins/toastrInfos";
 
@@ -211,17 +211,10 @@
         dataForEdit['projectId'] = this.project.projectId;
         this.$Http.editOneDev(dataForEdit)
           .then(res => {
-            const { code,msg } = res.data;
+            const { code,msg } = res;
             if (code === 200){
               this.$emit('editOneDevSuccess',this.formData);//修改成功后向父级传递
-              this.$toastr.Add(configToastr('修改设备-',msg,'success'))
-            } else {
-              this.$toastr.Add(configToastr('修改设备失败-',msg,'warning'))
             }
-          })
-          .catch(error => {
-              console.log(error);
-              this.$toastr.Add(configToastr('无法连接服务器','','error'))
           })
       }
     },

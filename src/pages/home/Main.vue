@@ -17,5 +17,11 @@
 </script>
 
 <style scoped>
+  .bg-lighter {
+    background-color: #162557;
+  }
 
+  .min-height {
+    min-height: 100vh;
+  }
 </style>

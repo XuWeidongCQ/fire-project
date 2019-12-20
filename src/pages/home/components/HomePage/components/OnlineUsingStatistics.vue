@@ -73,7 +73,7 @@
         center:['50%','65%'],
         label:{
           normal:{
-            show:true,
+            show:false,
             position:'inside',
             formatter:'{d}%'
           },
@@ -149,7 +149,7 @@
       getOnlineOfflineDevNum:function(){
         this.$Http.getOnlineAndOfflineDevNum()
           .then(res => {
-            const { code,msg } = res.data;
+            const { code,msg } = res;
             if (code === 200 ){
               this.onlineDevNum = msg['onlineNumber'];
               this.offlineDevNum = msg['offlineNumber'];
@@ -161,7 +161,7 @@
       getUsedUsingDevNum:function(){
         this.$Http.getUsingAndUsedDevNum()
           .then(res => {
-            const { code,msg } = res.data;
+            const { code,msg } = res;
             if (code === 200 ){
               this.usingDevNum = msg['valid'];
               this.usedDevNum = msg['invalid'];
@@ -195,7 +195,7 @@
       drawUsingRate: function(){
         let usingRate = 0;
         this.usingDevNum + this.usedDevNum + this.unknownNum === 0 ?
-          usingRate = 0:usingRate = Math.floor(this.usingDevNum * 100/ (this.usingDevNum + this.usedDevNum + this.unknownNum));
+          usingRate = 0:usingRate = (this.usingDevNum * 100/ (this.usingDevNum + this.usedDevNum + this.unknownNum)).toFixed(2);
         let chartInstance = echarts.init(document.getElementById('m-usingRate-chart'));
         RatePieOption.title.text = '设备平均有效率';
         RatePieOption.dataset.source['value'][0] = usingRate;
@@ -208,7 +208,7 @@
       drawOnlineRate: function(){
         let onlineRate = 0;
         this.onlineDevNum + this.offlineDevNum === 0 ?
-          onlineRate = 0:onlineRate = Math.floor(this.onlineDevNum * 100 / (this.onlineDevNum + this.offlineDevNum));
+          onlineRate = 0:onlineRate = (this.onlineDevNum * 100 / (this.onlineDevNum + this.offlineDevNum)).toFixed(2);
         let chartInstance = echarts.init(document.getElementById('m-onlineRate-chart'));
         RatePieOption.title.text = '设备平均在线率';
         RatePieOption.dataset.source['value'][0] = onlineRate;
