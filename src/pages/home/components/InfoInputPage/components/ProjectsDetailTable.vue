@@ -171,14 +171,8 @@
         this.isAddDevModalShown = false;
       }
     },
-    watch:{
-      projectInfos:function () {
-        // console.log(1);
-        // XuCSS.fixTableThead()
-      }
-    },
     updated() {
-      // XuCSS.fixTableThead()
+      XuCSS.fixTableThead()
     }
   }
 </script>

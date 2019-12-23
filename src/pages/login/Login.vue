@@ -23,8 +23,8 @@
               </div>
               <button type="button" class="btn btn-success btn-block" @click="login">登录</button>
               <a href="#"><small>忘记密码？</small></a>
-              <p class="text-muted text-center"><small>还没有账号？</small></p>
-              <a class="btn btn-block btn-link" href="#">创建一个账户</a>
+<!--              <p class="text-muted text-center"><small>还没有账号？</small></p>-->
+<!--              <a class="btn btn-block btn-link" href="#">创建一个账户</a>-->
             </form>
           </div>
         </div>
@@ -40,7 +40,7 @@
 </template>
 
 <script>
-  import { loginFailureToastr } from "@/plugins/toastrInfos";
+  import { XuAlert } from "@/XuComponent/XuAlert/XuAlert";
 
   export default {
       name: "Login",
@@ -55,7 +55,7 @@
             if (this.username === 'es' && this.password === '206206'){
               this.$router.push('/main')
             } else {
-              this.$toastr.Add(loginFailureToastr)
+              XuAlert('登录失败-账号或者密码错误','error')
             }
           }
       }

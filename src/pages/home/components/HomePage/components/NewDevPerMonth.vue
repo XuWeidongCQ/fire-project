@@ -62,7 +62,6 @@
 </template>
 
 <script>
-  import { configToastr } from "@/plugins/toastrInfos";
   import ProjectsTableByTime from "@/popup/HomePage/ProjectsTableByTime";
 
   export default {

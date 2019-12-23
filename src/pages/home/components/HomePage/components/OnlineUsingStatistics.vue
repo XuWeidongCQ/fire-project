@@ -94,7 +94,7 @@
         color:'#e0e3e9'
       }
     },
-    color:['#019b4c','rgba(255,255,255,0.0)'],
+    color:['#019b4c','#e62229'],
     dataset: {
       source:{
         'category':['positive','negative'],
@@ -112,7 +112,13 @@
           normal:{
             show:true,
             position:'center',
-            formatter:'{d}%',
+            formatter:params => {
+              if (params.name === 'positive'){
+                return params.value[1] + '%'
+              } else {
+                return ''
+              }
+            },
             textStyle: {
               fontSize: '20',
               fontWeight: 'lighter'
@@ -195,7 +201,7 @@
       drawUsingRate: function(){
         let usingRate = 0;
         this.usingDevNum + this.usedDevNum + this.unknownNum === 0 ?
-          usingRate = 0:usingRate = (this.usingDevNum * 100/ (this.usingDevNum + this.usedDevNum + this.unknownNum)).toFixed(2);
+          usingRate = 0:usingRate = Math.floor(this.usingDevNum * 100/ (this.usingDevNum + this.usedDevNum + this.unknownNum));
         let chartInstance = echarts.init(document.getElementById('m-usingRate-chart'));
         RatePieOption.title.text = '设备平均有效率';
         RatePieOption.dataset.source['value'][0] = usingRate;
@@ -208,7 +214,7 @@
       drawOnlineRate: function(){
         let onlineRate = 0;
         this.onlineDevNum + this.offlineDevNum === 0 ?
-          onlineRate = 0:onlineRate = (this.onlineDevNum * 100 / (this.onlineDevNum + this.offlineDevNum)).toFixed(2);
+          onlineRate = 0:onlineRate = Math.floor(this.onlineDevNum * 100 / (this.onlineDevNum + this.offlineDevNum));
         let chartInstance = echarts.init(document.getElementById('m-onlineRate-chart'));
         RatePieOption.title.text = '设备平均在线率';
         RatePieOption.dataset.source['value'][0] = onlineRate;

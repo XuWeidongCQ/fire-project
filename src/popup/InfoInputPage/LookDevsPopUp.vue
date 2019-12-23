@@ -7,8 +7,8 @@
       <div slot="header">
         <span>‘{{ project.projectName }}’项目的设备详情</span>
       </div>
-      <div slot="content">
-        <table class="xu-table xu-table-hover xu-table-sm xu-table-center dev-details-table xu-text-white-level1 mb-integer">
+      <div slot="content" class="xu-fix-table-wrapper dev-details-table scrollBar-style">
+        <table class="xu-table xu-table-hover xu-table-sm xu-table-center xu-text-white-level1 mb-integer">
           <thead class="bg-success">
           <tr>
             <th>设备uuid</th>
@@ -55,11 +55,11 @@
           </tr>
           </tbody>
         </table>
-        <xu-page-nav
-          :max-page="maxPage"
-          :is-shown="isPageNavShown"
-          @selectedPage="getSelectedPage"
-          class="x-float-right"></xu-page-nav>
+<!--        <xu-page-nav-->
+<!--          :max-page="maxPage"-->
+<!--          :is-shown="isPageNavShown"-->
+<!--          @selectedPage="getSelectedPage"-->
+<!--          class="x-float-right"></xu-page-nav>-->
       </div>
     </xu-modal>
 
@@ -78,7 +78,7 @@
   import EditOneDevPopUp from "@/popup/InfoInputPage/EditOneDevPopUp";
   import XuPageNav from "@/XuComponent/XuPageNav";
   import XuSwitch from "@/XuComponent/XuSwitch";
-  import { configToastr } from "@/plugins/toastrInfos";
+  import  XuCSS  from '@/plugins/XuCSS'
 
   export default {
     name: "LookDevsPopUp",
@@ -237,12 +237,16 @@
             return '禁用';
         }
       }
+    },
+    updated() {
+      XuCSS.fixTableThead()
     }
   }
 </script>
 
 <style scoped>
   .dev-details-table {
-    width: 1200px;
+    min-width: 1200px;
+    max-height: 600px;
   }
 </style>

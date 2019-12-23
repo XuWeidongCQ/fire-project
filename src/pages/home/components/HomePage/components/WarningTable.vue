@@ -81,7 +81,6 @@
 <script>
   import XuPageNav from "@/XuComponent/XuPageNav";
   import DeviceHistoryData from "@/popup/HomePage/DeviceHistoryData";
-  import {configToastr} from "@/plugins/toastrInfos";
   import { required } from 'vuelidate/lib/validators';
 
   export default {

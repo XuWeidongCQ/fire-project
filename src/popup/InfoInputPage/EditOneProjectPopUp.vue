@@ -83,7 +83,6 @@
 <script>
   import XuModal from "@/XuComponent/XuModal";
   import { required } from 'vuelidate/lib/validators';
-  import { configToastr } from "@/plugins/toastrInfos";
 
   export default {
     name: "EditOneProjectPopUp",
